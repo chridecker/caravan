@@ -1,0 +1,177 @@
+﻿.loading-battery-container{
+
+}
+
+.loading-battery-container .loading-battery-container-date {
+    margin-bottom: 0.5rem;
+    text-align: right;
+}
+
+.loading-battery-container .battery-loading-state {
+}
+
+    .loading-battery-container .battery-loading-state .battery-pols {
+        margin-left: 1rem;
+        width: 15rem;
+        height: 2rem;
+    }
+
+        .loading-battery-container .battery-loading-state .battery-pols .current-loading {
+            position: absolute;
+            width: 4rem;
+            height: 1.7rem;
+            border: 0.15rem solid white;
+            border-radius: 0.5rem 0.5rem 0 0;
+            background-color: white;
+        }
+
+            .loading-battery-container .battery-loading-state .battery-pols .current-loading.plus {
+                margin-left: 1.5rem;
+            }
+
+            .loading-battery-container .battery-loading-state .battery-pols .current-loading.minus {
+                margin-left: 9.5rem;
+            }
+
+            .loading-battery-container .battery-loading-state .battery-pols .current-loading .current-loading-bar {
+                position: absolute;
+                margin-top: 0.05rem;
+                height: 1.5rem;
+                width: 3.7rem;
+                border: 0.15rem solid white;
+                border-radius: 0.5rem 0.5rem 0 0;
+                color: black;
+                opacity: 0.6;
+            }
+
+                .loading-battery-container .battery-loading-state .battery-pols .current-loading .current-loading-bar.loading {
+                    background-color: var(--bs-success);
+                }
+
+                .loading-battery-container .battery-loading-state .battery-pols .current-loading .current-loading-bar.deloading {
+                    background-color: red;
+                }
+
+                .loading-battery-container .battery-loading-state .battery-pols .current-loading .current-loading-bar.none {
+                    background-color: var(--bs-gray);
+                }
+
+            .loading-battery-container .battery-loading-state .battery-pols .current-loading .current-loading-state {
+                position: absolute;
+                margin-top: 0.1rem;
+                color: black;
+                text-align: right;
+                right: 0.2rem;
+                padding: 0.1rem;
+            }
+
+                .loading-battery-container .battery-loading-state .battery-pols .current-loading .current-loading-state .current-amp {
+                    font-size: 0.9rem;
+                }
+
+            .loading-battery-container .battery-loading-state .battery-pols .current-loading.loading {
+            }
+
+            .loading-battery-container .battery-loading-state .battery-pols .current-loading.deloading {
+            }
+
+            .loading-battery-container .battery-loading-state .battery-pols .current-loading.none {
+            }
+
+    .loading-battery-container .battery-loading-state .battery-charging {
+        margin-left: 1rem;
+        position: relative;
+        width: 15rem;
+        border: 0.25rem solid white;
+        height: 6rem;
+        border-radius: 0.8rem;
+        background-color: var(--bs-gray-500);
+    }
+
+        .loading-battery-container .battery-loading-state .battery-charging .battery-loading-state-bar {
+            background-color: white;
+            position: absolute;
+            bottom: 0.25rem;
+            left: 0.25rem;
+            width: 14rem;
+            border-radius: 0.3rem;
+        }
+
+        .loading-battery-container .battery-loading-state .battery-charging .battery-loading-state {
+            position: absolute;
+            right: 0;
+            width: 14rem;
+            height: 5rem;
+            text-align: right;
+            padding-right: 1rem;
+            padding-top: 0.4rem;
+        }
+
+
+            .loading-battery-container .battery-loading-state .battery-charging .battery-loading-state .battery-loading-state-icon ::deep {
+                position: absolute;
+                right: 0.1rem;
+            }
+
+            .loading-battery-container .battery-loading-state .battery-charging .battery-loading-state .percent {
+                position: absolute;
+                font-size: 2.5rem;
+                font-weight: bold;
+                color: black;
+                margin-top: 1.5rem;
+                right: 0.5rem;
+            }
+
+            .loading-battery-container .battery-loading-state .battery-charging .battery-loading-state .ampH {
+                position: absolute;
+                font-size: 1.2rem;
+                right: 2rem;
+                color: black;
+            }
+
+        .loading-battery-container .battery-loading-state .battery-charging .battery-loading-state-bar .battery-loading-bar {
+            content: "";
+            position: absolute;
+            width: 100%;
+            border-radius: 0.3rem;
+            opacity: 0.7;
+        }
+
+            .loading-battery-container .battery-loading-state .battery-charging .battery-loading-state-bar .battery-loading-bar.loading {
+                animation: loading 5s linear infinite;
+                background-color: var(--bs-success);
+            }
+
+            .loading-battery-container .battery-loading-state .battery-charging .battery-loading-state-bar .battery-loading-bar.deloading {
+                animation: deloading 5s linear infinite;
+                background-color: var(--bs-danger);
+            }
+
+            .loading-battery-container .battery-loading-state .battery-charging .battery-loading-state-bar .battery-loading-bar.none {
+                width: 100%;
+                background-color: white;
+            }
+
+@keyframes loading {
+    0% {
+        height: 0%;
+        bottom: 0;
+    }
+
+    100% {
+        height: 100%;
+        bottom: 0;
+    }
+}
+
+@keyframes deloading {
+    0% {
+        height: 100%;
+        bottom: 0;
+    }
+
+    100% {
+        height: 0%;
+        bottom: 0;
+    }
+}

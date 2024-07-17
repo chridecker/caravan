@@ -15,15 +15,8 @@
     <MudCardContent>
         @if (this.VotronicBatteryData != null)
         {
-            <LoadingCard Time="@this.VotronicBatteryData.DateTime"
-                         BatteryAmpere="@this.VotronicBatteryData.Ampere"
-                         BatteryAmpereH="@this.VotronicBatteryData.AmpereH"
-                         BatteryPercent="@this.VotronicBatteryData.Percent"
-                         SolarAmpere="@this.VotronicSolarData.Ampere"
-                         LoadingPhase="@this.VotronicSolarData.LoadingPhase"
-                         Active="@this.VotronicSolarData.Active"
-                         Reduce="@this.VotronicSolarData.Reduce"
-                         AES="@this.VotronicSolarData.AES" />
+            <LoadingCard BatteryData="@VotronicBatteryData"
+                    SolarData="@VotronicSolarData" />
         }
 
     </MudCardContent>

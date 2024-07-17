@@ -123,7 +123,8 @@ namespace chd.CaraVan.UI.Implementations
                     Ampere = e.BatteryData.Ampere,
                     AmpereH = e.BatteryData.LeftAH,
                     Voltage = e.BatteryData.Voltage,
-                    Percent = e.BatteryData.Percent
+                    Percent = e.BatteryData.Percent,
+                    Data = e.BatteryData.Data
                 };
                 await this._votronicDataService.AddData(data);
                 await this._hub.Clients.All.VotronicData();
@@ -139,7 +140,8 @@ namespace chd.CaraVan.UI.Implementations
                     State = e.SolarData.State,
                     Voltage = e.SolarData.Voltage,
                     VoltageSolar = e.SolarData.VoltageSolar,
-                    LoadingPhase = e.SolarData.LoadingPhase
+                    LoadingPhase = e.SolarData.LoadingPhase,
+                    Data = e.SolarData.Data
                 };
                 await this._votronicDataService.AddData(data);
                 await this._hub.Clients.All.VotronicData();

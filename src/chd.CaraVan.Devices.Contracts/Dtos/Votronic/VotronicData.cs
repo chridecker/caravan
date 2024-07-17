@@ -11,6 +11,7 @@ namespace chd.CaraVan.Devices.Contracts.Dtos.Votronic
         protected readonly byte[] _data;
         public decimal Voltage => this.GetData(0,2,100m);
 
+        public byte[] Data => this._data;
 
         protected VotronicData(byte[] data)
         {

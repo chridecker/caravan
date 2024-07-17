@@ -41,6 +41,7 @@ namespace chd.CaraVan.UI.Components.Pages
 
             this.VotronicSolarData = await this._votronicData.GetSolarData();
             this.VotronicBatteryData = await this._votronicData.GetBatteryData();
+
             await base.OnInitializedAsync();
         }
 

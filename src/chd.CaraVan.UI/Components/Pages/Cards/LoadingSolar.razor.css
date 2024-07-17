@@ -1,0 +1,144 @@
+﻿.loading-solar-container {
+}
+
+.loading-solar-container .solar-loading-state {
+}
+
+    .loading-solar-container .solar-loading-state .current-loading {
+        position: absolute;
+        margin-top: 0.2rem;
+        margin-left: 2rem;
+        width: 4rem;
+        height: 1rem;
+        border: 0.15rem solid white;
+        border-radius: 0.5rem 0.5rem 0 0;
+        background-color: white;
+    }
+
+        .loading-solar-container .solar-loading-state .current-loading .current-loading-bar {
+            margin-top: -0.15rem;
+            margin-left: -0.15rem;
+            width: 4rem;
+            height: 1rem;
+            border-radius: 0.5rem 0.5rem 0 0;
+            opacity: 0.7;
+        }
+
+            .loading-solar-container .solar-loading-state .current-loading .current-loading-bar.active {
+                animation: loadingSolar 3s linear infinite;
+                background-color: var(--bs-success);
+            }
+
+            .loading-solar-container .solar-loading-state .current-loading .current-loading-bar.reduce {
+                animation: loadingSolar 3s linear infinite;
+                background-color: var(--bs-success);
+            }
+
+            .loading-solar-container .solar-loading-state .current-loading .current-loading-bar.standby {
+                background-color: var(--bs-gray);
+            }
+
+    .loading-solar-container .solar-loading-state .solar-charging {
+        margin-top: 1rem;
+        margin-left: 0rem;
+        position: absolute;
+        width: 9.5rem;
+        border: 0.25rem solid white;
+        height: 3.2rem;
+        border-radius: 0.8rem;
+    }
+
+        .loading-solar-container .solar-loading-state .solar-charging.active {
+            background-color: var(--bs-success);
+        }
+
+        .loading-solar-container .solar-loading-state .solar-charging.reduce {
+            background-color: var(--bs-success);
+        }
+
+        .loading-solar-container .solar-loading-state .solar-charging.standby {
+            background-color: var(--bs-gray);
+        }
+
+        .loading-solar-container .solar-loading-state .solar-charging .solar-loading-state-bar {
+            background-color: white;
+            position: absolute;
+            top: 0.25rem;
+            left: 0.25rem;
+            height: 2.2rem;
+            width: 8.5rem;
+            border-radius: 0.3rem;
+        }
+
+            .loading-solar-container .solar-loading-state .solar-charging .solar-loading-state-bar .solar-loading-state {
+                position: absolute;
+                width: 100%;
+                text-align: center;
+                color: black;
+            }
+
+                .loading-solar-container .solar-loading-state .solar-charging .solar-loading-state-bar .solar-loading-state .solar-loading-state-icon ::deep {
+                    position: absolute;
+                    right: 0.1rem;
+                    margin-top: 0.1rem;
+                }
+
+                .loading-solar-container .solar-loading-state .solar-charging .solar-loading-state-bar .solar-loading-state .amp {
+                    position: absolute;
+                    top: -0.2rem;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    right: 2rem;
+                }
+
+                .loading-solar-container .solar-loading-state .solar-charging .solar-loading-state-bar .solar-loading-state .loading-phase {
+                    position: absolute;
+                    top: 1.45rem;
+                    font-size: 0.6rem;
+                    right: 0.2rem;
+                }
+
+                .loading-solar-container .solar-loading-state .solar-charging .solar-loading-state-bar .solar-loading-state .state {
+                    margin-top: 0.16rem;
+                    margin-left: 0.3rem;
+                    width: 2.5rem;
+                    height: 0.8rem;
+                }
+
+                    .loading-solar-container .solar-loading-state .solar-charging .solar-loading-state-bar .solar-loading-state .state .state-indicator {
+                        position: absolute;
+                        width: 0.8rem;
+                        height: 0.8rem;
+                        border: 0.1rem solid black;
+                        border-radius: 0.3rem;
+                        position: absolute;
+                    }
+
+                        .loading-solar-container .solar-loading-state .solar-charging .solar-loading-state-bar .solar-loading-state .state .state-indicator.aes {
+                            background-color: var(--bs-success);
+                        }
+
+                        .loading-solar-container .solar-loading-state .solar-charging .solar-loading-state-bar .solar-loading-state .state .state-indicator.reduce {
+                            background-color: var(--bs-success);
+                        }
+
+                    .loading-solar-container .solar-loading-state .solar-charging .solar-loading-state-bar .solar-loading-state .state .state-indicator-text {
+                        position: absolute;
+                        margin-left: 1rem;
+                        font-size: 0.8rem;
+                        text-align: left;
+                        margin-top: -0.1rem;
+                    }
+
+@keyframes loadingSolar {
+    0% {
+        height: 1rem;
+    }
+
+    100% {
+        height: 10%;
+    }
+}
+
+
+
