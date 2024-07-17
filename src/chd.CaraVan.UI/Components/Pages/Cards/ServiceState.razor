@@ -1,0 +1,43 @@
+﻿@using chd.CaraVan.Devices
+@inject ISystemManager manager
+<div class="service-state-container">
+    <div class="service-state-title">
+        <MudBlazor.MudText Typo="MudBlazor.Typo.body2">@Service</MudBlazor.MudText>
+    </div>
+    <div class="service-state-button">
+        <SmartButton Checked="this.State()" CheckedChanged="this.Change"></SmartButton>
+    </div>
+    <div class="service-state-changetime">
+        <div class="service-state-changetime-picker">
+            <MudBlazor.MudTimePicker Label="wechsel" @bind-Time="span" Color="MudBlazor.Color.Primary"
+                                     PickerVariant="MudBlazor.PickerVariant.Dialog"
+                                     IconSize="MudBlazor.Size.Small" />
+        </div>
+        <div class="service-state-changetime-button">
+            <MudBlazor.MudIconButton Color="MudBlazor.Color.Warning" Icon="@MudBlazor.Icons.Material.Filled.Clear" OnClick="()=>{span = null;}" />
+        </div>
+    </div>
+</div>
+@code {
+    [Parameter] public string Service { get; set; }
+
+    private TimeSpan? span;
+
+    private async Task<bool> State(CancellationToken cancellationToken = default) => (await manager.IsServiceRunning(Service)).HasValue;
+
+    private async Task Change(bool val)
+    {
+        if (!val)
+        {
+            await manager.StopService(Service);
+        }
+        else
+        {
+            await manager.StartService(Service);
+        }
+        if (span.HasValue)
+        {
+            manager.ChangeStateInTime(Service, span.Value);
+        }
+    }
+}
