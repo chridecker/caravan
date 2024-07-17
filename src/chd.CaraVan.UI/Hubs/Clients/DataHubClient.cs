@@ -13,7 +13,6 @@ namespace chd.CaraVan.UI.Hubs.Clients
     public class DataHubClient : BaseHubClient, IDataHubClient
     {
         public event EventHandler VotronicDataReceived;
-        public event EventHandler VictronDataReceived;
         public event EventHandler RuuviTagDeviceDataReceived;
 
         public DataHubClient(ILogger<DataHubClient> logger) : base(logger)
@@ -34,10 +33,6 @@ namespace chd.CaraVan.UI.Hubs.Clients
             {
                 this.RuuviTagDeviceDataReceived?.Invoke(this, EventArgs.Empty);
             });
-            this._connection.On(nameof(IDataHub.VictronData), () =>
-            {
-                this.VictronDataReceived?.Invoke(this, EventArgs.Empty);
-            });
         }
 
         protected override Task<bool> ShouldInitialize(CancellationToken cancellationToken) => Task.FromResult(true);
@@ -51,7 +46,6 @@ namespace chd.CaraVan.UI.Hubs.Clients
     public interface IDataHubClient : IBaseHubClient
     {
         event EventHandler VotronicDataReceived;
-        event EventHandler VictronDataReceived;
         event EventHandler RuuviTagDeviceDataReceived;
     }
 }

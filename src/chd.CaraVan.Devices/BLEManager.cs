@@ -1,5 +1,4 @@
 ﻿using chd.CaraVan.Devices.Contracts.Dtos.RuvviTag;
-using chd.CaraVan.Devices.Contracts.Dtos.Victron;
 using chd.CaraVan.Devices.Contracts.Dtos.Votronic;
 using Linux.Bluetooth;
 using Linux.Bluetooth.Extensions;
@@ -21,26 +20,19 @@ namespace chd.CaraVan.Devices
         private const string BATTERY_CHARACTERISTIC = "9a082a4e-5bcc-4b1d-9958-a97cfccfa5ec";
         private const string SOLAR_CHARACTERISTIC = "971ccec2-521d-42fd-b570-cf46fe5ceb65";
 
-        private const string VICTRONENERGY_SVC = "65970000-4bda-4c1e-af4b-551c4cf74769";
-        private const string VICTRONENERGY_AC_CHARACTERISTIC = "97580002-ddf1-48be-b73e-182664615d8e";
-
         private Adapter _adapter;
         private IDictionary<string, Device> _devices;
         private readonly IEnumerable<RuuviTagConfiguration> _ruuviTagConfig;
         private readonly VotronicConfiguration _votronicConfiguration;
-        private readonly VictronConfiguration _victronConfiguration;
         private readonly ILogger _logger;
 
         public event EventHandler<RuuviTagEventArgs> RuuviTagDataReceived;
         public event EventHandler<VotronicEventArgs> VotronicDataReceived;
-        public event EventHandler<VictronEventArgs> VictronDataReceived;
 
-
-        public BLEManager(ILogger logger, IEnumerable<RuuviTagConfiguration> config, VotronicConfiguration votronicConfiguration, VictronConfiguration victronConfiguration)
+        public BLEManager(ILogger logger, IEnumerable<RuuviTagConfiguration> config, VotronicConfiguration votronicConfiguration)
         {
             this._ruuviTagConfig = config;
             this._votronicConfiguration = votronicConfiguration;
-            this._victronConfiguration = victronConfiguration;
             this._logger = logger;
             this._devices = new Dictionary<string, Device>();
         }
@@ -68,8 +60,7 @@ namespace chd.CaraVan.Devices
             var device = e.Device;
             var uid = await device.GetAddressAsync();
             if (this._ruuviTagConfig.Any(a => a.DeviceAddress.ToLower() == uid.ToLower())
-                || uid.ToLower() == this._votronicConfiguration.DeviceAddress.ToLower()
-                || uid.ToLower() == this._victronConfiguration.DeviceAddress.ToLower())
+                || uid.ToLower() == this._votronicConfiguration.DeviceAddress.ToLower())
             {
                 await this.HandleDevice(device);
                 if (this._devices.Count == this._ruuviTagConfig.Count() + 1)
@@ -107,8 +98,7 @@ namespace chd.CaraVan.Devices
         {
             var address = await device.GetAddressAsync();
             var paired = await device.GetPairedAsync();
-            if ((address.ToLower() == this._votronicConfiguration.DeviceAddress.ToLower()
-                || address.ToLower() == this._victronConfiguration.DeviceAddress.ToLower())
+            if ((address.ToLower() == this._votronicConfiguration.DeviceAddress.ToLower())
                 && !paired)
             {
                 this._logger?.LogError($"Not paired");
@@ -139,44 +129,7 @@ namespace chd.CaraVan.Devices
                     solarC.Value += VotronicSolar_Received;
                 }
             }
-            else if (address.ToLower() == this._victronConfiguration.DeviceAddress.ToLower())
-            {
-                var service = await device.GetServiceAsync(VICTRONENERGY_SVC);
-                if (service is not null)
-                {
-                    var dataAd = await service.GetCharacteristicAsync(VICTRONENERGY_AC_CHARACTERISTIC);
-                    //this.ReadTaskVictron(device, dataAd);
-                }
-            }
         }
-
-        private void ReadTaskVictron(Device device, GattCharacteristic data) => Task.Run(async () =>
-        {
-            while (device != null && (await device.GetConnectedAsync()))
-            {
-                try
-                {
-                    var nonce = new byte[8];
-                    var val = await data.GetValueAsync();
-                    using var decrypt = new AesCounterMode(nonce, 8).CreateDecryptor(Encoding.UTF8.GetBytes(this._victronConfiguration.Aes), null);
-                    var decrypted = new byte[val.Length];
-                    decrypt.TransformBlock(val, 0, val.Length, decrypted, 0);
-
-                    this._logger?.LogDebug($"Read Victron AC Value {this._victronConfiguration?.Alias}: {string.Join("-", decrypted)}");
-                    if (decrypted.Length > 17)
-                    {
-                        this.InvokeVictronDataReceived(new VictronData(decrypted));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    this._logger?.LogError(ex, ex.Message);
-                    break;
-                }
-                await Task.Delay(TimeSpan.FromSeconds(10));
-            }
-        });
-
 
         private async Task RuuviTag_Value(GattCharacteristic characteristic, GattCharacteristicValueEventArgs e)
         {
@@ -216,12 +169,6 @@ namespace chd.CaraVan.Devices
             DateTime = DateTime.Now,
             BatteryData = data is VotronicBatteryData b ? b : null,
             SolarData = data is VotronicSolarData s ? s : null
-        });
-
-        private void InvokeVictronDataReceived(VictronData data) => this.VictronDataReceived.Invoke(this, new VictronEventArgs
-        {
-            DateTime = DateTime.Now,
-            Data = data
         });
 
 

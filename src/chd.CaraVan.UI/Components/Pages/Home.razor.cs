@@ -12,7 +12,6 @@ namespace chd.CaraVan.UI.Components.Pages
     public partial class Home : IDisposable
     {
         [Inject] private IVotronicDataService _votronicData { get; set; }
-        [Inject] private IVictronDataService _victronDataService { get; set; }
         [Inject] private IRuuviTagDataService _ruuviTagDataService { get; set; }
         [Inject] private IDataHubClient _dataHubClient { get; set; }
         [Inject] private ISettingService _settingService { get; set; }
@@ -20,7 +19,6 @@ namespace chd.CaraVan.UI.Components.Pages
 
         private VotronicBatteryData VotronicBatteryData;
         private VotronicSolarData VotronicSolarData;
-        private VictronData VictronData;
 
         private IDictionary<int, RuuviSensorDataDto> _valueDict = new Dictionary<int, RuuviSensorDataDto>();
 
@@ -40,12 +38,9 @@ namespace chd.CaraVan.UI.Components.Pages
             }
             this._dataHubClient.VotronicDataReceived += this._dataHubClient_VotronicDataReceived;
             this._dataHubClient.RuuviTagDeviceDataReceived += this._dataHubClient_RuuviTagDeviceDataReceived;
-            this._dataHubClient.VictronDataReceived += this._dataHubClient_VictronDataReceived;
 
             this.VotronicSolarData = await this._votronicData.GetSolarData();
             this.VotronicBatteryData = await this._votronicData.GetBatteryData();
-            this.VictronData = await this._victronDataService.GetData();
-
             await base.OnInitializedAsync();
         }
 
@@ -59,12 +54,6 @@ namespace chd.CaraVan.UI.Components.Pages
                     this._valueDict[device.Id] = data;
                 }
             }
-        }
-
-        private async void _dataHubClient_VictronDataReceived(object sender, EventArgs e)
-        {
-            this.VictronData = await this._victronDataService.GetData();
-            await this.InvokeAsync(this.StateHasChanged);
         }
 
         private async void _dataHubClient_RuuviTagDeviceDataReceived(object sender, EventArgs e)

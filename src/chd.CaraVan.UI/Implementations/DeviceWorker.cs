@@ -4,7 +4,6 @@ using chd.CaraVan.Contracts.Settings;
 using chd.CaraVan.Devices;
 using chd.CaraVan.Devices.Contracts.Dtos.Pi;
 using chd.CaraVan.Devices.Contracts.Dtos.RuvviTag;
-using chd.CaraVan.Devices.Contracts.Dtos.Victron;
 using chd.CaraVan.Devices.Contracts.Dtos.Votronic;
 using chd.CaraVan.Devices.Contracts.Interfaces;
 using chd.CaraVan.UI.Hubs;
@@ -30,12 +29,11 @@ namespace chd.CaraVan.UI.Implementations
         private BLEManager _tag;
         private IPiManager _pi;
         private readonly IAESManager _aesManager;
-        private readonly IVictronDataService _victronDataService;
 
         public DeviceWorker(ILogger<DeviceWorker> logger,
              IHubContext<DataHub, IDataHub> hub, IOptionsMonitor<AesSettings> optionsMonitorAes,
              IOptionsMonitor<PiSettings> optionsMonitorPi, IEmailService emailService,
-             IPiManager piManager, IAESManager aesManager, IVictronDataService victronDataService,
+             IPiManager piManager, IAESManager aesManager,
             IOptionsMonitor<DeviceSettings> optionsMonitor, IRuuviTagDataService dataService, IVotronicDataService votronicDataService)
         {
             this._logger = logger;
@@ -45,7 +43,6 @@ namespace chd.CaraVan.UI.Implementations
             this._emailService = emailService;
             this._pi = piManager;
             this._aesManager = aesManager;
-            this._victronDataService = victronDataService;
             this._optionsMonitor = optionsMonitor;
             this._dataService = dataService;
             this._votronicDataService = votronicDataService;
@@ -105,36 +102,15 @@ namespace chd.CaraVan.UI.Implementations
                 DeviceAddress = this._optionsMonitor.CurrentValue.Votronic?.UID,
                 Alias = this._optionsMonitor.CurrentValue.Votronic?.Name,
                 BatteryAH = this._optionsMonitor.CurrentValue.Votronic.BatteryAH
-            },
-            new Devices.Contracts.Dtos.Victron.VictronConfiguration
-            {
-                Id = this._optionsMonitor.CurrentValue.Victron.Id,
-                DeviceAddress = this._optionsMonitor.CurrentValue.Victron.UID,
-                Alias = this._optionsMonitor.CurrentValue.Victron.Name,
-                Aes = this._optionsMonitor.CurrentValue.Victron.Aes
             });
 
             this._tag.RuuviTagDataReceived += this.RuuviTag_DataReceived;
             this._tag.VotronicDataReceived += this._tag_VotronicDataReceived;
-            this._tag.VictronDataReceived += this._tag_VictronDataReceived;
 
             if (OperatingSystem.IsLinux())
             {
                 await this._tag.ConnectAsync(cancellationToken);
             }
-        }
-
-        private async void _tag_VictronDataReceived(object? sender, VictronEventArgs e)
-        {
-            await this._victronDataService.Add(new Contracts.Dtos.VictronData()
-            {
-                AmpereAC = e.Data.AmpereAC,
-                AmpereDC = e.Data.Ampere,
-                Error = e.Data.Error,
-                State = e.Data.State,
-                DateTime = e.DateTime
-            });
-            await this._hub.Clients.All.VictronData();
         }
 
         private async void _tag_VotronicDataReceived(object? sender, VotronicEventArgs e)

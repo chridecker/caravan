@@ -38,16 +38,6 @@ namespace chd.CaraVan.Web.Endpoints
              api.MapPost("/AddVotronicBattery",async(VotronicBatteryData dto, IVotronicDataService svc, CancellationToken  ct)=> {
                 await svc.AddData(dto,ct);
             });
-            
-            api.MapGet("/Victron", async (IVictronDataService svc) =>
-            {
-                return await svc.GetData();
-            });
-
-            api.MapPost("/AddVictron", async (VictronData dto, IVictronDataService svc,CancellationToken ct) =>
-            {
-                await svc.Add(dto, ct);
-            });
 
             var pi = api.MapGroup("/pi");
             pi.MapGet("/Read/{pin:int}", async (int pin, IPiManager manager) => await manager.Read(pin));

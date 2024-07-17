@@ -30,7 +30,6 @@ namespace chd.CaraVan.UI.Extensions
             services.AddSingleton<IPiManager, PiManager>();
             services.AddSingleton<IEmailService, EmailService>();
             services.AddSingleton<ISystemManager, SystemManager>();
-            services.AddSingleton<IVictronDataService, VictronDataService>();
             services.AddSingleton<IRuuviTagDataService, RuuviTagDataService>();
             services.AddSingleton<IVotronicDataService, VotronicDataService>();
 
