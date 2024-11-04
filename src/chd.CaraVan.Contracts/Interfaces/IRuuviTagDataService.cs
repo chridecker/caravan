@@ -1,6 +1,6 @@
 ﻿using chd.CaraVan.Contracts.Dtos;
 
-namespace chd.CaraVan.Devices.Contracts.Interfaces
+namespace chd.CaraVan.Contracts.Interfaces
 {
    public interface IRuuviTagDataService
     {

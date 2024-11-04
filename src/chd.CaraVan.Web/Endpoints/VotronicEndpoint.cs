@@ -1,5 +1,5 @@
 ﻿using chd.CaraVan.Contracts.Dtos;
-using chd.CaraVan.Devices.Contracts.Interfaces;
+using chd.CaraVan.Contracts.Interfaces;
 using static chd.CaraVan.Contracts.Contants.EndpointContants.Votronic;
 namespace chd.CaraVan.Web.Endpoints
 {

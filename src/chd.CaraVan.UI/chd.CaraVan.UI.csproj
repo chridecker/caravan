@@ -5,36 +5,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Remove="Components\Pages\Button.razor" />
-    <Content Remove="Components\Pages\SmartButtons.razor" />
-  </ItemGroup>
-	
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.5" />
-		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client.Core" Version="8.0.5" />
 		<PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
-		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="8.0.3" />
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.3" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="8.0.3" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="8.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+		<PackageReference Include="chd.UI.Base.Components" Version="1.0.24298.84" />
+		<PackageReference Include="chd.Hub.Base.Client" Version="1.0.24298.84" />
 	</ItemGroup>
-	
 	<ItemGroup>
-	  <ProjectReference Include="..\chd.CaraVan.Contracts\chd.CaraVan.Contracts.csproj" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <UpToDateCheckInput Remove="Components\Pages\SmartButtons.razor" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <_ContentIncludedByDefault Remove="Components\Pages\SmartButtons.razor" />
+	  <ProjectReference Include="..\chd.CaraVan.WebClient\chd.CaraVan.WebClient.csproj" />
 	</ItemGroup>
 
 </Project>

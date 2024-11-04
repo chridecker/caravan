@@ -1,7 +1,6 @@
 ﻿using chd.CaraVan.Contracts.Dtos;
-using chd.CaraVan.Devices.Contracts.Interfaces;
-using Microsoft.Win32.SafeHandles;
-using static chd.CaraVan.Contracts.Contants.EndpointContants.Ruuvi
+using chd.CaraVan.Contracts.Interfaces;
+using static chd.CaraVan.Contracts.Contants.EndpointContants.Ruuvi;
 
 
 namespace chd.CaraVan.Web.Endpoints

@@ -2,39 +2,21 @@
 @using chd.CaraVan.Contracts.Dtos
 @using chd.CaraVan.UI.Components.Pages.Cards
 
-<PageTitle>Home</PageTitle>
+<AesCard Token="this._cts.Token" />
 
-
-<MudCard Outlined="true">
-    <MudCardContent>
-        <AesCard />
-    </MudCardContent>
-</MudCard>
-<MudSpacer />
-<MudCard Outlined="true">
-    <MudCardContent>
-        @if (this.VotronicBatteryData != null)
-        {
-            <LoadingCard BatteryData="@VotronicBatteryData"
-                    SolarData="@VotronicSolarData" />
-        }
-
-    </MudCardContent>
-</MudCard>
-
-<MudSpacer />
+@if (this.VotronicBatteryData != null)
+{
+    <LoadingCard BatteryData="@VotronicBatteryData"
+            SolarData="@VotronicSolarData" />
+}
 @foreach (var device in this._devices)
 {
     @if (this._valueDict.ContainsKey(device.Id))
     {
-        <MudCard Outlined="true">
-            <MudCardContent>
-                <SensorCard Time="this.RuuviTime(device).Value"
-                            Name="@device.Name"
-                            Value="this.RuuviValue(device).Value"
-                            Min="this.MinMax(device).Item1"
-                            Max="this.MinMax(device).Item2" />
-            </MudCardContent>
-        </MudCard>
+        <SensorCard Time="this.RuuviTime(device).Value"
+                    Name="@device.Name"
+                    Value="this.RuuviValue(device).Value"
+                    Min="this.MinMax(device).Item1"
+                    Max="this.MinMax(device).Item2" />
     }
 }

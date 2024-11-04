@@ -1,15 +1,8 @@
 ﻿using chd.CaraVan.Contracts.Dtos;
+using chd.CaraVan.Contracts.Interfaces;
 using chd.CaraVan.Devices.Contracts.Dtos.Pi;
-using chd.CaraVan.Devices.Contracts.Interfaces;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
 using System.Device.Gpio;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace chd.CaraVan.Devices.Implementations
 {
@@ -25,15 +18,17 @@ namespace chd.CaraVan.Devices.Implementations
             this._controller = gpioController;
         }
 
-        public IEnumerable<GpioPinDto> GetGpioPins()
-        => this._optionsMonitor.CurrentValue.Gpios.Select(s => new GpioPinDto
+        public Task<IEnumerable<GpioPinDto>> GetGpioPins(CancellationToken cancellationToken = default) => Task.Run(() =>
         {
-            Pin = s.Pin,
-            Name = s.Name,
-            Type = s.Type
-        });
+            return this._optionsMonitor.CurrentValue.Gpios.Select(s => new GpioPinDto
+            {
+                Pin = s.Pin,
+                Name = s.Name,
+                Type = s.Type
+            });
+        }, cancellationToken);
 
-        public void Start()
+        public Task Start(CancellationToken cancellationToken) => Task.Run(() =>
         {
             foreach (var g in this._optionsMonitor.CurrentValue.Gpios)
             {
@@ -43,9 +38,9 @@ namespace chd.CaraVan.Devices.Implementations
                 }
                 this._controller.OpenPin(g.Pin, g.Mode, g.Default);
             }
-        }
+        }, cancellationToken);
 
-        public void Stop()
+        public Task Stop(CancellationToken cancellationToken = default) => Task.Run(() =>
         {
             foreach (var g in this._optionsMonitor.CurrentValue.Gpios)
             {
@@ -55,10 +50,10 @@ namespace chd.CaraVan.Devices.Implementations
                 }
             }
             this._controller?.Dispose();
-        }
+        }, cancellationToken);
 
-        public Task Write(int pin, bool val, CancellationToken cancellationToken = default) => Task.Run(() => this.WriteToPin(pin, val), cancellationToken);
-        public Task<bool> Read(int pin) => Task.FromResult(this._controller?.Read(pin) == PinValue.High);
+        public Task Write(PinWriteDto dto, CancellationToken cancellationToken = default) => Task.Run(() => this.WriteToPin(dto.Pin, dto.Value), cancellationToken);
+        public Task<bool> Read(int pin, CancellationToken cancellationToken = default) => Task.FromResult(this._controller?.Read(pin) == PinValue.High);
         private void WriteToPin(int pin, bool val) => this._controller?.Write(pin, val ? PinValue.High : PinValue.Low);
     }
 

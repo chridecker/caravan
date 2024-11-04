@@ -1,6 +1,26 @@
-﻿<Router AppAssembly="typeof(Home).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
-        <FocusOnNavigate RouteData="routeData" Selector="h1" />
-    </Found>
-</Router>
+﻿@using chd.CaraVan.UI.Components.Layout
+@using chd.UI.Base.Components.General.ErrorHandling
+
+<CascadingToolTip>
+    <CascadingDropList>
+        <CascadingBlazoredModal Position="ModalPosition.Middle" AnimationType="ModalAnimationType.None" Size="ModalSize.Automatic" HideCloseButton="false">
+            <CustomErrorBoundary IsDeveloperMode="true">
+                <Router AppAssembly="typeof(Home).Assembly">
+                    <Found Context="routeData">
+                        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                            <NotAuthorized>
+                                <RedirectToHome Text="Keine Berechtigung" Delay="3" />
+                            </NotAuthorized>
+                        </AuthorizeRouteView>
+                        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+                    </Found>
+                    <NotFound>
+                        <LayoutView Layout="@typeof(MainLayout)">
+                            <RedirectToHome Delay="0" HomeUri="x => x.BaseUri" Text="" />
+                        </LayoutView>
+                    </NotFound>
+                </Router>
+             </CustomErrorBoundary>
+        </CascadingBlazoredModal>
+    </CascadingDropList>
+</CascadingToolTip>

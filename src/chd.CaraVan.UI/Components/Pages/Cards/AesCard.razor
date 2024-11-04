@@ -1,7 +1,9 @@
 ﻿@using Microsoft.Extensions.Options
+@using chd.CaraVan.UI.Interfaces
 @implements IDisposable
 
 @inject IAESManager manager
+@inject IDataHubClient client
 
 <div class="aes-control">
     <div class="aes-control-content">
@@ -23,15 +25,17 @@
     private decimal? _solarAmpLimit;
     private TimeSpan? _aesTimeout;
     private DateTime? _aesOffSince;
+    [Parameter, EditorRequired] public CancellationToken Token { get; set; }
+
 
     protected override async Task OnInitializedAsync()
     {
-        manager.StateSwitched += StateSwitched;
+        client.AesStateSwitched += StateSwitched;
         await this.Reload();
         await base.OnInitializedAsync();
     }
 
-  
+
     private async Task Reload()
     {
         this._aesOffSince = await manager.SolarAesOffSince;
@@ -44,11 +48,11 @@
     {
         if (val)
         {
-            await this.manager.SetActive();
+            await this.manager.SetActive(this.Token);
         }
         else
         {
-            await this.manager.Off();
+            await this.manager.Off(this.Token);
         }
     }
     private async void StateSwitched(object sender, bool e)
@@ -59,6 +63,6 @@
 
     public void Dispose()
     {
-        manager.StateSwitched -= StateSwitched;
+        client.AesStateSwitched -= StateSwitched;
     }
 }

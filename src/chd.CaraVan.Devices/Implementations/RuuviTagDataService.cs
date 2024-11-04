@@ -1,18 +1,13 @@
 ﻿using chd.CaraVan.Contracts.Dtos;
 using chd.CaraVan.Contracts.Enums;
+using chd.CaraVan.Contracts.Interfaces;
 using chd.CaraVan.Contracts.Settings;
-using chd.CaraVan.Devices.Contracts.Interfaces;
 using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace chd.CaraVan.Devices.Implementations
 {
-     public class RuuviTagDataService : IRuuviTagDataService
+    public class RuuviTagDataService : IRuuviTagDataService
     {
         private readonly ConcurrentDictionary<int, IDictionary<EDataType, RuuviTagDeviceData>> _dataDict;
         private readonly ConcurrentDictionary<int, IDictionary<DateTime, IDictionary<EDataType, decimal?>>> _minDataDict;

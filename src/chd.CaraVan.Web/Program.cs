@@ -1,4 +1,3 @@
-using chd.CaraVan.Web.Components;
 using System.Diagnostics;
 using NLog.Extensions.Logging;
 using chd.CaraVan.Web.Endpoints;

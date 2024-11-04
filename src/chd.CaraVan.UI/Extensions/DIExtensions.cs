@@ -1,23 +1,31 @@
-﻿using chd.CaraVan.Contracts.Settings;
-using chd.CaraVan.Devices;
-using chd.CaraVan.Devices.Contracts.Dtos.Pi;
-using chd.CaraVan.Devices.Contracts.Interfaces;
+﻿using chd.Api.Base.Client.Extensions;
+using chd.CaraVan.Contracts.Interfaces;
 using chd.CaraVan.UI.Hubs.Clients;
-using chd.CaraVan.UI.Implementations;
+using chd.CaraVan.UI.Interfaces;
+using chd.CaraVan.UI.Services;
+using chd.CaraVan.WebClient.Extensions;
+using chd.UI.Base.Client.Extensions;
+using chd.UI.Base.Client.Implementations.Services;
+using chd.UI.Base.Contracts.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace chd.CaraVan.UI.Extensions
 {
     public static class DIExtensions
     {
-        public static IServiceCollection AddUi(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddUi<TSettingManager>(this IServiceCollection services, IConfiguration configuration, ServiceLifetime profileServiceLifeTime = ServiceLifetime.Singleton)
+             where TSettingManager : BaseSettingManager, ISettingManager
         {
+            services.AddAuthorizationCore();
+            services.AddUtilities<chdProfileService, int, int, HandleUserIdLogin, TSettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, UpdateService>(profileServiceLifeTime);
+            services.AddSingleton<INavigationHistoryStateContainer, NavigationHistoryStateContainer>();
+
+            services.AddChdCaravanClient(sp => configuration.GetApiKey("chdCaravanApi"));
+
+            /* Scoped */
+            services.AddScoped<INavigationHandler, NavigationHandler>();
+
             services.AddScoped<IDataHubClient, DataHubClient>();
 
             return services;

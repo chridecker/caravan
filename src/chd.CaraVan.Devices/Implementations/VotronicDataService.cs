@@ -1,10 +1,5 @@
 ﻿using chd.CaraVan.Contracts.Dtos;
-using chd.CaraVan.Devices.Contracts.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using chd.CaraVan.Contracts.Interfaces;
 
 namespace chd.CaraVan.Devices.Implementations
 {

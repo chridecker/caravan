@@ -1,5 +1,6 @@
-﻿using chd.CaraVan.Devices.Contracts.Interfaces;
-using Microsoft.Extensions.Logging;
+﻿using chd.CaraVan.Contracts.Dtos;
+using chd.CaraVan.Contracts.Interfaces;
+using chd.CaraVan.Devices.Contracts.Interfaces;
 using System.Diagnostics;
 
 namespace chd.CaraVan.Devices.Implementations
@@ -13,41 +14,41 @@ namespace chd.CaraVan.Devices.Implementations
             this._emailService = emailService;
         }
 
-        public void ChangeStateInTime(string service, TimeSpan span, CancellationToken cancellationToken) => _ = StopAfterTime(service, span, cancellationToken);
+        public Task ChangeStateInTime(ServiceControlDto dto, CancellationToken cancellationToken) => _ = StopAfterTime(dto, cancellationToken);
 
-        private Task StopAfterTime(string service, TimeSpan span, CancellationToken cancellationToken) => Task.Run(async () =>
+        private Task StopAfterTime(ServiceControlDto dto, CancellationToken cancellationToken) => Task.Run(async () =>
         {
-            using var timer = new PeriodicTimer(span);
+            using var timer = new PeriodicTimer(dto.Time);
             if (await timer.WaitForNextTickAsync(cancellationToken))
             {
-                if ((await this.IsServiceRunning(service)).HasValue)
+                if ((await this.IsServiceRunning(dto.Service)).HasValue)
                 {
-                    await this._emailService.SendEmail($"Service '{service}' stopped @{DateTime.Now.ToString("dd.MM.yy HH:MM:ss")}", "Gestarted", cancellationToken);
-                    await this.StopService(service);
+                    await this._emailService.SendEmail($"Service '{dto.Service}' stopped @{DateTime.Now.ToString("dd.MM.yy HH:MM:ss")}", "Gestarted", cancellationToken);
+                    await this.StopService(dto);
                 }
                 else
                 {
 
-                    await this._emailService.SendEmail($"Service '{service}' started @{DateTime.Now.ToString("dd.MM.yy HH:MM:ss")}", "Gestarted", cancellationToken);
-                    await this.StartService(service);
+                    await this._emailService.SendEmail($"Service '{dto.Service}' started @{DateTime.Now.ToString("dd.MM.yy HH:MM:ss")}", "Gestarted", cancellationToken);
+                    await this.StartService(dto);
                 }
             }
         }, cancellationToken);
 
-        public async Task<bool> StartService(string service, CancellationToken cancellationToken = default)
+        public async Task<bool> StartService(ServiceControlDto dto, CancellationToken cancellationToken = default)
         {
-            if (!(await this.IsServiceRunning(service, cancellationToken)).HasValue)
+            if (!(await this.IsServiceRunning(dto.Service, cancellationToken)).HasValue)
             {
-                await CommandService(service, "start", cancellationToken);
+                await CommandService(dto.Service, "start", cancellationToken);
                 return true;
             }
             return false;
         }
-        public async Task<bool> StopService(string service, CancellationToken cancellationToken = default)
+        public async Task<bool> StopService(ServiceControlDto dto, CancellationToken cancellationToken = default)
         {
-            if ((await this.IsServiceRunning(service, cancellationToken)).HasValue)
+            if ((await this.IsServiceRunning(dto.Service, cancellationToken)).HasValue)
             {
-                await CommandService(service, "stop", cancellationToken);
+                await CommandService(dto.Service, "stop", cancellationToken);
                 return true;
             }
             return false;

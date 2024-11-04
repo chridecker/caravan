@@ -1,13 +1,4 @@
-﻿using chd.CaraVan.Devices.Contracts.Enums;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-
-namespace chd.CaraVan.Devices.Contracts.Dtos.RuvviTag
+﻿namespace chd.CaraVan.Devices.Contracts.Dtos.RuvviTag
 {
     public class RuuviTagData
     {

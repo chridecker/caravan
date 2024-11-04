@@ -1,9 +1,17 @@
-﻿@using Microsoft.Extensions.Options
-@using chd.CaraVan.Contracts.Settings
-@inject IOptionsMonitor<DeviceSettings> optionsMonitor
+﻿@using chd.UI.Base.Contracts.Enum
 
-<MudNavMenu>
-    <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
-    <MudNavLink Href="/buttons" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.SmartButton">Buttons</MudNavLink>
-    <MudNavLink Href="/settings" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Settings">Settings</MudNavLink>
-</MudNavMenu>
+<div class="nav-menu">
+    <NavMenuBase>
+        <ImageContent>
+            <IconButton FAClass="caravan" OnClick="()=>this.GoHome()" />
+        </ImageContent>
+        <MenuContent>
+            <NavItem href="" Match="NavLinkMatch.All" IconFAClass="dashboard" Title="Dashboard" />
+            <NavItem href="/buttons" Match="NavLinkMatch.All" IconFAClass="button" Title="Buttons" />
+        </MenuContent>
+        <BottomContent>
+            <NavItem href="/settings" Match="NavLinkMatch.All" IconFAClass="fa-gear" Title="Settings" />
+            <LoginNavItem TUserId="int" TRightId="int" Style="EIconStyle.Regular" />
+        </BottomContent>
+    </NavMenuBase>
+</div>

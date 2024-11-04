@@ -1,15 +1,10 @@
 ﻿using chd.CaraVan.Contracts.Settings;
 using chd.CaraVan.Devices.Contracts.Dtos.Pi;
-using chd.CaraVan.Devices.Contracts.Interfaces;
+using chd.CaraVan.Contracts.Interfaces;
 using chd.CaraVan.Devices.Implementations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
 using System.Device.Gpio;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace chd.CaraVan.Devices.Extensions
 {

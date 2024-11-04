@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace chd.CaraVan.Devices.Contracts.Interfaces
+﻿namespace chd.CaraVan.Contracts.Interfaces
 {
     public interface IAESManager
     {
-        Task Off();
-        Task CheckForActive();
-        Task SetActive();
+        Task Off(CancellationToken cancellationToken = default);
+        Task CheckForActive(CancellationToken cancellationToken = default);
+        Task SetActive(CancellationToken cancellation = default);
         Task<bool> IsActive { get; }
         Task<DateTime?> SolarAesOffSince { get; }
         Task<decimal?> BatteryLimit { get; }

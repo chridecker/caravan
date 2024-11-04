@@ -2,19 +2,14 @@
 using chd.CaraVan.Contracts.Enums;
 using chd.CaraVan.Contracts.Interfaces;
 using chd.CaraVan.Contracts.Settings;
-using chd.CaraVan.Devices;
 using chd.CaraVan.Devices.Contracts.Dtos.Pi;
 using chd.CaraVan.Devices.Contracts.Dtos.RuvviTag;
 using chd.CaraVan.Devices.Contracts.Dtos.Votronic;
 using chd.CaraVan.Devices.Contracts.Interfaces;
 using chd.CaraVan.Devices.Implementations;
-using chd.CaraVan.UI.Hubs;
 using chd.CaraVan.Web.Hub;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Threading;
 
 namespace chd.CaraVan.Web.Services
 {
@@ -61,7 +56,7 @@ namespace chd.CaraVan.Web.Services
         public override async Task StopAsync(CancellationToken cancellationToken)
         {
             this._pi.Stop();
-            this._aesManager.StateSwitched += this._aesManager_StateSwitched;
+            this._aesManager.StateSwitched -= this._aesManager_StateSwitched;
             await this._bleManager?.DisconnectAsync();
             await base.StopAsync(cancellationToken);
         }
@@ -84,11 +79,15 @@ namespace chd.CaraVan.Web.Services
 
         private async void _aesManager_StateSwitched(object? sender, bool e)
         {
-            foreach (var pin in this._optionsMonitorPi.CurrentValue.Gpios.Where(x => x.Type == Devices.Contracts.Enums.GpioType.Aes))
+            await this._hub.Clients.All.AesStateSwitched(e);
+            foreach (var pin in this._optionsMonitorPi.CurrentValue.Gpios.Where(x => x.Type == GpioType.Aes))
             {
-
                 await this._emailService.SendEmail($"AES switched to {(e ? "ON" : "OFF")}", "AES");
-                await this._pi.Write(pin.Pin, this._optionsMonitorAes.CurrentValue.IsActive && e);
+                await this._pi.Write(new PinWriteDto
+                {
+                    Pin = pin.Pin,
+                    Value = this._optionsMonitorAes.CurrentValue.IsActive && e
+                });
             }
         }
 

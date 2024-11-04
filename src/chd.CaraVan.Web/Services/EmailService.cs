@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Mail;
 using chd.CaraVan.Devices.Contracts.Interfaces;
 using chd.CaraVan.Contracts.Settings;
-using Microsoft.Extensions.Logging;
 
 namespace chd.CaraVan.Web.Services
 {

@@ -1,30 +1,54 @@
-﻿@inherits LayoutComponentBase
+﻿@inherits PageComponentBase<int,int>
+@using Blazored.Toast.Configuration
+@inject IHandleUserIdLogin<int> handleUserIdLogin
+@inject IProfileService<int,int> profileService 
+@inject IScrollInfoService scrollInfoService
 
-<MudThemeProvider IsDarkMode="true" />
-<MudDialogProvider />
-<MudSnackbarProvider />
+<div class="page">
+    <NavMenu />
 
-
-<MudLayout>
-    <MudAppBar Elevation="1">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudSpacer />
-    </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
-        <NavMenu />
-    </MudDrawer>
-    <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Medium">
+    <main class="@(this._navCollapsed ? "collapsed-nav" : "")" @onmouseover="() => this._navCollapsed = true">
+        <div class="top-row">
+            <Header PageTitle="@this.Title"></Header>
+        </div>
+        <article id="main-article" class="content px-4" @onscroll="scrollInfoService.Scrolled">
             @Body
-        </MudContainer>
-    </MudMainContent>
-</MudLayout>
+        </article>
+    </main>
+</div>
+
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="5"
+                MaxToastCount="3"
+                RemoveToastsOnNavigation="true"
+                ShowProgressBar="true">
+    <CloseButtonContent>
+        <div>
+            <span>&times;</span>
+        </div>
+    </CloseButtonContent>
+</BlazoredToasts>
 
 @code {
-    bool _drawerOpen = false;
+    private bool _navCollapsed = false;
 
-    void DrawerToggle()
+    protected override async Task OnInitializedAsync()
     {
-        _drawerOpen = !_drawerOpen;
+        this._navCollapsed = true;
+
+        if (await handleUserIdLogin.IsEnabled)
+        {
+            var id = await handleUserIdLogin.GetIdAsync();
+            if (id.HasValue)
+            {
+                await profileService.LoginAsync(new()
+                    {
+                        Id = id,
+                        StayLoggedIn = true,
+                    });
+            }
+        }
+
+        await base.OnInitializedAsync();
     }
 }

@@ -1,11 +1,12 @@
 ﻿@page "/buttons"
 @using chd.CaraVan.UI.Components.Pages.Cards
+@inject IPiManager piManager
+@inject IAESManager manager
 
-@if (this._settings is not null)
+@if (this._pins is not null)
 {
-
     <div style="display:grid">
-        @foreach (var pin in this._settings.Gpios.Where(x => x.Type != GpioType.None).OrderByDescending(o => o.Type).ThenBy(t => t.Name))
+        @foreach (var pin in this._pins.Where(x => x.Type != GpioType.None).OrderByDescending(o => o.Type).ThenBy(t => t.Name))
         {
             <SmartButton Checked="this.State(pin)" CheckedChanged="(x)=>Change(pin,x)" Text="@pin.Name"></SmartButton>
         }
@@ -13,10 +14,11 @@
 }
 @code {
     private IEnumerable<GpioPinDto> _pins;
+    private CancellationTokenSource _cts = new();
 
     protected override async Task OnInitializedAsync()
     {
-        this._settings = await piManager.GetSettings();
+        this._pins = await piManager.GetGpioPins(this._cts.Token);
 
         await base.OnInitializedAsync();
     }
@@ -48,7 +50,7 @@
         }
         else if (pin.Type == GpioType.Switch)
         {
-            await piManager.Write(pin.Pin, val);
+            await piManager.Write(new PinWriteDto { Pin = pin.Pin, Value = val }, this._cts.Token);
         }
     }
 }

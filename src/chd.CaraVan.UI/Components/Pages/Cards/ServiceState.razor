@@ -1,43 +1,42 @@
-﻿@using chd.CaraVan.Devices
+﻿@using chd.CaraVan.Contracts.Interfaces
 @inject ISystemManager manager
 <div class="service-state-container">
     <div class="service-state-title">
-        <MudBlazor.MudText Typo="MudBlazor.Typo.body2">@Service</MudBlazor.MudText>
+        @Service
     </div>
     <div class="service-state-button">
         <SmartButton Checked="this.State()" CheckedChanged="this.Change"></SmartButton>
     </div>
     <div class="service-state-changetime">
         <div class="service-state-changetime-picker">
-            <MudBlazor.MudTimePicker Label="wechsel" @bind-Time="span" Color="MudBlazor.Color.Primary"
-                                     PickerVariant="MudBlazor.PickerVariant.Dialog"
-                                     IconSize="MudBlazor.Size.Small" />
+            <input type="time" @bind-value="@span" />
         </div>
         <div class="service-state-changetime-button">
-            <MudBlazor.MudIconButton Color="MudBlazor.Color.Warning" Icon="@MudBlazor.Icons.Material.Filled.Clear" OnClick="()=>{span = null;}" />
+            <IconButton FAClass="eraser" OnClick="()=>{span = null;}" />
         </div>
     </div>
 </div>
 @code {
+    [Parameter, EditorRequired] public CancellationToken Token { get; set; }
     [Parameter] public string Service { get; set; }
 
-    private TimeSpan? span;
+    private DateTime? span;
 
-    private async Task<bool> State(CancellationToken cancellationToken = default) => (await manager.IsServiceRunning(Service)).HasValue;
+    private async Task<bool> State(CancellationToken cancellationToken = default) => (await manager.IsServiceRunning(Service, this.Token)).HasValue;
 
     private async Task Change(bool val)
     {
         if (!val)
         {
-            await manager.StopService(Service);
+            await manager.StopService(new ServiceControlDto { Service = this.Service }, this.Token);
         }
         else
         {
-            await manager.StartService(Service);
+            await manager.StartService(new ServiceControlDto { Service = this.Service }, this.Token);
         }
         if (span.HasValue)
         {
-            manager.ChangeStateInTime(Service, span.Value);
+            await manager.ChangeStateInTime(new ServiceControlDto { Service = this.Service, Time = span.Value.TimeOfDay }, this.Token);
         }
     }
 }

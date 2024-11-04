@@ -1,11 +1,6 @@
-﻿using chd.CaraVan.Contracts.Settings;
-using chd.CaraVan.Devices.Contracts.Interfaces;
+﻿using chd.CaraVan.Contracts.Interfaces;
+using chd.CaraVan.Contracts.Settings;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace chd.CaraVan.Devices.Implementations
 {
@@ -32,40 +27,40 @@ namespace chd.CaraVan.Devices.Implementations
             this._votronicDataService = votronicDataService;
         }
 
-        public async Task CheckForActive()
+        public async Task CheckForActive(CancellationToken cancellation = default)
         {
-            var solarAmp = (await this._votronicDataService.GetSolarData())?.Ampere ?? 0;
-            var solarAES = (await this._votronicDataService.GetSolarData())?.AES ?? false;
-            var batteryPercent = (await this._votronicDataService.GetBatteryData())?.Percent ?? 0;
+            var solarAmp = (await this._votronicDataService.GetSolarData(cancellation))?.Ampere ?? 0;
+            var solarAES = (await this._votronicDataService.GetSolarData(cancellation))?.AES ?? false;
+            var batteryPercent = (await this._votronicDataService.GetBatteryData(cancellation))?.Percent ?? 0;
             if (this._isActive)
             {
                 if (solarAES && this._solarAesOffSince.HasValue) { this._solarAesOffSince = null; }
                 if (!solarAES && !this._solarAesOffSince.HasValue) { this._solarAesOffSince = DateTime.Now; }
                 if (this._optionsMonitor.CurrentValue.BatteryLimit.HasValue && batteryPercent < this._optionsMonitor.CurrentValue.BatteryLimit.Value)
                 {
-                    await this.Off();
+                    await this.Off(cancellation);
                 }
                 if (!solarAES && (!this._optionsMonitor.CurrentValue.AesTimeout.HasValue
                         || (this._optionsMonitor.CurrentValue.AesTimeout.HasValue && this._solarAesOffSince.HasValue && this._solarAesOffSince.Value.Add(this._optionsMonitor.CurrentValue.AesTimeout.Value) < DateTime.Now)))
                 {
-                    await this.Off();
+                    await this.Off(cancellation);
                 }
                 if (!solarAES && (!this._optionsMonitor.CurrentValue.SolarAmpLimit.HasValue
                     || (this._optionsMonitor.CurrentValue.SolarAmpLimit.HasValue && this._optionsMonitor.CurrentValue.SolarAmpLimit.Value > solarAmp)))
                 {
-                    await this.Off();
+                    await this.Off(cancellation);
                 }
             }
             else if (!this._isActive && solarAES)
             {
                 if (this._optionsMonitor.CurrentValue.BatteryLimit.HasValue && batteryPercent > this._optionsMonitor.CurrentValue.BatteryLimit.Value)
                 {
-                    await this.SetActive();
+                    await this.SetActive(cancellation);
                 }
             }
         }
 
-        public Task Off() => Task.Run(() =>
+        public Task Off(CancellationToken cancellation = default) => Task.Run(() =>
         {
             if (this._isActive)
             {
@@ -73,15 +68,15 @@ namespace chd.CaraVan.Devices.Implementations
                 this._solarAesOffSince = null;
                 this.StateSwitched?.Invoke(this, this._isActive);
             }
-        });
+        }, cancellation);
 
-        public Task SetActive() => Task.Run(() =>
+        public Task SetActive(CancellationToken cancellation = default) => Task.Run(() =>
         {
             if (!this._isActive)
             {
                 this._isActive = true;
                 this.StateSwitched?.Invoke(IsActive, this._isActive);
             }
-        });
+        }, cancellation);
     }
 }

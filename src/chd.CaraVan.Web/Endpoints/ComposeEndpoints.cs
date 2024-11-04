@@ -12,6 +12,7 @@ namespace chd.CaraVan.Web.Endpoints
             group.AddVotronic();
             group.AddPi();
             group.AddAes();
+            group.AddSystem();
 
             return app;
         }

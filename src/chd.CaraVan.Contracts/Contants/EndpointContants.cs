@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
 namespace chd.CaraVan.Contracts.Contants
 {
@@ -13,7 +9,7 @@ namespace chd.CaraVan.Contracts.Contants
         {
             public const string ROOT = "ruuvi";
             public const string ALL = "";
-            public const string GET_DATA = "{id:int}";
+            public const string GET_DATA = "";
         }
 
         public static class Votronic
@@ -26,12 +22,12 @@ namespace chd.CaraVan.Contracts.Contants
         {
             public const string ROOT = "pi";
             public const string GET_SETTING = "settings";
-            public const string GET_PIN_STATE= "pinstate/pin:int";
+            public const string GET_PIN_STATE = "pinstate";
             public const string POST_WRITE_PIN = "write";
         }
         public static class Aes
         {
-            public const string ROOT ="aes";
+            public const string ROOT = "aes";
 
             public const string IS_ACTIVE = "isactive";
             public const string AES_OFF_SINCE = "aesoffsince";
@@ -42,6 +38,16 @@ namespace chd.CaraVan.Contracts.Contants
             public const string SET_ACTIVE = "setactive";
             public const string CHECK_ACTIVE = "checkactive";
             public const string AES_OFF = "aesoff";
+        }
+        public static class System
+        {
+            public const string ROOT = "system";
+
+            public const string REBOOT = "reboot";
+            public const string CHANGE_STATE_IN_TIME = "changestateintime";
+            public const string START_SERVICE = "startservice";
+            public const string STOP_SERVICE = "stopservice";
+            public const string RUNNING_SINCE = "runningsince";
         }
     }
 }

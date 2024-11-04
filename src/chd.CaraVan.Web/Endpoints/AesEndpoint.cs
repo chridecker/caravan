@@ -1,4 +1,4 @@
-﻿using chd.CaraVan.Devices.Contracts.Interfaces;
+﻿using chd.CaraVan.Contracts.Interfaces;
 using static chd.CaraVan.Contracts.Contants.EndpointContants.Aes;
 
 namespace chd.CaraVan.Web.Endpoints
@@ -15,9 +15,9 @@ namespace chd.CaraVan.Web.Endpoints
             group.MapGet(AES_TIMEOUT, async (IAESManager manager) => await manager.AesTimeout);
             group.MapGet(AES_LIMIT, async (IAESManager manager) => await manager.SolarAmpLimit);
 
-            group.MapPost(SET_ACTIVE, async (IAESManager manager) => await manager.SetActive());
-            group.MapPost(CHECK_ACTIVE, async (IAESManager manager) => await manager.CheckForActive());
-            group.MapPost(AES_OFF, async (IAESManager manager) => await manager.Off());
+            group.MapPost(SET_ACTIVE, async (IAESManager manager, CancellationToken cancellationToken) => await manager.SetActive(cancellationToken));
+            group.MapPost(CHECK_ACTIVE, async (IAESManager manager, CancellationToken cancellationToken) => await manager.CheckForActive(cancellationToken));
+            group.MapPost(AES_OFF, async (IAESManager manager, CancellationToken cancellationToken) => await manager.Off(cancellationToken));
             return app;
         }
     }

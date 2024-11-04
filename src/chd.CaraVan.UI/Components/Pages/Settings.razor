@@ -1,14 +1,17 @@
 ﻿@page "/settings"
-@using chd.CaraVan.Devices
+@implements IDisposable
 @using chd.CaraVan.UI.Components.Pages.Cards
-@inject ISettingService settings
-@inject IPiManager manager
-<h3>Settings</h3>
 
-<ServiceState Service="pitunnel" />
+<ServiceState Token="this._cts.Token" Service="pitunnel" />
 
-<Reboot />
-
+<Reboot Token="this._cts.Token" />
 @code {
-}
+    private CancellationTokenSource _cts = new();
 
+
+    public void Dispose()
+    {
+        this._cts.Cancel();
+        this._cts.Dispose();
+    }
+}
