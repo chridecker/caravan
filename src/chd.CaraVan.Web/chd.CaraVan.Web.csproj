@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="chd.Api.Base" Version="1.0.24304.96" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.0" />
     <PackageReference Include="NLog.Extensions.Logging" Version="5.3.11" />

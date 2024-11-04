@@ -1,9 +1,6 @@
-using chd.CaraVan.UI.Extensions;
-using chd.CaraVan.UI.Components;
 using chd.CaraVan.Web.Components;
 using System.Diagnostics;
 using NLog.Extensions.Logging;
-using chd.CaraVan.UI.Hubs;
 using chd.CaraVan.Web.Endpoints;
 using chd.CaraVan.Web.Extensions;
 using chd.CaraVan.Web.Hub;
@@ -17,7 +14,6 @@ if (!(Debugger.IsAttached || args.Contains("--console")))
         Directory.SetCurrentDirectory(pathToContentRoot);
     }
 }
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,12 +37,8 @@ app.UseExceptionHandler("/Error", createScopeForErrors: true);
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.AddApi();
+app.MapEndpoints();
 
 app.MapHub<DataHub>("data-hub");
-
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode().
-    AddAdditionalAssemblies(typeof(Routes).Assembly);
 
 app.Run();

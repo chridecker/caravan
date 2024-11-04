@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace chd.CaraVan.Devices.Contracts.Enums
+namespace chd.CaraVan.Contracts.Enums
 {
     public enum GpioType
     {

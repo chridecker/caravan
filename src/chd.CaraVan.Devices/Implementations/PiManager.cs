@@ -1,4 +1,5 @@
-﻿using chd.CaraVan.Devices.Contracts.Dtos.Pi;
+﻿using chd.CaraVan.Contracts.Dtos;
+using chd.CaraVan.Devices.Contracts.Dtos.Pi;
 using chd.CaraVan.Devices.Contracts.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -24,7 +25,14 @@ namespace chd.CaraVan.Devices.Implementations
             this._controller = gpioController;
         }
 
-        public Task<PiSettings> GetSettings(CancellationToken cancellationToken) => Task.FromResult(this._optionsMonitor.CurrentValue);
+        public IEnumerable<GpioPinDto> GetGpioPins()
+        => this._optionsMonitor.CurrentValue.Gpios.Select(s => new GpioPinDto
+        {
+            Pin = s.Pin,
+            Name = s.Name,
+            Type = s.Type
+        });
+
         public void Start()
         {
             foreach (var g in this._optionsMonitor.CurrentValue.Gpios)
@@ -49,7 +57,7 @@ namespace chd.CaraVan.Devices.Implementations
             this._controller?.Dispose();
         }
 
-        public Task Write(int pin, bool val) => Task.Run(() => this.WriteToPin(pin, val));
+        public Task Write(int pin, bool val, CancellationToken cancellationToken = default) => Task.Run(() => this.WriteToPin(pin, val), cancellationToken);
         public Task<bool> Read(int pin) => Task.FromResult(this._controller?.Read(pin) == PinValue.High);
         private void WriteToPin(int pin, bool val) => this._controller?.Write(pin, val ? PinValue.High : PinValue.Low);
     }

@@ -18,6 +18,4 @@ namespace chd.CaraVan.Web.Hub
             return base.OnConnectedAsync();
         }
     }
-
-   
 }
