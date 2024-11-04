@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\chd.CaraVan.UI\chd.CaraVan.UI.csproj" />
+    <ProjectReference Include="..\chd.CaraVan.Devices\chd.CaraVan.Devices.csproj" />
   </ItemGroup>
 
 </Project>

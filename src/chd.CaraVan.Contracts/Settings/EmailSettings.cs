@@ -14,6 +14,7 @@ namespace chd.CaraVan.Contracts.Settings
       public string Username{ get; set; }
       public string Password{ get; set; }
       public string From{ get; set; }
+      public string FromName{ get; set; }
       public string To{ get; set; }
   }
 }

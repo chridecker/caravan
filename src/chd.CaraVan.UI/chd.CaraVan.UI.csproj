@@ -23,12 +23,10 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="8.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
-		<PackageReference Include="MudBlazor" Version="7.0.0-preview.3" />
 	</ItemGroup>
 	
 	<ItemGroup>
 	  <ProjectReference Include="..\chd.CaraVan.Contracts\chd.CaraVan.Contracts.csproj" />
-	  <ProjectReference Include="..\chd.CaraVan.Devices\chd.CaraVan.Devices.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>

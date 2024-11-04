@@ -6,7 +6,6 @@ using chd.CaraVan.UI.Hubs.Clients;
 using chd.CaraVan.UI.Implementations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MudBlazor.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,26 +18,7 @@ namespace chd.CaraVan.UI.Extensions
     {
         public static IServiceCollection AddUi(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<EmailSettings>(configuration.GetSection(nameof(EmailSettings)));
-            services.Configure<DeviceSettings>(configuration.GetSection(nameof(DeviceSettings)));
-            services.Configure<AesSettings>(configuration.GetSection(nameof(AesSettings)));
-            services.Configure<PiSettings>(configuration.GetSection(nameof(PiSettings)));
-
             services.AddScoped<IDataHubClient, DataHubClient>();
-            services.AddSingleton<ISettingService, SettingService>();
-            services.AddSingleton<IAESManager, AESManager>();
-            services.AddSingleton<IPiManager, PiManager>();
-            services.AddSingleton<IEmailService, EmailService>();
-            services.AddSingleton<ISystemManager, SystemManager>();
-            services.AddSingleton<IRuuviTagDataService, RuuviTagDataService>();
-            services.AddSingleton<IVotronicDataService, VotronicDataService>();
-
-            services.AddMudServices();
-
-            if (OperatingSystem.IsLinux())
-            {
-                services.AddHostedService<DeviceWorker>();
-            }
 
             return services;
         }

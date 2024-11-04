@@ -10,4 +10,8 @@
     <PackageReference Include="System.Device.Gpio" Version="3.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\chd.CaraVan.Contracts\chd.CaraVan.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>
