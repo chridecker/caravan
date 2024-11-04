@@ -1,11 +1,12 @@
 using chd.CaraVan.Contracts.Dtos;
 using chd.CaraVan.Contracts.Interfaces;
 using chd.CaraVan.UI.Interfaces;
+using chd.UI.Base.Components.Base;
 using Microsoft.AspNetCore.Components;
 
 namespace chd.CaraVan.UI.Components.Pages
 {
-    public partial class Home : IDisposable
+    public partial class Home : PageComponentBase<int, int>, IDisposable
     {
         [Inject] private IVotronicDataService _votronicData { get; set; }
         [Inject] private IRuuviTagDataService _ruuviTagDataService { get; set; }
@@ -27,6 +28,7 @@ namespace chd.CaraVan.UI.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            this.Title = "Home";
             this._devices = await this._ruuviTagDataService.Devices;
             await this.Reload();
             if (!this._dataHubClient.IsConnected)

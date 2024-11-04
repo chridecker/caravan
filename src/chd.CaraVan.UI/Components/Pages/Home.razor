@@ -1,7 +1,7 @@
 ﻿@page "/"
 @using chd.CaraVan.Contracts.Dtos
 @using chd.CaraVan.UI.Components.Pages.Cards
-
+@inherits PageComponentBase<int,int>
 <AesCard Token="this._cts.Token" />
 
 @if (this.VotronicBatteryData != null)

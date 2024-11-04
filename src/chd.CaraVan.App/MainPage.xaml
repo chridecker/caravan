@@ -3,11 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:chd.CaraVan.App"
              x:Class="chd.CaraVan.App.MainPage"
-             BackgroundColor="{DynamicResource PageBackgroundColor}">
+              xmlns:ui="clr-namespace:chd.CaraVan.UI;assembly=chd.CaraVan.UI"
+             BackgroundColor="{DynamicResource CHDBg}">
 
     <BlazorWebView x:Name="blazorWebView" HostPage="wwwroot/index.html">
         <BlazorWebView.RootComponents>
-            <RootComponent Selector="#app" ComponentType="{x:Type local:Components.Routes}" />
+            <RootComponent Selector="#app" ComponentType="{x:Type ui:Routes}" />
         </BlazorWebView.RootComponents>
     </BlazorWebView>
 

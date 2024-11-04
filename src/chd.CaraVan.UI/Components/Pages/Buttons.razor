@@ -2,6 +2,7 @@
 @using chd.CaraVan.UI.Components.Pages.Cards
 @inject IPiManager piManager
 @inject IAESManager manager
+@inherits PageComponentBase<int,int>
 
 @if (this._pins is not null)
 {
@@ -18,6 +19,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        this.Title = "Buttons";
         this._pins = await piManager.GetGpioPins(this._cts.Token);
 
         await base.OnInitializedAsync();
