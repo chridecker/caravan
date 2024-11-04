@@ -26,11 +26,11 @@ namespace chd.CaraVan.App
         private static IConfiguration GetLocalSetting()
         {
             var dict = new Dictionary<string, string>();
-            dict[$"ApiKeys:chdScoringApi"] = "http://localhost:8080/";
+            dict[$"ApiKeys:chdCaravanApi"] = "http://localhost/";
             if (Preferences.ContainsKey(SettingConstants.BaseAddress))
             {
                 var pref = Preferences.Default.Get<string>(SettingConstants.BaseAddress, string.Empty);
-                dict[$"ApiKeys:chdScoringApi"] = pref;
+                dict[$"ApiKeys:chdCaravanApi"] = pref;
             }
             return new ConfigurationBuilder().AddInMemoryCollection(dict).Build();
         }

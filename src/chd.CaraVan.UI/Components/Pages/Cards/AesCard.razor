@@ -38,10 +38,14 @@
 
     private async Task Reload()
     {
-        this._aesOffSince = await manager.SolarAesOffSince;
-        this._aesTimeout = await manager.AesTimeout;
-        this._solarAmpLimit = await manager.SolarAmpLimit;
-        this._batteryLimit = await manager.BatteryLimit;
+        try
+        {
+            this._aesOffSince = await manager.SolarAesOffSince;
+            this._aesTimeout = await manager.AesTimeout;
+            this._solarAmpLimit = await manager.SolarAmpLimit;
+            this._batteryLimit = await manager.BatteryLimit;
+        }
+        catch{}
     }
 
     private async void OnAesButtonChanged(bool val)

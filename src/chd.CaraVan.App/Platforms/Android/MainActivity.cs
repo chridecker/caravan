@@ -17,7 +17,8 @@ namespace chd.CaraVan.App
         public MainActivity()
         {
             this._appInfoService = IPlatformApplication.Current.Services.GetService<IAppInfoService>();
-            protected override void OnCreate(Bundle? savedInstanceState)
+        }
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             this.CreateNotificationFromIntent(Intent);

@@ -11,8 +11,6 @@ namespace chd.CaraVan.UI.Components.Pages
         [Inject] private IVotronicDataService _votronicData { get; set; }
         [Inject] private IRuuviTagDataService _ruuviTagDataService { get; set; }
         [Inject] private IDataHubClient _dataHubClient { get; set; }
-        [Inject] private NavigationManager? _navigationManager { get; set; }
-
 
         private CancellationTokenSource _cts = new CancellationTokenSource();
         private VotronicBatteryData VotronicBatteryData;
@@ -24,12 +22,16 @@ namespace chd.CaraVan.UI.Components.Pages
         private decimal? RuuviValue(RuuviDeviceDto dto) => this._valueDict.TryGetValue(dto.Id, out var val) ? val?.Value : null;
         private (decimal?, decimal?) MinMax(RuuviDeviceDto dto) => this._valueDict.TryGetValue(dto.Id, out var val) ? (val.Min, val.Max) : (null, null);
 
-        private IEnumerable<RuuviDeviceDto> _devices = Enumerable.Empty<RuuviDeviceDto>();
+        private IEnumerable<RuuviDeviceDto> _devices = [];
 
         protected override async Task OnInitializedAsync()
         {
             this.Title = "Home";
-            this._devices = await this._ruuviTagDataService.Devices;
+            try
+            {
+                this._devices = await this._ruuviTagDataService.Devices;
+            }
+            catch { }
             await this.Reload();
             if (!this._dataHubClient.IsConnected)
             {

@@ -2,6 +2,7 @@
 @using chd.CaraVan.Contracts.Dtos
 @using chd.CaraVan.UI.Components.Pages.Cards
 @inherits PageComponentBase<int,int>
+
 <AesCard Token="this._cts.Token" />
 
 @if (this.VotronicBatteryData != null)
@@ -9,6 +10,7 @@
     <LoadingCard BatteryData="@VotronicBatteryData"
             SolarData="@VotronicSolarData" />
 }
+
 @foreach (var device in this._devices)
 {
     @if (this._valueDict.ContainsKey(device.Id))

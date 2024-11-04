@@ -19,12 +19,12 @@ namespace chd.CaraVan.UI.Extensions
         {
             services.AddAuthorizationCore();
             services.AddUtilities<chdProfileService, int, int, HandleUserIdLogin, TSettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, UpdateService>(profileServiceLifeTime);
+             services.AddMauiModalHandler();
             services.AddSingleton<INavigationHistoryStateContainer, NavigationHistoryStateContainer>();
+            services.AddScoped<INavigationHandler, NavigationHandler>();
 
             services.AddChdCaravanClient(sp => configuration.GetApiKey("chdCaravanApi"));
-
-            /* Scoped */
-            services.AddScoped<INavigationHandler, NavigationHandler>();
+            services.AddSingleton<IAppInfoService, AppInfoService>();
 
             services.AddScoped<IDataHubClient, DataHubClient>();
 

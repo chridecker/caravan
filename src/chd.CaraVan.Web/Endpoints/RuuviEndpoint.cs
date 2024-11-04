@@ -14,7 +14,11 @@ namespace chd.CaraVan.Web.Endpoints
             group.MapGet(ALL, GetAll);
             return app;
         }
-        private static async Task GetAll(IRuuviTagDataService svc) => await svc.Devices;
+        private static async Task<IEnumerable<RuuviDeviceDto>> GetAll(IRuuviTagDataService svc)
+        {
+            var devices = await svc.Devices;
+            return devices;
+        }
         private static async Task<RuuviSensorDataDto> GetData(int id, IRuuviTagDataService svc, CancellationToken cancellationToken) => await svc.GetData(id, cancellationToken);
     }
 }

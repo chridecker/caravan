@@ -1,6 +1,9 @@
 ﻿@page "/settings"
 @implements IDisposable
 @inherits PageComponentBase<int,int>
+@inject ISettingManager settingManager
+@inject IUpdateService updateService
+@using chd.CaraVan.Contracts.Contants
 @using chd.CaraVan.UI.Components.Pages.Cards
 
 
@@ -26,8 +29,15 @@
     {
         this.Title = "Settings";
 
-        this._baseAddress = await this._settingManager.MainUrl;
-        this._currentVersion = await this._updateService.CurrentVersion();
+        this._baseAddress = await this.settingManager.MainUrl;
+        this._currentVersion = await this.updateService.CurrentVersion();
+    }
+
+    private async Task UpdateMainUrl(ChangeEventArgs e)
+    {
+        await this.settingManager.UpdateMainUrl((string)e.Value);
+        this.settingManager.SetNativSetting(SettingConstants.BaseAddress, (string)e.Value);
+        await this.InvokeAsync(this.StateHasChanged);
     }
 
     public void Dispose()
