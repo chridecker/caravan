@@ -9,7 +9,7 @@ namespace chd.CaraVan.Contracts.Contants
         {
             public const string ROOT = "ruuvi";
             public const string ALL = "";
-            public const string GET_DATA = "";
+            public const string GET_DATA = "data";
         }
 
         public static class Votronic

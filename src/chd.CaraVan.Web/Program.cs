@@ -3,6 +3,7 @@ using NLog.Extensions.Logging;
 using chd.CaraVan.Web.Endpoints;
 using chd.CaraVan.Web.Extensions;
 using chd.CaraVan.Web.Hub;
+using chd.Api.Base.Extensions;
 
 if (!(Debugger.IsAttached || args.Contains("--console")))
 {
@@ -18,26 +19,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders().AddNLog();
 
-builder.Services.AddSignalR();
+builder.Services.AddBaseApi("chdCaraVanAPI");
 builder.Services.AddServer(builder.Configuration);
-builder.Services.AddRazorComponents().AddInteractiveServerComponents().AddCircuitOptions(opt =>
-{
-    opt.DetailedErrors = true;
-});
-
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSignalR();
 
 builder.Host.UseSystemd();
 
 var app = builder.Build();
-
-app.UseExceptionHandler("/Error", createScopeForErrors: true);
-
-app.UseStaticFiles();
-app.UseAntiforgery();
+app.UseBaseApi();
 
 app.MapEndpoints();
-
 app.MapHub<DataHub>("data-hub");
+
 
 app.Run();
