@@ -18,6 +18,7 @@
     --chd-main-color-theme-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-main-color-theme-transparent) 10%, var(--chd-main-color-theme) 90%);
     --chd-main-color-theme-semi-transparent: var(--chd-lightblue-semi-transparent);
     --widget-height: 38rem !important;
+    --nav-toggle-height: 0 !important;
 }
 
     *::-webkit-scrollbar {
@@ -46,7 +47,8 @@
 @media (min-width: 768px) {
     * {
         --top-header-padding-tb: 0 !important;
-        --top-header-height: 1.5rem !important;
+        --top-header-height: 2.2rem !important;
+        --nav-toggle-height: 0 !important;
     }
 
     .top-row {
@@ -62,9 +64,9 @@
 
 @media (max-width: 360px) {
     * {
-        --nav-toggle-height: 1.2rem !important;
+        --nav-toggle-height: 0 !important;
         --top-header-padding-tb: 0.2 !important;
-        --top-header-height: 1.5rem !important;
+        --top-header-height: 2.2rem !important;
         --main-article-height: calc(100vh - calc(var(--top-header-height))) !important;
         --widget-width: 15rem !important;
         --widget-height: 33rem !important;

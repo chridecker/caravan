@@ -1,11 +1,16 @@
 .nav-menu ::deep .sidebar {
     padding: 0;
+    --top-header-height: 2.2rem !important;
 }
 
     .nav-menu ::deep .sidebar.collapsed {
     }
+     .nav-menu ::deep .sidebar.collapsed header{
+         height: var(--top-header-height);
+    }
 
         .nav-menu ::deep .sidebar.collapsed header .image {
+            align-content: center;
         }
 
     .nav-menu ::deep .sidebar header .image .logo {

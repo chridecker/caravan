@@ -7,7 +7,7 @@
 <div class="page">
     <NavMenu />
 
-    <main class="@(this._navCollapsed ? "collapsed-nav" : "")" @onmouseover="() => this._navCollapsed = true">
+    <main class="" >
         <div class="top-row">
             <Header PageTitle="@this.Title"></Header>
         </div>
@@ -30,12 +30,8 @@
 </BlazoredToasts>
 
 @code {
-    private bool _navCollapsed = false;
-
     protected override async Task OnInitializedAsync()
     {
-        this._navCollapsed = true;
-
         if (await handleUserIdLogin.IsEnabled)
         {
             var id = await handleUserIdLogin.GetIdAsync();

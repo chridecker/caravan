@@ -6,6 +6,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 <ItemGroup>
-		<PackageReference Include=" chd.UI.Base.Contracts" Version="1.0.24298.84" />
+		<PackageReference Include=" chd.UI.Base.Contracts" Version="1.0.24304.96" />
 	</ItemGroup>
 </Project>

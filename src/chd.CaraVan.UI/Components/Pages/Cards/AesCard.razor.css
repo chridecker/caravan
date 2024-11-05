@@ -1,33 +1,34 @@
 ﻿.aes-control {
     height: 4.1rem;
-    max-width:17rem;
+    width: max(90%,15rem);
     border: 0.2rem solid var(--bs-white);
     border-radius: 0.5rem;
-    background-color: var(--bs-gray-500);
+    background-color: var(--chd-lightgrey);
 }
 
     .aes-control .aes-control-content {
-        position: absolute;
-        height: 3.25rem;
-        width: 15.25rem;
-        margin: 0.2rem;
-        color: var(--bs-dark);
+        display: flex;
+        height: max-content;
+        color: var(--chd-bg);
+        padding: 0.2rem;
+        gap: 0.2rem;
     }
 
         .aes-control .aes-control-content .aes-active {
-            position: relative;
-            float:left;
+            display:flex;
+            justify-content:center;
+            align-content:center;
+            align-items:center;
         }
 
         .aes-control .aes-control-content .aes-active-content {
-             position: relative;
-             float: left;
-             font-size: 0.8rem;
-             min-width:8rem;
-             background-color: var(--bs-light);
-             padding-left:0.5rem;
-             padding-right:0.5rem;
-             border-radius:0.5rem;
+            font-size: 0.7rem;
+            display: flex;
+            width:100%;
+            flex-direction: column;
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 0.15rem;
         }
 
             .aes-control .aes-control-content .aes-active-content .aes-active-since {
