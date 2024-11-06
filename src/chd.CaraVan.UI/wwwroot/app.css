@@ -49,6 +49,7 @@
         --top-header-padding-tb: 0 !important;
         --top-header-height: 2.2rem !important;
         --nav-toggle-height: 0 !important;
+        --main-article-padding-lr: 0 !important;
     }
 
     .top-row {
@@ -69,6 +70,7 @@
         --top-header-height: 2.2rem !important;
         --main-article-height: calc(100vh - calc(var(--top-header-height))) !important;
         --widget-width: 15rem !important;
+        --main-article-padding-lr: 0 !important;
         --widget-height: 33rem !important;
     }
 

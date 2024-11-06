@@ -1,6 +1,6 @@
 ﻿.aes-control {
     height: 4.1rem;
-    width: max(90%,15rem);
+    width: min(90%,15rem);
     border: 0.2rem solid var(--bs-white);
     border-radius: 0.5rem;
     background-color: var(--chd-lightgrey);
@@ -29,6 +29,7 @@
             background-color: white;
             border-radius: 0.5rem;
             padding: 0.15rem;
+            text-align: right;
         }
 
             .aes-control .aes-control-content .aes-active-content .aes-active-since {

@@ -43,6 +43,34 @@ namespace chd.CaraVan.UI.Components.Pages
             this.VotronicSolarData = await this._votronicData.GetSolarData();
             this.VotronicBatteryData = await this._votronicData.GetBatteryData();
 
+            this.VotronicBatteryData = new()
+            {
+                Ampere = -4.5m,
+                AmpereH = 180m,
+                DateTime = DateTime.Now,
+                Percent = (180m / 200m) * 100,
+                Voltage = 14.5m
+            };
+
+            this.VotronicSolarData = new()
+            {
+                Ampere = -4.5m,
+                AmpereH = 180m,
+                DateTime = DateTime.Now,
+                Voltage = 14.5m,
+                VoltageSolar = 12.3m,
+                State = 49,
+                LoadingPhase = "U1"
+            };
+
+            this._valueDict[1] = new RuuviSensorDataDto()
+            {
+                Record = DateTime.Now,
+                Min = -9.5m,
+                Max = 11.5m,
+                Value = 27.8m
+            };
+
             await base.OnInitializedAsync();
         }
 

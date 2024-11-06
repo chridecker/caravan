@@ -1,6 +1,7 @@
 .nav-menu ::deep .sidebar {
     padding: 0;
     --top-header-height: 2.2rem !important;
+    border-right: 1px solid var(--chd-font-color) !important;
 }
 
     .nav-menu ::deep .sidebar.collapsed {
