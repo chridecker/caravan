@@ -1,17 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="8.0.10" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.1" />
-		<PackageReference Include="chd.UI.Base.Components" Version="1.0.24304.96" />
-		<PackageReference Include="chd.Hub.Base.Client" Version="1.0.24304.96" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="9.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.3" />
+		<PackageReference Include="chd.UI.Base.Components" Version="1.0.25086.109" />
+		<PackageReference Include="chd.Hub.Base.Client" Version="1.0.25086.109" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\chd.CaraVan.WebClient\chd.CaraVan.WebClient.csproj" />

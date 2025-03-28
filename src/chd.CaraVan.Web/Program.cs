@@ -19,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders().AddNLog();
 
-builder.Services.AddBaseApi("chdCaraVanAPI");
+builder.Services.AddBaseApi();
 builder.Services.AddServer(builder.Configuration);
 builder.Services.AddSignalR();
 
@@ -27,6 +27,8 @@ builder.Host.UseSystemd();
 
 var app = builder.Build();
 app.UseBaseApi();
+
+app.MapBaseApi("chdCaravan");
 
 app.MapEndpoints();
 app.MapHub<DataHub>("data-hub");
