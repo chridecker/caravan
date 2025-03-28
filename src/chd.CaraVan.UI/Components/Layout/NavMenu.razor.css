@@ -6,15 +6,21 @@
 
     .nav-menu ::deep .sidebar.collapsed {
     }
-     .nav-menu ::deep .sidebar.collapsed header{
-         height: var(--top-header-height);
-    }
 
-        .nav-menu ::deep .sidebar.collapsed header .image {
-            align-content: center;
+        .nav-menu ::deep .sidebar.collapsed header {
+            height: var(--top-header-height);
         }
 
+            .nav-menu ::deep .sidebar.collapsed header .image {
+                align-content: center;
+                justify-content: space-around;
+                align-items: center;
+                justify-items: center;
+                display: flex;
+            }
+
     .nav-menu ::deep .sidebar header .image .logo {
+        position: relative !important;
         padding: 0.2rem;
         background-color: var(--chd-main-color-theme);
         height: 2.2rem;
@@ -26,6 +32,11 @@
         .nav-menu ::deep .sidebar header .image .logo svg {
             height: 100%;
         }
+
+    .nav-menu ::deep .sidebar header .toggle {
+        right: 4rem !important;
+        height: auto !important;
+    }
 
     .nav-menu ::deep .sidebar.collapsed .menu-bar {
         height: calc(100% - var(--top-header-height) / 1);

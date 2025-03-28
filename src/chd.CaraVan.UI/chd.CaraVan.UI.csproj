@@ -15,8 +15,5 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\chd.CaraVan.WebClient\chd.CaraVan.WebClient.csproj" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="wwwroot\css\" />
-	</ItemGroup>
 
 </Project>
