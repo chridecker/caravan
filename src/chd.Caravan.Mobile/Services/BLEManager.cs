@@ -1,4 +1,5 @@
-﻿using chd.Caravan.Mobile.UI.Dtos;
+﻿using Android.Bluetooth;
+using chd.Caravan.Mobile.UI.Dtos;
 using chd.Caravan.Mobile.UI.Interfaces;
 using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
@@ -21,6 +22,7 @@ namespace chd.Caravan.Mobile.Services
         public bool IsAvailable => this._bluetoothLE.IsAvailable;
 
         public EventHandler<BLEDeviceFoundArgs> DeviceDiscoverd { get; set; }
+        public EventHandler<BLECharactersiticsValueArgs> CharacteristicValueUpdated { get; set; }
 
         public BLEManager(IBluetoothLE bluetoothLE, IAdapter adapter)
         {
@@ -76,20 +78,30 @@ namespace chd.Caravan.Mobile.Services
 
         private void Characteristic_ValueUpdated(object? sender, CharacteristicUpdatedEventArgs e)
         {
-            var device = e.Characteristic.Service.Device;
             var data = e.Characteristic.Value;
-
+            this.CharacteristicValueUpdated?.Invoke(this, new BLECharactersiticsValueArgs
+            {
+                CharacteristicId = e.Characteristic.Id,
+                Data = data,
+                DeviceId = e.Characteristic.Service.Device.Id,
+                ServiceId = e.Characteristic.Service.Id
+            });
         }
 
         private void _adapter_DeviceDiscovered(object? sender, DeviceEventArgs e)
         {
             var device = e.Device;
-            this.DeviceDiscoverd?.Invoke(this, new BLEDeviceFoundArgs(
-                new()
-                {
-                    Id = device.Id,
-                    Name = device.Name
-                }));
+            if (device.NativeDevice is BluetoothDevice bDevice
+                && !string.IsNullOrWhiteSpace(bDevice.Address))
+            {
+                this.DeviceDiscoverd?.Invoke(this, new BLEDeviceFoundArgs(
+                    new()
+                    {
+                        Id = device.Id,
+                        UID = bDevice.Address,
+                        Name = device.Name
+                    }));
+            }
         }
 
     }

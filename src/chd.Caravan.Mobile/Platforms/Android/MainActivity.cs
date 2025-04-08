@@ -15,11 +15,11 @@ namespace chd.Caravan.Mobile
     public class MainActivity : MauiAppCompatActivity
     {
         private readonly IAppInfoService _appInfoService;
-        private readonly INotificationManagerService _notificationManagerService;
+        //private readonly INotificationManagerService _notificationManagerService;
 
         public MainActivity()
         {
-            this._notificationManagerService = IPlatformApplication.Current.Services.GetService<INotificationManagerService>();
+            //this._notificationManagerService = IPlatformApplication.Current.Services.GetService<INotificationManagerService>();
             this._appInfoService = IPlatformApplication.Current.Services.GetService<IAppInfoService>();
         }
 
@@ -65,7 +65,7 @@ namespace chd.Caravan.Mobile
                     var t = Type.GetType(type);
                     intentData = JsonSerializer.Deserialize(data, t);
                 }
-                this._notificationManagerService.ReceiveNotification(new NotificationEventArgs(id, title, message, intentData, cancel));
+                //this._notificationManagerService.ReceiveNotification(new NotificationEventArgs(id, title, message, intentData, cancel));
             }
         }
 
