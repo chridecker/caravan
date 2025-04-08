@@ -22,7 +22,7 @@ namespace chd.Caravan.Mobile.Extensions
 
             //services.AddSingleton<INotificationManagerService,NotificationManagerService>();
 
-            services.AddUi<SettingManager, BLEManager>(configuration);
+            services.AddUi<SettingManager>(configuration);
 
             return services;
         }
