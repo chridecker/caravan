@@ -1,18 +1,20 @@
 ﻿@page "/"
 @using chd.Caravan.Mobile.UI.Dtos
 @using chd.Caravan.Mobile.UI.Interfaces
+@using chd.UI.Base.Components.Base
+@using chd.UI.Base.Components.General
 @inherits PageComponentBase<int,int>
 
 <div class="devices">
     @foreach (var device in devices)
     {
         <div class="device">
-            @device.Name (@device.Id) - @device.UID
+                @device.Name (@device.Id) - @device.UID
         </div>
     }
 </div>
 
-<FloatingActionNavigation OnClick="this.AddDevice" FAIcon="plus">
+<FloatingActionNavigation FAIcon="plus">
 
 </FloatingActionNavigation>
 
@@ -35,8 +37,8 @@
         await this.InvokeAsync(this.StateHasChanged);
     }
 
-    private async Task AddDevice()
+    private async Task AddDevice(BLEDevice device)
     {
-
+        await this.bLEManager.ConnectDeviceAsync(device.Device);
     }
 }

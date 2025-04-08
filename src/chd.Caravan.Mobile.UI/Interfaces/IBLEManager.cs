@@ -14,5 +14,6 @@ namespace chd.Caravan.Mobile.UI.Interfaces
         bool IsAvailable { get; }
 
         Task<bool> StartAsync(CancellationToken cancellationToken = default);
+        Task<bool> ConnectDeviceAsync(object device, CancellationToken cancellationToken = default);
     }
 }

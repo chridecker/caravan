@@ -41,25 +41,33 @@ namespace chd.Caravan.Mobile.Services
             return this.IsRunning;
         }
 
-        public async Task<bool> ConnectDeviceAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<bool> ConnectDeviceAsync(object device, CancellationToken cancellationToken = default)
         {
-            if (this._adapter.ConnectedDevices.Any(a => a.Id == id)) { return true; }
-
-            try
-            {
-                _ = await this._adapter.ConnectToKnownDeviceAsync(id, cancellationToken: cancellationToken);
-                return true;
-            }
-            catch (DeviceConnectionException ex)
+            if (device is IDevice dev)
             {
 
-            }
-            catch (Exception ex)
-            {
+                try
+                {
+                    this._adapter.DeviceConnected += this._adapter_DeviceConnected;
+                    await this._adapter.ConnectToDeviceAsync(dev, cancellationToken: cancellationToken);
+                    return true;
+                }
+                catch (DeviceConnectionException ex)
+                {
 
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
             return false;
         }
+
+        private void _adapter_DeviceConnected(object? sender, DeviceEventArgs e)
+        {
+        }
+
         public async Task<bool> SubscribeForServiceCharacteristicAsync(Guid deviceId, Guid serviceId, Guid characteristicId, CancellationToken cancellationToken = default)
         {
             var device = this._adapter.ConnectedDevices.FirstOrDefault(x => x.Id == deviceId);
@@ -99,7 +107,8 @@ namespace chd.Caravan.Mobile.Services
                     {
                         Id = device.Id,
                         UID = bDevice.Address,
-                        Name = device.Name
+                        Name = device.Name,
+                        Device = device
                     }));
             }
         }

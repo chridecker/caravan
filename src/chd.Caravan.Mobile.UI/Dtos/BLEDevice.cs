@@ -11,5 +11,6 @@ namespace chd.Caravan.Mobile.UI.Dtos
         public Guid Id { get; set; }
         public string UID { get; set; }
         public string Name { get; set; }
+        public object Device { get; set; }
     }
 }
