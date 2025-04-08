@@ -42,17 +42,17 @@ jobs:
         $YEAR=& Get-Date -UFormat "%y%j"
         $HOUR=& Get-Date -format HHmm
         $VERSION="$MAJOR.$MINOR.$YEAR.$HOUR"
-        dotnet publish src/chd.Caravan.Mobile/chd.Caravan.Mobile.csproj --no-restore --configuration ${{ env.BUILD_CONFIG }} --framework net9.0-android /p:ApplicationDisplayVersion=$VERSION /p:ApplicationVersion=${{ github.run_number}} /p:AndroidSigningKeyPass=${{secrets.CHDCARAVAN_MOBILE_KEYPASS}} /p:AndroidSigningStorePass=${{secrets.CHDCARAVAN_MOBILE_KEYPASS}} /p:AndroidKeyStore=true /p:AndroidSigningKeyStore=chdcaranvanmobile.keystore /p:AndroidSigningKeyAlias=chdcaranvanmobile /p:AndroidSigningKeyAlias=chdcaranvanmobile /p:AndroidVersionCode=${{github.run_number}}
+        dotnet publish src/chd.Caravan.Mobile/chd.Caravan.Mobile.csproj --no-restore --configuration ${{ env.BUILD_CONFIG }} --framework net9.0-android /p:ApplicationDisplayVersion=$VERSION /p:ApplicationVersion=${{ github.run_number}} /p:AndroidSigningKeyPass=${{secrets.CHDCARAVAN_MOBILE_KEYPASS}} /p:AndroidSigningStorePass=${{secrets.CHDCARAVAN_MOBILE_KEYPASS}} /p:AndroidKeyStore=true /p:AndroidSigningKeyStore=chdcaravanmobile.keystore /p:AndroidSigningKeyAlias=chdcaravanmobile /p:AndroidSigningKeyAlias=chdcaravanmobile /p:AndroidVersionCode=${{github.run_number}}
 
     - name: Upload APK Build Artifact
       uses: actions/upload-artifact@v4.4.2
       with:
-        name: chdTour
+        name: chdCaraVanMobile
         path: ./**/bin/Release/**/publish/*.apk
           
     - name: Upload AAB Build Artifact
       if: ${{ github.event.inputs.use_aab == 'true' }}
       uses: actions/upload-artifact@v4.4.2
       with:
-        name: chdTourAAB
+        name: chdCaraVanMobileABB
         path: ./**/bin/Release/**/publish/*.aab
