@@ -1,4 +1,5 @@
 ﻿using Blazored.Modal;
+using chd.Caravan.Mobile.Extensions;
 using chd.Caravan.Mobile.Services;
 using chd.Caravan.Mobile.UI.Extensions;
 using CommunityToolkit.Maui;
@@ -19,7 +20,7 @@ namespace chd.Caravan.Mobile
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 });
-
+            builder.AddServices();
             return builder.Build();
         }
         private static void AddServices(this MauiAppBuilder builder)
@@ -27,7 +28,7 @@ namespace chd.Caravan.Mobile
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddBlazoredModal();
             builder.Services.AddBlazorWebViewDeveloperTools();
-            builder.Services.AddUi<SettingManager>(builder.Configuration);
+            builder.Services.AddAppServices(builder.Configuration);
         }
     }
 }

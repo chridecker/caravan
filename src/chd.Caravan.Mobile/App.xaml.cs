@@ -1,8 +1,6 @@
 ﻿using chd.UI.Base.Contracts.Enum;
 using chd.UI.Base.Contracts.Interfaces.Services;
-#if ANDROID
 using Microsoft.Maui.Controls.Compatibility.Platform.Android;
-#endif
 using Platform = Microsoft.Maui.ApplicationModel.Platform;
 namespace chd.Caravan.Mobile
 {

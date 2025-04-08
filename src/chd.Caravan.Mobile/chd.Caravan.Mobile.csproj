@@ -32,6 +32,7 @@
 		
 		<PublishAot>False</PublishAot>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
+        <WindowsPackageType>None</WindowsPackageType>
     </PropertyGroup>
 
     <ItemGroup>
@@ -55,8 +56,10 @@
     <ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.0" />
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		 <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.92" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
+        <PackageReference Include="Plugin.BLE" Version="3.2.0-beta.1" />
     </ItemGroup>
 
     <ItemGroup>
