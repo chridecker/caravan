@@ -12,7 +12,18 @@ namespace chd.Caravan.Mobile
             InitializeComponent();
             this.blazorWebView.BlazorWebViewInitialized += this.BlazorWebViewInitialized;
         }
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await this.CheckPermissions();
+        }
 
+        private async Task CheckPermissions()
+        {
+            PermissionStatus notifiatioNpermission = await Permissions.RequestAsync<NotificationPermission>();
+            PermissionStatus locationPermission = await Permissions.RequestAsync<LocationPermission>();
+            PermissionStatus blueToothPermission = await Permissions.RequestAsync<BluetoothPermission>();
+        }
 
         private void BlazorWebViewInitialized(object? sender, BlazorWebViewInitializedEventArgs e)
         {

@@ -1,9 +1,11 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 using AndroidX.Activity;
 using AndroidX.Core.View;
+using Blazorise;
 using chd.UI.Base.Contracts.Interfaces.Services;
 
 namespace chd.Caravan.Mobile
@@ -31,6 +33,37 @@ namespace chd.Caravan.Mobile
             // Hide system bars
             windowInsetsController.Hide(WindowInsetsCompat.Type.SystemBars());
             windowInsetsController.SystemBarsBehavior = WindowInsetsControllerCompat.BehaviorShowTransientBarsBySwipe;
+        }
+
+          protected override void OnNewIntent(Intent? intent)
+        {
+            base.OnNewIntent(intent);
+            this.CreateNotificationFromIntent(intent);
+        }
+
+        private void CreateNotificationFromIntent(Intent intent)
+        {
+            if (intent?.Extras != null)
+            {
+                //var reply = this.GetReply(intent);
+
+                var id = intent.GetIntExtra(Platforms.Android.NotificationManagerService.IdKey, 0);
+                var title = intent.GetStringExtra(Platforms.Android.NotificationManagerService.TitleKey);
+                var message = intent.GetStringExtra(Platforms.Android.NotificationManagerService.MessageKey);
+                var cancel = intent.GetBooleanExtra(Platforms.Android.NotificationManagerService.CancelKey, false);
+                object intentData = null;
+
+                if (intent.HasExtra(Platforms.Android.NotificationManagerService.DataKey))
+                {
+
+                    string data = intent.GetStringExtra(Platforms.Android.NotificationManagerService.DataKey);
+                    string type = intent.GetStringExtra(Platforms.Android.NotificationManagerService.DataTypeKey);
+
+                    var t = Type.GetType(type);
+                    intentData = JsonSerializer.Deserialize(data, t);
+                }
+                this._notificationManagerService.ReceiveNotification(new NotificationEventArgs(id, title, message, intentData, cancel));
+            }
         }
 
         class BackPress : OnBackPressedCallback
