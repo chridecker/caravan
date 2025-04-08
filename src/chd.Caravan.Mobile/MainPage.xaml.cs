@@ -1,4 +1,5 @@
 ﻿using AndroidX.Activity;
+using chd.Caravan.Mobile.Platforms.Android;
 using Microsoft.AspNetCore.Components.WebView;
 using Microsoft.Maui.Platform;
 
@@ -25,8 +26,8 @@ namespace chd.Caravan.Mobile
                 e.WebView.Settings.JavaScriptEnabled = true;
                 e.WebView.Settings.AllowFileAccess = true;
                 e.WebView.Settings.MediaPlaybackRequiresUserGesture = false;
-                //var webChromeClient = new PermissionManagingBlazorWebChromeClient(e.WebView.WebChromeClient!, activity);
-                //e.WebView.SetWebChromeClient(webChromeClient);
+                var webChromeClient = new PermissionManagingBlazorWebChromeClient(e.WebView.WebChromeClient!, activity);
+                e.WebView.SetWebChromeClient(webChromeClient);
             }
             catch (Exception)
             {
