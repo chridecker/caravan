@@ -22,7 +22,7 @@ namespace chd.Caravan.Mobile.UI.Extensions
             where TBLEManager : class, IBLEManager
         {
             services.AddAuthorizationCore();
-            services.Add(new ServiceDescriptor(typeof(IBLEManager), typeof(TBLEManager), ServiceLifetime.Singleton));
+            //services.Add(new ServiceDescriptor(typeof(IBLEManager), typeof(TBLEManager), ServiceLifetime.Singleton));
 
             services.AddUtilities<chdProfileService, int, int, UserIdLogInService, TSettingManager, ISettingManager, UIComponentHandler, IBaseUIComponentHandler, UpdateService>(ServiceLifetime.Singleton);
             services.AddMauiModalHandler();

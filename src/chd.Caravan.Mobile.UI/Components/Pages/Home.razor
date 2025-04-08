@@ -11,16 +11,21 @@
         </div>
     }
 </div>
+
+<FloatingActionNavigation OnClick="this.AddDevice" FAIcon="plus">
+
+</FloatingActionNavigation>
+
 @code {
-    [Inject] IBLEManager bLEManager { get; set; }
+    // [Inject] IBLEManager bLEManager { get; set; }
 
     List<BLEDevice> devices = [];
 
     protected override async Task OnInitializedAsync()
     {
-        await bLEManager.StartAsync();
+        // await bLEManager.StartAsync();
 
-        bLEManager.DeviceDiscoverd += this.BleDevice_Discoverd;
+        // bLEManager.DeviceDiscoverd += this.BleDevice_Discoverd;
         await base.OnInitializedAsync();
     }
 
@@ -28,5 +33,10 @@
     {
         devices.Add(args.Device);
         await this.InvokeAsync(this.StateHasChanged);
+    }
+
+    private async Task AddDevice()
+    {
+
     }
 }

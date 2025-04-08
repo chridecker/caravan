@@ -14,8 +14,8 @@ namespace chd.Caravan.Mobile
         }
         protected override async void OnAppearing()
         {
-            await this.CheckPermissions();
             base.OnAppearing();
+            await this.CheckPermissions();
         }
 
         private async Task CheckPermissions()
