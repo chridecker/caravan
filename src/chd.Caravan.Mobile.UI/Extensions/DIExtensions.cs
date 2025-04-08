@@ -24,7 +24,7 @@ namespace chd.Caravan.Mobile.UI.Extensions
             services.AddAuthorizationCore();
             services.Add(new ServiceDescriptor(typeof(IBLEManager), typeof(TBLEManager), ServiceLifetime.Singleton));
 
-            services.AddUtilities<chdProfileService, int, int, BaseUserIdLoginService<int>, TSettingManager, ISettingManager, BaseUIComponentHandler, IBaseUIComponentHandler, BaseUpdateService>(ServiceLifetime.Singleton);
+            services.AddUtilities<chdProfileService, int, int, UserIdLogInService, TSettingManager, ISettingManager, UIComponentHandler, IBaseUIComponentHandler, UpdateService>(ServiceLifetime.Singleton);
             services.AddMauiModalHandler();
             services.AddSingleton<INavigationHistoryStateContainer, NavigationHistoryStateContainer>();
             services.AddScoped<INavigationHandler, NavigationHandler>();

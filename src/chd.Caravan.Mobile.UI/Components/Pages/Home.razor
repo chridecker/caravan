@@ -1,6 +1,30 @@
 ﻿@page "/"
+@using chd.Caravan.Mobile.UI.Dtos
+@using chd.Caravan.Mobile.UI.Interfaces
 @inherits PageComponentBase<int,int>
 
-
-<div class="home-content">
+<div class="devices">
+@foreach (var device in devices)
+{
+    <div class="device">
+        @device.Name (@device.Id)
+    </div>
+}
 </div>
+@code {
+    [Inject] IBLEManager bLEManager { get; set; }
+
+    List<BLEDevice> devices = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        bLEManager.DeviceDiscoverd += this.BleDevice_Discoverd;
+        await base.OnInitializedAsync();
+    }
+
+    private async void BleDevice_Discoverd(object sender, BLEDeviceFoundArgs args)
+    {
+        devices.Add(args.Device);
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+}

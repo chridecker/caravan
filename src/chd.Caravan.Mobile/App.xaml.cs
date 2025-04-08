@@ -18,9 +18,7 @@ namespace chd.Caravan.Mobile
         protected override Window CreateWindow(IActivationState activationState)
         {
             {
-#if ANDROID
                 Platform.CurrentActivity.Window.SetNavigationBarColor(Color.FromRgba("#181B1F").ToAndroid());
-#endif
 
                 var mainWindow = base.CreateWindow(activationState);
 
