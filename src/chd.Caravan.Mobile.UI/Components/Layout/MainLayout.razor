@@ -27,12 +27,3 @@
         </div>
     </CloseButtonContent>
 </BlazoredToasts>
-
-@code {
-    [Inject] IBLEManager bLEManager { get; set; }
-    protected override async Task OnInitializedAsync()
-    {
-        await this.bLEManager.StartAsync();
-        await base.OnInitializedAsync();
-    }
-}

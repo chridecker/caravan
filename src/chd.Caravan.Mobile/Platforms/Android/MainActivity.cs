@@ -5,8 +5,9 @@ using Android.OS;
 using Android.Views;
 using AndroidX.Activity;
 using AndroidX.Core.View;
-using Blazorise;
+using chd.Caravan.Mobile.UI.Interfaces;
 using chd.UI.Base.Contracts.Interfaces.Services;
+using System.Text.Json;
 
 namespace chd.Caravan.Mobile
 {
@@ -14,9 +15,11 @@ namespace chd.Caravan.Mobile
     public class MainActivity : MauiAppCompatActivity
     {
         private readonly IAppInfoService _appInfoService;
+        private readonly INotificationManagerService _notificationManagerService;
 
         public MainActivity()
         {
+            this._notificationManagerService = IPlatformApplication.Current.Services.GetService<INotificationManagerService>();
             this._appInfoService = IPlatformApplication.Current.Services.GetService<IAppInfoService>();
         }
 
@@ -35,7 +38,7 @@ namespace chd.Caravan.Mobile
             windowInsetsController.SystemBarsBehavior = WindowInsetsControllerCompat.BehaviorShowTransientBarsBySwipe;
         }
 
-          protected override void OnNewIntent(Intent? intent)
+        protected override void OnNewIntent(Intent? intent)
         {
             base.OnNewIntent(intent);
             this.CreateNotificationFromIntent(intent);

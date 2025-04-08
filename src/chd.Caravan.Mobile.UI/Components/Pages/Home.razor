@@ -4,12 +4,12 @@
 @inherits PageComponentBase<int,int>
 
 <div class="devices">
-@foreach (var device in devices)
-{
-    <div class="device">
-        @device.Name (@device.Id)
-    </div>
-}
+    @foreach (var device in devices)
+    {
+        <div class="device">
+            @device.Name (@device.Id)
+        </div>
+    }
 </div>
 @code {
     [Inject] IBLEManager bLEManager { get; set; }
@@ -18,6 +18,8 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await bLEManager.StartAsync();
+
         bLEManager.DeviceDiscoverd += this.BleDevice_Discoverd;
         await base.OnInitializedAsync();
     }
