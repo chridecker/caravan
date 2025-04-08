@@ -1,0 +1,25 @@
+main {
+    position: absolute;
+    left: var(--sidebar-width-small);
+    height: var(--main-article-available-height);
+    width: calc(100% - var(--sidebar-width-small) - 0.7rem);
+}
+
+    main.collapsed-nav {
+        left: 0;
+        width: 100%;
+    }
+
+        main.collapsed-nav ::deep * {
+            --main-article-width: 100vw;
+        }
+
+
+article {
+    position: relative;
+    padding: 0 !important;
+}
+
+    article ::deep * {
+        max-width: var(--main-article-available-width);
+    }

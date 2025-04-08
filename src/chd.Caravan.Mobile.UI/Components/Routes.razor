@@ -1,0 +1,17 @@
+﻿@using chd.Caravan.Mobile.UI.Components.Pages
+@using chd.UI.Base.Components.General.ErrorHandling
+
+<CascadingToolTip>
+    <CascadingDropList>
+        <CascadingBlazoredModal Position="ModalPosition.Middle" AnimationType="ModalAnimationType.None" Size="ModalSize.Automatic" HideCloseButton="false">
+            <CustomErrorBoundary IsDeveloperMode="true">
+                <Router AppAssembly="@typeof(Home).Assembly">
+                    <Found Context="routeData">
+                        <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
+                        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+                    </Found>
+                </Router>
+            </CustomErrorBoundary>
+        </CascadingBlazoredModal>
+    </CascadingDropList>
+</CascadingToolTip>
