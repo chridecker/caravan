@@ -21,8 +21,8 @@ namespace chd.Caravan.Mobile.Services
         public bool IsRunning => this._bluetoothLE.IsOn;
         public bool IsAvailable => this._bluetoothLE.IsAvailable;
 
-        public EventHandler<BLEDeviceFoundArgs> DeviceDiscoverd { get; set; }
-        public EventHandler<BLECharactersiticsValueArgs> CharacteristicValueUpdated { get; set; }
+        public event EventHandler<BLEDeviceFoundArgs> DeviceDiscoverd;
+        public event EventHandler<BLECharactersiticsValueArgs> CharacteristicValueUpdated;
 
         public BLEManager(IBluetoothLE bluetoothLE, IAdapter adapter)
         {

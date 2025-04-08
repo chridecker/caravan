@@ -9,7 +9,7 @@ namespace chd.Caravan.Mobile.UI.Interfaces
 {
     public interface IBLEManager
     {
-        EventHandler<BLEDeviceFoundArgs> DeviceDiscoverd { get; set; }
+        event EventHandler<BLEDeviceFoundArgs> DeviceDiscoverd;
         bool IsRunning { get; }
         bool IsAvailable { get; }
 

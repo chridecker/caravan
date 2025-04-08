@@ -29,7 +29,7 @@
         await base.OnInitializedAsync();
     }
 
-    private async void BleDevice_Discoverd(object sender, BLEDeviceFoundArgs args)
+    private async void BleDevice_Discoverd(object? sender, BLEDeviceFoundArgs args)
     {
         devices.Add(args.Device);
         await this.InvokeAsync(this.StateHasChanged);
