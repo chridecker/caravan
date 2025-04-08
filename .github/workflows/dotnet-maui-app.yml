@@ -47,12 +47,12 @@ jobs:
     - name: Upload APK Build Artifact
       uses: actions/upload-artifact@v4.4.2
       with:
-        name: chdTour
+        name: chdCaraVanMobile
         path: ./**/bin/Release/**/publish/*.apk
           
     - name: Upload AAB Build Artifact
       if: ${{ github.event.inputs.use_aab == 'true' }}
       uses: actions/upload-artifact@v4.4.2
       with:
-        name: chdTourAAB
+        name: chdCaraVanMobileABB
         path: ./**/bin/Release/**/publish/*.aab
