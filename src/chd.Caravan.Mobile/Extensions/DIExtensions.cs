@@ -17,12 +17,12 @@ namespace chd.Caravan.Mobile.Extensions
     {
         public static IServiceCollection AddAppServices(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddSingleton<IBluetoothLE>(CrossBluetoothLE.Current);
-            //services.AddSingleton<IAdapter>(CrossBluetoothLE.Current.Adapter);
+            services.AddSingleton<IBluetoothLE>(CrossBluetoothLE.Current);
+            services.AddSingleton<IAdapter>(CrossBluetoothLE.Current.Adapter);
 
-            //services.AddSingleton<INotificationManagerService,NotificationManagerService>();
+            services.AddSingleton<INotificationManagerService, NotificationManagerService>();
 
-            services.AddUi<SettingManager>(configuration);
+            services.AddUi<SettingManager, BLEManager>(configuration);
 
             return services;
         }

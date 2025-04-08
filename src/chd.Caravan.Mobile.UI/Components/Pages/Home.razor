@@ -17,15 +17,15 @@
 </FloatingActionNavigation>
 
 @code {
-    // [Inject] IBLEManager bLEManager { get; set; }
+    [Inject] IBLEManager bLEManager { get; set; }
 
     List<BLEDevice> devices = [];
 
     protected override async Task OnInitializedAsync()
     {
-        // await bLEManager.StartAsync();
+        await bLEManager.StartAsync();
 
-        // bLEManager.DeviceDiscoverd += this.BleDevice_Discoverd;
+        bLEManager.DeviceDiscoverd += this.BleDevice_Discoverd;
         await base.OnInitializedAsync();
     }
 

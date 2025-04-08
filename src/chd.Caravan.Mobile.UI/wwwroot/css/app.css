@@ -1,3 +1,155 @@
-﻿body
-{
+﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+* {
+    /*Device*/
+    --chd-device-width: 1280px;
+    --chd-device-height: 1024px;
+    --dg-device-width: 1024px;
+    --dg-device-height: 1280px;
+    --sidebar-width-small: 3rem !important;
+    --top-header-height: 2.5rem !important;
+    --main-article-padding-lr: 0 !important;
+    --main-article-height: calc(100% - var(--top-header-height)) !important;
+    --sidebar-toggle-top: calc(var(--top-header-height) + 0.5rem) !important;
+    --main-article-available-height: 100% !important;
+    --chd-main-color-theme: var(--chd-lightblue);
+    --chd-main-color-theme-transparent: var(--chd-lightblue-transparent);
+    --chd-main-color-theme-gradient: linear-gradient(to right, transparent 0%, var(--chd-main-color-theme-transparent) 10%, var(--chd-main-color-theme) 90%);
+    --chd-main-color-theme-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-main-color-theme-transparent) 10%, var(--chd-main-color-theme) 90%);
+    --chd-main-color-theme-semi-transparent: var(--chd-lightblue-semi-transparent);
+    --widget-height: 38rem !important;
+    --nav-toggle-height: 0 !important;
 }
+
+    *::-webkit-scrollbar {
+        display: none;
+    }
+
+.search-container input[type=text] {
+    display: none;
+}
+
+.side-widget-container .side-widget {
+    top: calc(var(--top-header-height) * 2 + var(--child-index) * calc(var(--widget-button-total-size) + var(--widget-button-padding))) !important;
+}
+
+.fab-navigation {
+}
+
+    .fab-navigation .fab-navigation-control {
+    }
+
+        .fab-navigation .fab-navigation-control .btn {
+            border-radius: calc(var(--floating-action-navigation-size) / 3) !important;
+        }
+
+
+@media (min-width: 768px) {
+    * {
+        --top-header-padding-tb: 0 !important;
+        --top-header-height: 2.2rem !important;
+        --nav-toggle-height: 0 !important;
+        --main-article-padding-lr: 0 !important;
+    }
+
+    .top-row {
+        flex-direction: row;
+        justify-content: flex-start !important;
+    }
+
+    .sidebar.collapsed header .image {
+        display: flex !important;
+    }
+}
+
+
+@media (max-width: 360px) {
+    * {
+        --nav-toggle-height: 0 !important;
+        --top-header-padding-tb: 0.2 !important;
+        --top-header-height: 2.2rem !important;
+        --main-article-height: calc(100vh - calc(var(--top-header-height))) !important;
+        --widget-width: 15rem !important;
+        --main-article-padding-lr: 0 !important;
+        --widget-height: 33rem !important;
+    }
+
+    main {
+        margin-top: 0 !important;
+    }
+
+    .sidebar {
+        border-right: 1px solid var(--chd-grey) !important;
+    }
+
+
+
+    .top-row:not(.auth) {
+        display: flex !important;
+    }
+
+    .top-row .header-panel {
+        padding-left: 0.2rem;
+        padding-right: 0.4rem;
+    }
+
+        .top-row .header-panel .ui-header {
+        }
+
+            .top-row .header-panel .ui-header .pageTitle {
+                display: none;
+            }
+
+            .top-row .header-panel .ui-header .right-content {
+                position: relative !important;
+                display: flex !important;
+                column-gap: 0.1rem !important;
+                gap: 0.1rem;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                align-content: center;
+            }
+
+                .top-row .header-panel .ui-header .right-content .userBox {
+                    font-size: 10pt !important;
+                    flex: 0 2 auto;
+                    height: max-content !important;
+                    width: 15rem !important;
+                }
+
+                .top-row .header-panel .ui-header .right-content .versionBox {
+                    flex: 0 2 auto;
+                    font-size: 10pt !important;
+                    width: 10rem !important;
+                    height: max-content !important;
+                    margin-left: 0.5rem;
+                }
+
+                .top-row .header-panel .ui-header .right-content .networkBox {
+                    flex: 0 1 auto;
+                    width: 1.5rem !important;
+                }
+
+                .top-row .header-panel .ui-header .right-content .theme-mode {
+                    display: none;
+                }
+
+                .top-row .header-panel .ui-header .right-content > .battery-container {
+                    flex: 1 0 auto;
+                    margin-left: 0.5rem;
+                    flex-direction: row-reverse;
+                }
+
+
+    .outer input {
+        width: 13rem;
+    }
+}
+
+.blazored-modal {
+}
+
+    .blazored-modal .blazored-modal-content {
+        overflow: auto;
+    }

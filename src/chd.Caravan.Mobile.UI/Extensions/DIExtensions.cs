@@ -17,12 +17,12 @@ namespace chd.Caravan.Mobile.UI.Extensions
 {
     public static class DIExtensions
     {
-        public static IServiceCollection AddUi<TSettingManager>(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddUi<TSettingManager, TBLEManager>(this IServiceCollection services, IConfiguration configuration)
             where TSettingManager : BaseClientSettingManager<int, int>, ISettingManager
-            //where TBLEManager : class, IBLEManager
+            where TBLEManager : class, IBLEManager
         {
             services.AddAuthorizationCore();
-            //services.Add(new ServiceDescriptor(typeof(IBLEManager), typeof(TBLEManager), ServiceLifetime.Singleton));
+            services.Add(new ServiceDescriptor(typeof(IBLEManager), typeof(TBLEManager), ServiceLifetime.Singleton));
 
             services.AddUtilities<chdProfileService, int, int, UserIdLogInService, TSettingManager, ISettingManager, UIComponentHandler, IBaseUIComponentHandler, UpdateService>(ServiceLifetime.Singleton);
             services.AddMauiModalHandler();

@@ -5,22 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>chd.Caravan.Mobile</title>
     <base href="/" />
-    <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="chd.Caravan.Mobile.styles.css" />
-    <link rel="icon" href="data:,">
+    <link href="_content/chd.Caravan.Mobile.UI/css/app.css" rel="stylesheet" />
+    <link href="_content/chd.UI.Base.Components/css/chd.UI.Base.Components.css" rel="stylesheet" />
 </head>
 
 <body>
 
     <div class="status-bar-safe-area"></div>
 
-    <div id="app">Loading...</div>
+    <div id="app" class="main-app">
+        <div style="background: var(--chd-bg); color: var(--chd-font-color); padding: .5rem">Wird geladen...</div>
+    </div>
 
     <div id="blazor-error-ui">
         An unhandled error has occurred.
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+    <script src="_content/chd.UI.Base.Components/js/fontawesome.js"></script>
+    <script src="_content/chd.UI.Base.Components/js/CSSUtilities.js"></script>
+    <script src="_content/chd.UI.Base.Components/js/ScrollScripts.js"></script>
+    <script src="_content/chd.UI.Base.Components/js/qrcode.js"></script>
 
     <script src="_framework/blazor.webview.js" autostart="false"></script>
 
