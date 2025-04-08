@@ -1,0 +1,58 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET App
+
+on:
+  workflow_dispatch:
+    inputs: 
+      build_config:
+        description: 'How to build debug/release'
+        required: true
+        default: 'Release'
+      use_aab:
+        description: 'Create an AAB Artifact'
+        required: true
+        default: 'false'
+
+jobs:
+  build:
+    env:
+      BUILD_CONFIG: ${{ github.event.inputs.build_config }}
+      SOLUTION: 'chdTour.sln'
+      
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+   
+    - name: Install Maui
+      run: dotnet workload install maui 
+        
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Publish
+      run: |
+        $MAJOR=1
+        $MINOR=1
+        $YEAR=& Get-Date -UFormat "%y%j"
+        $HOUR=& Get-Date -format HHmm
+        $VERSION="$MAJOR.$MINOR.$YEAR.$HOUR"
+        dotnet publish src/chd.Caravan.Mobile/chd.Caravan.Mobile.csproj --no-restore --configuration ${{ env.BUILD_CONFIG }} --framework net9.0-android /p:ApplicationDisplayVersion=$VERSION /p:ApplicationVersion=${{ github.run_number}} /p:AndroidSigningKeyPass=${{secrets.CHDCARAVAN_MOBILE_KEYPASS}} /p:AndroidSigningStorePass=${{secrets.CHDCARAVAN_MOBILE_KEYPASS}} /p:AndroidKeyStore=true /p:AndroidSigningKeyStore=chdcaranvanmobile.keystore /p:AndroidSigningKeyAlias=chdcaranvanmobile /p:AndroidSigningKeyAlias=chdcaranvanmobile /p:AndroidVersionCode=${{github.run_number}}
+
+    - name: Upload APK Build Artifact
+      uses: actions/upload-artifact@v4.4.2
+      with:
+        name: chdTour
+        path: ./**/bin/Release/**/publish/*.apk
+          
+    - name: Upload AAB Build Artifact
+      if: ${{ github.event.inputs.use_aab == 'true' }}
+      uses: actions/upload-artifact@v4.4.2
+      with:
+        name: chdTourAAB
+        path: ./**/bin/Release/**/publish/*.aab
