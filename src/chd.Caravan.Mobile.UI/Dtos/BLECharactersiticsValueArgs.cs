@@ -11,6 +11,7 @@ namespace chd.Caravan.Mobile.UI.Dtos
         public Guid CharacteristicId { get; set; }
         public Guid ServiceId { get; set; }
         public Guid DeviceId { get; set; }
+        public string UID { get; set; }
         public DateTime Time { get; set; } = DateTime.Now;
         public byte[] Data { get; set; }
     }

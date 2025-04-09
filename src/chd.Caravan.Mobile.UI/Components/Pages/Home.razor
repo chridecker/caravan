@@ -1,42 +1,74 @@
 ﻿@page "/"
 @using chd.Caravan.Mobile.UI.Dtos
 @using chd.Caravan.Mobile.UI.Interfaces
-@inherits PageComponentBase<int,int>
 
-<div class="devices">
-    @foreach (var device in devices)
-    {
-        <div class="device">
-                @device.Name (@device.Id) - @device.UID
-        </div>
-    }
-</div>
+@if (this.foundDevices.Any())
+{
+    <h1>Found Devices</h1>
+    <div class="devices">
+        @foreach (var device in foundDevices)
+        {
+            <div class="device">
+                <div class="device-name">
+                    @device.Name <IconButton FAClass="plus" OnClick="async ()=> await this.AddDevice(device)" />
+                </div>
+                <div class="device-id">
+                    @device.UID
+                </div>
+            </div>
+        }
+    </div>
+}
 
-<FloatingActionNavigation>
-    
+@if (this.connectedDevices.Any())
+{
+    <h1>Connected Devices</h1>
+    <div class="devices">
+        @foreach (var device in connectedDevices)
+        {
+            <div class="device">
+                <div class="device-name">
+                    @device.Name
+                </div>
+                <div class="device-id">
+                    @device.UID
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<FloatingActionNavigation FAIconActive="maginifying-glass" OnClick="async ()=> await this.bLEManager.StartScanAsync()" TextActive="Start Scan">
+    <FloatingActionButton FAClass="stop" OnClick="async ()=> await this.bLEManager.StopScanAsync()" Title="Stop Scan" />
 </FloatingActionNavigation>
 
 @code {
     [Inject] IBLEManager bLEManager { get; set; }
 
-    List<BLEDevice> devices = [];
+    List<BLEDevice> foundDevices = [];
+    List<BLEDevice> connectedDevices = [];
 
     protected override async Task OnInitializedAsync()
     {
-        await bLEManager.StartAsync();
-
         bLEManager.DeviceDiscoverd += this.BleDevice_Discoverd;
+        bLEManager.DeviceConnected += this.BleDevice_Connected;
         await base.OnInitializedAsync();
     }
 
     private async void BleDevice_Discoverd(object? sender, BLEDeviceFoundArgs args)
     {
-        devices.Add(args.Device);
+        foundDevices.Add(args.Device);
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
+    private async void BleDevice_Connected(object? sender, BLEDevice device)
+    {
+        connectedDevices.Add(device);
         await this.InvokeAsync(this.StateHasChanged);
     }
 
     private async Task AddDevice(BLEDevice device)
     {
-        await this.bLEManager.ConnectDeviceAsync(device.Device);
+        await this.bLEManager.ConnectDeviceAsync(device.Id);
     }
 }

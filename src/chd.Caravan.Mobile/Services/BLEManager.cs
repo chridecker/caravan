@@ -15,41 +15,52 @@ namespace chd.Caravan.Mobile.Services
 {
     public class BLEManager : IBLEManager
     {
-        private readonly IBluetoothLE _bluetoothLE;
-        private readonly IAdapter _adapter;
+        private IBluetoothLE _bluetoothLE => CrossBluetoothLE.Current;
+        private IAdapter _adapter => this._bluetoothLE.Adapter;
 
         public bool IsRunning => this._bluetoothLE.IsOn;
         public bool IsAvailable => this._bluetoothLE.IsAvailable;
 
         public event EventHandler<BLEDeviceFoundArgs> DeviceDiscoverd;
         public event EventHandler<BLECharactersiticsValueArgs> CharacteristicValueUpdated;
+        public event EventHandler<BLEDevice> DeviceConnected;
 
-        public BLEManager(IBluetoothLE bluetoothLE, IAdapter adapter)
+        public BLEManager()
         {
-            this._bluetoothLE = bluetoothLE;
-            this._adapter = adapter;
             this._adapter.DeviceDiscovered += this._adapter_DeviceDiscovered;
+            this._adapter.DeviceConnected += this._adapter_DeviceConnected;
         }
 
-        public async Task<bool> StartAsync(CancellationToken cancellationToken = default)
+        public async Task<bool> StartScanAsync(CancellationToken cancellationToken = default)
         {
             if (this._bluetoothLE.State is not BluetoothState.On or BluetoothState.TurningOn)
             {
                 await this._bluetoothLE.TrySetStateAsync(true);
             }
-            await this._adapter.StartScanningForDevicesAsync(cancellationToken: cancellationToken);
-            return this.IsRunning;
+            if (!this._adapter.IsScanning)
+            {
+                await this._adapter.StartScanningForDevicesAsync(cancellationToken: cancellationToken);
+            }
+            return this._adapter.IsScanning;
         }
 
-        public async Task<bool> ConnectDeviceAsync(object device, CancellationToken cancellationToken = default)
+        public async Task<bool> StopScanAsync(CancellationToken cancellationToken = default)
         {
-            if (device is IDevice dev)
+            if (this._adapter.IsScanning)
             {
+                await this._adapter.StopScanningForDevicesAsync();
+            }
+            return !this._adapter.IsScanning;
+        }
 
+        public async Task<bool> ConnectDeviceAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (this._adapter.ConnectedDevices.Any(a => a.Id == id)) { return true; }
+
+            {
                 try
                 {
-                    this._adapter.DeviceConnected += this._adapter_DeviceConnected;
-                    await this._adapter.ConnectToDeviceAsync(dev, cancellationToken: cancellationToken);
+                    _ = await this._adapter.ConnectToKnownDeviceAsync(id, cancellationToken: cancellationToken);
                     return true;
                 }
                 catch (DeviceConnectionException ex)
@@ -66,6 +77,18 @@ namespace chd.Caravan.Mobile.Services
 
         private void _adapter_DeviceConnected(object? sender, DeviceEventArgs e)
         {
+            var device = e.Device;
+            if (device.NativeDevice is BluetoothDevice navtiveDevive
+                && !string.IsNullOrWhiteSpace(navtiveDevive.Address))
+            {
+                this.DeviceConnected?.Invoke(this, new BLEDevice
+                {
+                    Id = device.Id,
+                    UID = navtiveDevive.Address,
+                    Name = device.Name,
+                    Device = device
+                });
+            }
         }
 
         public async Task<bool> SubscribeForServiceCharacteristicAsync(Guid deviceId, Guid serviceId, Guid characteristicId, CancellationToken cancellationToken = default)
@@ -87,13 +110,22 @@ namespace chd.Caravan.Mobile.Services
         private void Characteristic_ValueUpdated(object? sender, CharacteristicUpdatedEventArgs e)
         {
             var data = e.Characteristic.Value;
-            this.CharacteristicValueUpdated?.Invoke(this, new BLECharactersiticsValueArgs
+            var service = e.Characteristic.Service;
+            var device = service.Device;
+            if (device.NativeDevice is BluetoothDevice nativeDevice
+                && !string.IsNullOrWhiteSpace(nativeDevice.Address))
             {
-                CharacteristicId = e.Characteristic.Id,
-                Data = data,
-                DeviceId = e.Characteristic.Service.Device.Id,
-                ServiceId = e.Characteristic.Service.Id
-            });
+                this.CharacteristicValueUpdated?.Invoke(this, new BLECharactersiticsValueArgs
+                {
+                    CharacteristicId = e.Characteristic.Id,
+                    Data = data,
+                    DeviceId = e.Characteristic.Service.Device.Id,
+                    ServiceId = e.Characteristic.Service.Id,
+                    Time = DateTime.Now,
+                    UID = nativeDevice.Address
+                });
+            }
+
         }
 
         private void _adapter_DeviceDiscovered(object? sender, DeviceEventArgs e)
