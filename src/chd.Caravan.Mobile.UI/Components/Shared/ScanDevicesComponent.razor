@@ -1,0 +1,49 @@
+@using Blazored.Modal.Services
+@using chd.Caravan.Mobile.UI.Dtos
+@using chd.Caravan.Mobile.UI.Interfaces
+@using chd.UI.Base.Contracts.Enum
+@if (this.foundDevices.Any())
+{
+    <div class="devices">
+        @foreach (var device in foundDevices)
+        {
+            <div class="device @(this._currentDevice?.Id == device.Id ? "current" : "") " @onclick="()=>this._currentDevice = device">
+                <div class="device-name">
+                    @device.Name
+                </div>
+                <div class="device-id">
+                    @device.UID
+                </div>
+            </div>
+        }
+    </div>
+    <IconButton ButtonStyle="EButtonStyle.Primary" FAClass="plus" OnClick="this.Choose">Ok</IconButton>
+}
+
+@code {
+
+    [CascadingParameter] public ModalReference Modal { get; set; }
+    [Inject] IBLEManager bLEManager { get; set; }
+
+    List<BLEDevice> foundDevices = [];
+
+    BLEDevice _currentDevice = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        bLEManager.DeviceDiscoverd += this.BleDevice_Discoverd;
+        await bLEManager.StartScanAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private void Choose()
+    {
+        if (this._currentDevice is null) { this.Modal.Close(ModalResult.Cancel()); }
+        this.Modal.Close(ModalResult.Ok(this._currentDevice));
+    }
+    private async void BleDevice_Discoverd(object? sender, BLEDeviceFoundArgs args)
+    {
+        foundDevices.Add(args.Device);
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+}

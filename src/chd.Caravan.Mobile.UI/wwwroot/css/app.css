@@ -1,6 +1,4 @@
-﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
-
-* {
+﻿* {
     /*Device*/
     --chd-device-width: 1280px;
     --chd-device-height: 1024px;

@@ -1,24 +1,9 @@
 ﻿@page "/"
+@using Blazored.Modal.Services
+@using chd.Caravan.Mobile.UI.Components.Shared
 @using chd.Caravan.Mobile.UI.Dtos
 @using chd.Caravan.Mobile.UI.Interfaces
 
-@if (this.foundDevices.Any())
-{
-    <h1>Found Devices</h1>
-    <div class="devices">
-        @foreach (var device in foundDevices)
-        {
-            <div class="device">
-                <div class="device-name">
-                    @device.Name <IconButton FAClass="plus" OnClick="async ()=> await this.AddDevice(device)" />
-                </div>
-                <div class="device-id">
-                    @device.UID
-                </div>
-            </div>
-        }
-    </div>
-}
 
 @if (this.connectedDevices.Any())
 {
@@ -43,22 +28,25 @@
 </FloatingActionNavigation>
 
 @code {
+    [Inject] IModalService modal { get; set; }
     [Inject] IBLEManager bLEManager { get; set; }
 
-    List<BLEDevice> foundDevices = [];
     List<BLEDevice> connectedDevices = [];
 
     protected override async Task OnInitializedAsync()
     {
-        bLEManager.DeviceDiscoverd += this.BleDevice_Discoverd;
         bLEManager.DeviceConnected += this.BleDevice_Connected;
         await base.OnInitializedAsync();
     }
 
-    private async void BleDevice_Discoverd(object? sender, BLEDeviceFoundArgs args)
+    private async Task OpenScanModal()
     {
-        foundDevices.Add(args.Device);
-        await this.InvokeAsync(this.StateHasChanged);
+        var res = await this.modal.Show<ScanDevicesComponent>("Scan Devices").Result;
+        await bLEManager.StopScanAsync();
+        if (!res.Cancelled && res.Data is BLEDevice device)
+        {
+            await this.AddDevice(device);
+        }
     }
 
     private async void BleDevice_Connected(object? sender, BLEDevice device)
