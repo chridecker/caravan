@@ -11,6 +11,7 @@ namespace chd.Caravan.Mobile.UI.Interfaces
     {
         event EventHandler<BLEDeviceFoundArgs> DeviceDiscoverd;
         event EventHandler<BLEDevice> DeviceConnected;
+        event EventHandler<BLECharactersiticsValueArgs> CharacteristicValueUpdated;
 
         bool IsRunning { get; }
         bool IsAvailable { get; }
@@ -18,5 +19,6 @@ namespace chd.Caravan.Mobile.UI.Interfaces
         Task<bool> StartScanAsync(CancellationToken cancellationToken = default);
         Task<bool> ConnectDeviceAsync(Guid id, CancellationToken cancellationToken = default);
         Task<bool> StopScanAsync(CancellationToken cancellationToken = default);
+        Task<bool> SubscribeForServiceCharacteristicAsync(Guid deviceId, Guid serviceId, Guid characteristicId, CancellationToken cancellationToken = default);
     }
 }

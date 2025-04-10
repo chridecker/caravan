@@ -1,0 +1,22 @@
+@using chd.Caravan.Mobile.UI.Dtos
+@using chd.Caravan.Mobile.UI.Interfaces
+
+<div class="device @(this.IsCurrentDevice.Invoke(Device) ? "current" : "") " @onclick="async()=>await this.OnClick(this.Device)">
+    <div class="device-name">
+        @Device.Name
+    </div>
+    <div class="device-id">
+        @Device.UID
+    </div>
+</div>
+
+@code {
+    [Parameter] public BLEDevice Device { get; set; }
+    [Parameter] public Func<BLEDevice, bool> IsCurrentDevice { get; set; }
+    [Parameter] public Func<BLEDevice, Task> OnClick { get; set; }
+
+
+    [Inject] IBLEManager bLEManager { get; set; }
+
+
+}

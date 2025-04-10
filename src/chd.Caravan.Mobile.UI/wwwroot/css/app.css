@@ -4,7 +4,7 @@
     --chd-device-height: 1024px;
     --dg-device-width: 1024px;
     --dg-device-height: 1280px;
-    --sidebar-width-small: 3rem !important;
+    --sidebar-width-small: 0 !important;
     --top-header-height: 2.5rem !important;
     --main-article-padding-lr: 0 !important;
     --main-article-height: calc(100% - var(--top-header-height)) !important;
@@ -42,27 +42,9 @@
         }
 
 
-@media (min-width: 768px) {
-    * {
-        --top-header-padding-tb: 0 !important;
-        --top-header-height: 2.2rem !important;
-        --nav-toggle-height: 0 !important;
-        --main-article-padding-lr: 0 !important;
-    }
-
-    .top-row {
-        flex-direction: row;
-        justify-content: flex-start !important;
-    }
-
-    .sidebar.collapsed header .image {
-        display: flex !important;
-    }
-}
-
-
 @media (max-width: 360px) {
     * {
+        --sidebar-width-small:0 !important;
         --nav-toggle-height: 0 !important;
         --top-header-padding-tb: 0.2 !important;
         --top-header-height: 2.2rem !important;

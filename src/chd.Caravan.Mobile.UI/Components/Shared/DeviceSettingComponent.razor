@@ -1,0 +1,30 @@
+@using chd.Caravan.Mobile.UI.Constants
+@using chd.Caravan.Mobile.UI.Dtos
+@using chd.Caravan.Mobile.UI.Interfaces
+@using chd.UI.Base.Contracts.Enum
+
+<IconButton FAClass="temperature-sun" ButtonStyle="EButtonStyle.Primary" OnClick="this.StartRuuviTag">Ruuvi Tag</IconButton>
+<IconButton FAClass="battery-full" ButtonStyle="EButtonStyle.Primary" OnClick="this.StartVotronic">Votronic</IconButton>
+
+@code {
+    [CascadingParameter] BlazoredModalInstance ModalInstance{ get; set; }
+    [Parameter] public BLEDevice Device { get; set; }
+    [Inject] IBLEManager bLEManager { get; set; }
+
+    private async Task StartRuuviTag()
+    {
+        Device.Type = Enums.EDeviceType.Ruuvi;
+
+        await this.bLEManager.SubscribeForServiceCharacteristicAsync(Device.Id, BLEContants.NORDIC_UART_SVC, BLEContants.TX_CHARACTERISTIC);
+        await ModalInstance.CloseAsync();
+    }
+
+    private async Task StartVotronic()
+    {
+        Device.Type = Enums.EDeviceType.Votronic;
+        await this.bLEManager.SubscribeForServiceCharacteristicAsync(Device.Id, BLEContants.VOTRONIC_SVC, BLEContants.BATTERY_CHARACTERISTIC);
+        await this.bLEManager.SubscribeForServiceCharacteristicAsync(Device.Id, BLEContants.VOTRONIC_SVC, BLEContants.SOLAR_CHARACTERISTIC);
+
+        await ModalInstance.CloseAsync();
+    }
+}

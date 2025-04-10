@@ -1,0 +1,20 @@
+﻿.device {
+    border: 1px solid var(--chd-font-color);
+    border-radius: 0.5rem;
+    padding: 0.2rem;
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+}
+
+    .device.current {
+        border: 1px solid var(--chd-main-color-theme);
+    }
+
+    .device .device-name {
+        font-size: 1rem;
+    }
+
+    .device .device-id {
+        font-size: 0.8rem;
+    }

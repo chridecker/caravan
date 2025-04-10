@@ -22,7 +22,7 @@
 
 @code {
 
-    [CascadingParameter] public ModalReference Modal { get; set; }
+    [CascadingParameter] public BlazoredModalInstance Modal { get; set; }
     [Inject] IBLEManager bLEManager { get; set; }
 
     List<BLEDevice> foundDevices = [];
@@ -36,10 +36,10 @@
         await base.OnInitializedAsync();
     }
 
-    private void Choose()
+    private async Task Choose()
     {
-        if (this._currentDevice is null) { this.Modal.Close(ModalResult.Cancel()); }
-        this.Modal.Close(ModalResult.Ok(this._currentDevice));
+        if (this._currentDevice is null) { await this.Modal.CloseAsync(ModalResult.Cancel()); }
+        await this.Modal.CloseAsync(ModalResult.Ok(this._currentDevice));
     }
     private async void BleDevice_Discoverd(object? sender, BLEDeviceFoundArgs args)
     {

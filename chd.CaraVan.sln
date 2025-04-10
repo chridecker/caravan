@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chd.Caravan.Mobile", "src\c
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chd.Caravan.Mobile.UI", "src\chd.Caravan.Mobile.UI\chd.Caravan.Mobile.UI.csproj", "{B1425B00-B9CF-4939-AE7B-F557D86B6017}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chd.Caravan.Mobile.WPF", "src\chd.Carava.Mobile.WPF\chd.Caravan.Mobile.WPF.csproj", "{FC51B03C-184E-4265-9C86-D5BB081E8ADD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{B1425B00-B9CF-4939-AE7B-F557D86B6017}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1425B00-B9CF-4939-AE7B-F557D86B6017}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1425B00-B9CF-4939-AE7B-F557D86B6017}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC51B03C-184E-4265-9C86-D5BB081E8ADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC51B03C-184E-4265-9C86-D5BB081E8ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC51B03C-184E-4265-9C86-D5BB081E8ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC51B03C-184E-4265-9C86-D5BB081E8ADD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +93,7 @@ Global
 		{24F8E979-B5D6-44F9-B158-397A387CE34B} = {0F48C08D-70DB-49B9-89C3-AFBEE6CA5114}
 		{0A701800-FF40-48DD-BB52-73856DE43435} = {24F8E979-B5D6-44F9-B158-397A387CE34B}
 		{B1425B00-B9CF-4939-AE7B-F557D86B6017} = {24F8E979-B5D6-44F9-B158-397A387CE34B}
+		{FC51B03C-184E-4265-9C86-D5BB081E8ADD} = {24F8E979-B5D6-44F9-B158-397A387CE34B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {025A10D3-C98B-43EF-B2C6-B1F9EAF0D7CD}

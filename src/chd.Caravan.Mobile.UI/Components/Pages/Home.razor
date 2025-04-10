@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using Blazored.Modal.Services
 @using chd.Caravan.Mobile.UI.Components.Shared
+@using chd.Caravan.Mobile.UI.Constants
 @using chd.Caravan.Mobile.UI.Dtos
 @using chd.Caravan.Mobile.UI.Interfaces
 
@@ -11,20 +12,16 @@
     <div class="devices">
         @foreach (var device in connectedDevices)
         {
-            <div class="device @(this._currentSelectedDevice?.Id == device.Id ? "current" : "")">
-                <div class="device-name">
-                    @device.Name
-                </div>
-                <div class="device-id">
-                    @device.UID
-                </div>
-            </div>
+            <ConnectedDeviceComponent Device="device" IsCurrentDevice="(BLEDevice d) => this._currentSelectedDevice?.Id == d.Id" OnClick="async(BLEDevice d)=>this._currentSelectedDevice = d" />
         }
     </div>
 }
 
-<FloatingActionNavigation FAIconActive="maginifying-glass" OnClick="this.OpenScanModal" TextActive="Start Scan">
-    <FloatingActionButton FAClass="stop" OnClick="async ()=> await this.bLEManager.StopScanAsync()" Title="Stop Scan" />
+<FloatingActionNavigation FAIconActive="magnifying-glass" OnClick="this.OpenScanModal" TextActive="Start Scan">
+    @if (this._currentSelectedDevice is not null)
+    {
+        <FloatingActionButton FAClass="wrench" OnClick="this.OpenSettings" Title="Settings" />
+    }
 </FloatingActionNavigation>
 
 @code {
@@ -33,10 +30,14 @@
 
     List<BLEDevice> connectedDevices = [];
     BLEDevice _currentSelectedDevice = null;
+    Dictionary<Guid, RuuviTagData> _ruuviData = [];
+    VotronicSolarData _solarData = null;
+    VotronicBatteryData _batteryData = null;
 
     protected override async Task OnInitializedAsync()
     {
         bLEManager.DeviceConnected += this.BleDevice_Connected;
+        bLEManager.CharacteristicValueUpdated += this.CharacUpdate;
         await base.OnInitializedAsync();
     }
 
@@ -49,6 +50,40 @@
             await this.AddDevice(device);
         }
     }
+
+    private async Task OpenSettings()
+    {
+        var param = new ModalParameters{
+            {nameof(DeviceSettingComponent.Device),this._currentSelectedDevice}
+        };
+        _ = await this.modal.Show<DeviceSettingComponent>("Settings", param).Result;
+    }
+
+    private async void CharacUpdate(object? sender, BLECharactersiticsValueArgs args)
+    {
+        if (!connectedDevices.Any(a => a.Id == args.DeviceId)) { return; }
+        var device = this.connectedDevices.FirstOrDefault(x => x.Id == args.DeviceId);
+        if (device.Type == Enums.EDeviceType.Ruuvi
+        && args.ServiceId == BLEContants.NORDIC_UART_SVC
+        && args.CharacteristicId == BLEContants.TX_CHARACTERISTIC)
+        {
+            this._ruuviData[device.Id] = new RuuviTagData(args.Data);
+        }
+        else if (device.Type == Enums.EDeviceType.Votronic
+        && args.ServiceId == BLEContants.VOTRONIC_SVC)
+        {
+            if (args.CharacteristicId == BLEContants.SOLAR_CHARACTERISTIC)
+            {
+                this._solarData = new(args.Data);
+            }
+            else if (args.CharacteristicId == BLEContants.BATTERY_CHARACTERISTIC)
+            {
+                this._batteryData = new(args.Data, 200);
+            }
+        }
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
 
     private async void BleDevice_Connected(object? sender, BLEDevice device)
     {

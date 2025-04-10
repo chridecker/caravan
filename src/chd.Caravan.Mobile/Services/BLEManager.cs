@@ -86,7 +86,6 @@ namespace chd.Caravan.Mobile.Services
                     Id = device.Id,
                     UID = navtiveDevive.Address,
                     Name = device.Name,
-                    Device = device
                 });
             }
         }
@@ -140,7 +139,6 @@ namespace chd.Caravan.Mobile.Services
                         Id = device.Id,
                         UID = bDevice.Address,
                         Name = device.Name,
-                        Device = device
                     }));
             }
         }
