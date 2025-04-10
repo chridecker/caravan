@@ -19,5 +19,6 @@ namespace chd.Caravan.Mobile.UI.Dtos
         public decimal Ampere => this.GetData(10, 2, 1000m);
         public decimal Percent => this.GetData(8, 1, 1m);
         public decimal LeftAH => this._batteryAmpH * this.Percent / 100;
+        public decimal AmpereH => this._batteryAmpH;
     }
 }

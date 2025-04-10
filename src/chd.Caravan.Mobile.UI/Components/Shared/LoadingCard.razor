@@ -1,0 +1,24 @@
+@using chd.Caravan.Mobile.UI.Dtos
+<div class="loading-container">
+    @if (this.BatteryData is not null)
+    {
+        <LoadingBattery BatteryAmpere="@BatteryData.Ampere"
+                        BatteryAmpereH="@BatteryData.AmpereH"
+                        Time="@DateTime.Now"
+                        BatteryPercent="@BatteryData.Percent" />
+    }
+    @if (this.SolarData is not null)
+    {
+        <LoadingSolar Active="@SolarData.Active"
+                      Reduce="@SolarData.Reduce"
+                      AES="@SolarData.AES"
+                      LoadingPhase="@SolarData.LoadingPhase"
+                      SolarAmpere="@SolarData.Ampere" />
+    }
+</div>
+
+
+@code {
+    [Parameter] public VotronicBatteryData BatteryData { get; set; }
+    [Parameter] public VotronicSolarData SolarData { get; set; }
+}

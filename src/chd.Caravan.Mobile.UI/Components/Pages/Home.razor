@@ -5,25 +5,38 @@
 @using chd.Caravan.Mobile.UI.Dtos
 @using chd.Caravan.Mobile.UI.Interfaces
 
+<div class="home-content">
+    <LoadingCard BatteryData="@_batteryData" SolarData="@_solarData" />
 
-@if (this.connectedDevices.Any())
-{
-    <h1>Connected Devices</h1>
-    <div class="devices">
-        @foreach (var device in connectedDevices)
-        {
-            <ConnectedDeviceComponent Device="device" IsCurrentDevice="(BLEDevice d) => this._currentSelectedDevice?.Id == d.Id" OnClick="async(BLEDevice d)=>this._currentSelectedDevice = d" />
-        }
-    </div>
-}
 
-<FloatingActionNavigation FAIconActive="magnifying-glass" OnClick="this.OpenScanModal" TextActive="Start Scan">
-    @if (this._currentSelectedDevice is not null)
+    @foreach (var device in this._ruuviData)
     {
-        <FloatingActionButton FAClass="wrench" OnClick="this.OpenSettings" Title="Settings" />
+        <SensorCard Time="DateTime.Now"
+                    Name="@connectedDevices.FirstOrDefault(x => x.Id == device.Key).Name"
+                    Value="device.Value.Temperature.Value"
+                    Min="0"
+                    Max="0" />
     }
-</FloatingActionNavigation>
 
+
+    @if (this.connectedDevices.Any())
+    {
+        <div class="devices">
+            @foreach (var device in connectedDevices)
+            {
+                <ConnectedDeviceComponent Device="device" IsCurrentDevice="(BLEDevice d) => this._currentSelectedDevice?.Id == d.Id" OnClick="async(BLEDevice d)=>this._currentSelectedDevice = d" />
+            }
+        </div>
+    }
+
+    <FloatingActionNavigation FAIconActive="magnifying-glass" OnClick="this.OpenScanModal" TextActive="Start Scan">
+        @if (this._currentSelectedDevice is not null)
+        {
+            <FloatingActionButton FAClass="wrench" OnClick="this.OpenSettings" Title="Settings" />
+        }
+    </FloatingActionNavigation>
+
+</div>
 @code {
     [Inject] IModalService modal { get; set; }
     [Inject] IBLEManager bLEManager { get; set; }
