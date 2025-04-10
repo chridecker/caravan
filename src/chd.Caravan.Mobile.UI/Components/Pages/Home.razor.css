@@ -6,13 +6,17 @@
 }
 
     .devices .device {
-        border: 1px solid var(--chd-main-color-theme);
+        border: 1px solid var(--chd-font-color);
         border-radius: 0.5rem;
         padding: 0.2rem;
         display: flex;
         flex-direction: column;
         width: max-content;
     }
+
+        .devices .device.current {
+            border: 1px solid var(--chd-main-color-theme);
+        }
 
         .devices .device .device-name {
             font-size: 1rem;
