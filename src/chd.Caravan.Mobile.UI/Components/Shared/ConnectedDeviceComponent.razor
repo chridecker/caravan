@@ -3,7 +3,7 @@
 
 <div class="device @(this.IsCurrentDevice.Invoke(Device) ? "current" : "") " @onclick="async()=>await this.OnClick(this.Device)">
     <div class="device-name">
-        @Device.Name
+        @(string.IsNullOrWhiteSpace(Device.DisplayName) ? Device.Name : Device.DisplayName) (@Device.Type)
     </div>
     <div class="device-id">
         @Device.UID

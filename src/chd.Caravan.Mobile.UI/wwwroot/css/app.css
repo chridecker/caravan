@@ -44,7 +44,7 @@
 
 @media (max-width: 360px) {
     * {
-        --sidebar-width-small:0 !important;
+        --sidebar-width-small: 0 !important;
         --nav-toggle-height: 0 !important;
         --top-header-padding-tb: 0.2 !important;
         --top-header-height: 2.2rem !important;
@@ -128,6 +128,7 @@
 }
 
 .blazored-modal {
+    background-color: var(--chd-bg) !important;
 }
 
     .blazored-modal .blazored-modal-content {

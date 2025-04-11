@@ -20,5 +20,6 @@ namespace chd.Caravan.Mobile.UI.Interfaces
         Task<bool> ConnectDeviceAsync(Guid id, CancellationToken cancellationToken = default);
         Task<bool> StopScanAsync(CancellationToken cancellationToken = default);
         Task<bool> SubscribeForServiceCharacteristicAsync(Guid deviceId, Guid serviceId, Guid characteristicId, CancellationToken cancellationToken = default);
+        Task<bool> DisconnectDeviceAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

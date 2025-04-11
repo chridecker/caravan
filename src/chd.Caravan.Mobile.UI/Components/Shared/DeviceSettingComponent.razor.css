@@ -1,0 +1,31 @@
+﻿.device-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+    .device-settings .setting {
+        border: 1px solid var(--chd-font-color);
+        border-radius: 0.5rem;
+        padding: 0.2rem;
+        display: grid;
+        gap: 0.2rem;
+    }
+
+        .device-settings .setting .setting-label {
+            font-size: 0.9rem;
+        }
+
+        .device-settings .setting .setting-value {
+            line-height: 1rem;
+            font-size:1rem;
+        }
+
+            .device-settings .setting .setting-value input {
+                width: 100%;
+                padding: 0.2rem;
+            }
+            .device-settings .setting .setting-value select {
+                width: 100%;
+                padding:0.1rem;
+            }

@@ -30,6 +30,11 @@ namespace chd.Caravan.Mobile.WPF.Services
             return true;
         }
 
+        public Task<bool> DisconnectDeviceAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(true);
+        }
+
         public async Task<bool> StartScanAsync(CancellationToken cancellationToken = default)
         {
             this.DeviceDiscoverd?.Invoke(this, new BLEDeviceFoundArgs(new()

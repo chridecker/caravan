@@ -53,6 +53,8 @@ namespace chd.Caravan.Mobile.Services
             return !this._adapter.IsScanning;
         }
 
+
+
         public async Task<bool> ConnectDeviceAsync(Guid id, CancellationToken cancellationToken = default)
         {
             if (this._adapter.ConnectedDevices.Any(a => a.Id == id)) { return true; }
@@ -75,8 +77,32 @@ namespace chd.Caravan.Mobile.Services
             return false;
         }
 
+        public async Task<bool> DisconnectDeviceAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (!this._adapter.ConnectedDevices.Any(a => a.Id == id)) { return true; }
+
+            {
+                try
+                {
+                    await this._adapter.DisconnectDeviceAsync(this._adapter.ConnectedDevices.FirstOrDefault(a => a.Id == id), cancellationToken: cancellationToken);
+                    return true;
+                }
+                catch (DeviceConnectionException ex)
+                {
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return false;
+        }
+
         private void _adapter_DeviceConnected(object? sender, DeviceEventArgs e)
         {
+            if (this._adapter.ConnectedDevices.Any(a => a.Id == e.Device.Id)) { return; }
+
             var device = e.Device;
             if (device.NativeDevice is BluetoothDevice navtiveDevive
                 && !string.IsNullOrWhiteSpace(navtiveDevive.Address))

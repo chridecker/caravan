@@ -30,9 +30,18 @@
     }
 
     <FloatingActionNavigation FAIconActive="magnifying-glass" OnClick="this.OpenScanModal" TextActive="Start Scan">
+
         @if (this._currentSelectedDevice is not null)
         {
-            <FloatingActionButton FAClass="wrench" OnClick="this.OpenSettings" Title="Settings" />
+            <FloatingActionButton FAClass="trash" OnClick="this.OpenSettings" Title="Settings" />
+            @if (this._currentSelectedDevice.IsStarted)
+            {
+                <FloatingActionButton FAClass="trash" OnClick="this.DisconnectDevice" Title="Disconnect" />
+            }
+            else
+            {
+                <FloatingActionButton FAClass="wrench" OnClick="this.StartDevice" Title="Start" />
+            }
         }
     </FloatingActionNavigation>
 
@@ -54,9 +63,35 @@
         await base.OnInitializedAsync();
     }
 
+    private async Task DisconnectDevice()
+    {
+        await bLEManager.DisconnectDeviceAsync(this._currentSelectedDevice.Id);
+        this._currentSelectedDevice.IsStarted = false;
+        this.connectedDevices.Remove(this._currentSelectedDevice);
+        this._currentSelectedDevice = null;
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
+    private async Task StartDevice()
+    {
+        if (this._currentSelectedDevice.Type is Enums.EDeviceType.Ruuvi)
+        {
+            await this.bLEManager.SubscribeForServiceCharacteristicAsync(_currentSelectedDevice.Id, BLEContants.NORDIC_UART_SVC, BLEContants.TX_CHARACTERISTIC);
+            this._currentSelectedDevice.IsStarted = true;
+        }
+        else if (this._currentSelectedDevice.Type is Enums.EDeviceType.Votronic)
+        {
+            await this.bLEManager.SubscribeForServiceCharacteristicAsync(_currentSelectedDevice.Id, BLEContants.VOTRONIC_SVC, BLEContants.BATTERY_CHARACTERISTIC);
+            await this.bLEManager.SubscribeForServiceCharacteristicAsync(_currentSelectedDevice.Id, BLEContants.VOTRONIC_SVC, BLEContants.SOLAR_CHARACTERISTIC);
+            this._currentSelectedDevice.IsStarted = true;
+        }
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
     private async Task OpenScanModal()
     {
-        var res = await this.modal.Show<ScanDevicesComponent>("Scan Devices").Result;
+        var res = await this.modal.Show<ScanDevicesComponent>
+    ("Scan Devices").Result;
         await bLEManager.StopScanAsync();
         if (!res.Cancelled && res.Data is BLEDevice device)
         {
@@ -67,9 +102,11 @@
     private async Task OpenSettings()
     {
         var param = new ModalParameters{
-            {nameof(DeviceSettingComponent.Device),this._currentSelectedDevice}
-        };
-        _ = await this.modal.Show<DeviceSettingComponent>("Settings", param).Result;
+    {nameof(DeviceSettingComponent.Device),this._currentSelectedDevice}
+    };
+        var modalResult = await this.modal.Show<DeviceSettingComponent>
+            ("Settings", param).Result;
+        await this.InvokeAsync(this.StateHasChanged);
     }
 
     private async void CharacUpdate(object? sender, BLECharactersiticsValueArgs args)
@@ -107,5 +144,6 @@
     private async Task AddDevice(BLEDevice device)
     {
         await this.bLEManager.ConnectDeviceAsync(device.Id);
+        await this.InvokeAsync(this.StateHasChanged);
     }
 }

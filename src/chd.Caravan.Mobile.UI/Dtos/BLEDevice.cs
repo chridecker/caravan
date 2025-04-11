@@ -12,7 +12,10 @@ namespace chd.Caravan.Mobile.UI.Dtos
         public Guid Id { get; set; }
         public string UID { get; set; }
         public string Name { get; set; }
+        public string DisplayName { get; set; }
 
         public EDeviceType Type { get; set; }
+
+        public bool IsStarted { get; set; }
     }
 }

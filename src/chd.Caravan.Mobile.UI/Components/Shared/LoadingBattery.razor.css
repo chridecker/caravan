@@ -1,18 +1,17 @@
 ﻿.loading-battery-container {
     display: flex;
     flex-direction: column;
-    width: min(100%,14rem);
+    width:60vw;
 }
 
-    .loading-battery-container .loading-battery-container-date {
-        width: 100%;
+    .loading-battery-container .loading-container-date {
+        display: none;
     }
 
     .loading-battery-container .battery-loading-state {
     }
 
         .loading-battery-container .battery-loading-state .battery-pols {
-            width: 100%;
             height: 2rem;
             display: flex;
             flex-direction: row;
@@ -55,12 +54,12 @@
 
                     .loading-battery-container .battery-loading-state .battery-pols .current-loading .current-loading-bar .current-loading-state {
                         text-align: right;
-                        right: 0.2rem;
                         padding: 0.1rem;
                     }
 
                         .loading-battery-container .battery-loading-state .battery-pols .current-loading .current-loading-bar .current-loading-state .current-amp {
                             font-size: 0.9rem;
+                            color: white
                         }
 
                 .loading-battery-container .battery-loading-state .battery-pols .current-loading.loading {
@@ -74,8 +73,6 @@
 
         .loading-battery-container .battery-loading-state .battery-charging {
             padding: 0.2rem;
-            width: 100%;
-            height: 100%;
             border: 0.2rem solid white;
             border-radius: 0.8rem;
             background-color: var(--chd-lightgrey);
@@ -84,11 +81,8 @@
 
             .loading-battery-container .battery-loading-state .battery-charging .battery-loading-state-bar {
                 display: flex;
-                flex-direction: row;
                 justify-content: space-between;
                 background-color: white;
-                width: 100%;
-                height: 100%;
                 border-radius: 0.3rem;
             }
 
@@ -118,7 +112,6 @@
                     flex-direction: column;
                     padding: 0.1rem;
                     justify-content: space-evenly;
-                    align-content: start;
                     align-items: end;
                     color: var(--chd-bg);
                 }
