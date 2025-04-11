@@ -9,7 +9,7 @@
     <div class="setting">
         <div class="setting-label">Name</div>
         <div class="setting-value">
-            <input type="text" @bind-value="Device.DisplayName" />
+            <input type="text" @bind-value="Device.DisplayName" @bind-value:event="oninput" />
         </div>
     </div>
 

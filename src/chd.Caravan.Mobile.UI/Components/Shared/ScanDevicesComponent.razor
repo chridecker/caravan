@@ -2,23 +2,28 @@
 @using chd.Caravan.Mobile.UI.Dtos
 @using chd.Caravan.Mobile.UI.Interfaces
 @using chd.UI.Base.Contracts.Enum
-@if (this.foundDevices.Any())
-{
-    <div class="devices">
-        @foreach (var device in foundDevices)
-        {
-            <div class="device @(this._currentDevice?.Id == device.Id ? "current" : "") " @onclick="()=>this._currentDevice = device">
-                <div class="device-name">
-                    @device.Name
+
+
+<div class="device-scanner">
+    <input type="text" @bind-value="this._filterText" @bind-value:event="oninput" />
+    @if (this.foundDevices.Any())
+    {
+        <div class="devices">
+            @foreach (var device in foundDevices.Where(x => string.IsNullOrWhiteSpace(this._filterText) || x.Name.Contains(this._filterText) ||x.UID.Contains(this._filterText)))
+            {
+                <div class="device @(this._currentDevice?.Id == device.Id ? "current" : "") " @onclick="()=>this._currentDevice = device">
+                    <div class="device-name">
+                        @device.Name
+                    </div>
+                    <div class="device-id">
+                        @device.UID
+                    </div>
                 </div>
-                <div class="device-id">
-                    @device.UID
-                </div>
-            </div>
-        }
-    </div>
-    <IconButton ButtonStyle="EButtonStyle.Primary" FAClass="plus" OnClick="this.Choose">Ok</IconButton>
-}
+            }
+        </div>
+        <IconButton ButtonStyle="EButtonStyle.Primary" FAClass="plus" OnClick="this.Choose">Add</IconButton>
+    }
+</div>
 
 @code {
 
@@ -28,6 +33,7 @@
     List<BLEDevice> foundDevices = [];
 
     BLEDevice _currentDevice = null;
+    private string _filterText;
 
     protected override async Task OnInitializedAsync()
     {

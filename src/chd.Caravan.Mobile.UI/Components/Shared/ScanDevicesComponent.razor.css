@@ -1,27 +1,32 @@
-﻿.devices {
+﻿.device-scanner {
     display: flex;
-    flex-direction: column;
-    padding: 0.2rem;
-    gap: 0.2rem;
+    flex-direction:column;
+    gap: 0.2em;
 }
 
-    .devices .device {
-        border: 1px solid var(--chd-font-color);
-        border-radius: 0.5rem;
-        padding: 0.2rem;
+    .device-scanner.devices {
         display: flex;
         flex-direction: column;
-        width: max-content;
+        gap: 0.2rem;
     }
 
-        .devices .device.current {
-            border: 1px solid var(--chd-main-color-theme);
+        .device-scanner .devices .device {
+            border: 1px solid var(--chd-font-color);
+            border-radius: 0.5rem;
+            padding: 0.2rem;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
         }
 
-        .devices .device .device-name {
-            font-size: 0.8rem;
-        }
+            .device-scanner .devices .device.current {
+                border: 1px solid var(--chd-main-color-theme);
+            }
 
-        .devices .device .device-id {
-            font-size: 0.6rem;
-        }
+            .device-scanner .devices .device .device-name {
+                font-size: 0.8rem;
+            }
+
+            .device-scanner .devices .device .device-id {
+                font-size: 0.6rem;
+            }
