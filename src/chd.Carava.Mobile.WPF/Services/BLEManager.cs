@@ -23,7 +23,7 @@ namespace chd.Caravan.Mobile.WPF.Services
         {
             this.DeviceConnected?.Invoke(this, new()
             {
-                Id = Guid.NewGuid(),
+                Id = id,
                 Name = "Test",
                 UID = "3456789"
             });

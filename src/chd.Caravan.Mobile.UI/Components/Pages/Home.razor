@@ -33,23 +33,33 @@
 
         @if (this._currentSelectedDevice is not null)
         {
-            <FloatingActionButton FAClass="trash" OnClick="this.OpenSettings" Title="Settings" />
+            <FloatingActionButton FAClass="wrench" OnClick="this.OpenSettings" Title="Settings" />
             @if (this._currentSelectedDevice.IsStarted)
             {
                 <FloatingActionButton FAClass="trash" OnClick="this.DisconnectDevice" Title="Disconnect" />
             }
             else
             {
-                <FloatingActionButton FAClass="wrench" OnClick="this.StartDevice" Title="Start" />
+                <FloatingActionButton FAClass="play" OnClick="async()=>await this.StartDevice(this._currentSelectedDevice)" Title="Start" />
+            }
+            @if (!this._savedDevices.Any(a => a.Id == this._currentSelectedDevice.Id))
+            {
+                <FloatingActionButton FAClass="floppy-disk" OnClick="this.SaveDevice" Title="Save" />
+            }
+            else
+            {
+                <FloatingActionButton FAClass="floppy-disk-circle-xmark" OnClick="this.DeleteDevice" Title="Delete" />
             }
         }
     </FloatingActionNavigation>
 
 </div>
 @code {
+    [Inject] IDeviceStorageService deviceStorageService { get; set; }
     [Inject] IModalService modal { get; set; }
     [Inject] IBLEManager bLEManager { get; set; }
 
+    List<SavedDevice> _savedDevices = [];
     List<BLEDevice> connectedDevices = [];
     BLEDevice _currentSelectedDevice = null;
     Dictionary<Guid, RuuviTagData> _ruuviData = [];
@@ -58,8 +68,16 @@
 
     protected override async Task OnInitializedAsync()
     {
+        this._savedDevices = (await deviceStorageService.GetDevices()) ?? [];
+
         bLEManager.DeviceConnected += this.BleDevice_Connected;
         bLEManager.CharacteristicValueUpdated += this.CharacUpdate;
+
+        foreach (var savedDevice in _savedDevices)
+        {
+            await bLEManager.ConnectDeviceAsync(savedDevice.Id);
+        }
+
         await base.OnInitializedAsync();
     }
 
@@ -72,21 +90,46 @@
         await this.InvokeAsync(this.StateHasChanged);
     }
 
-    private async Task StartDevice()
+    private async Task StartDevice(BLEDevice device)
     {
-        if (this._currentSelectedDevice.Type is Enums.EDeviceType.Ruuvi)
+        if (device.Type is Enums.EDeviceType.Ruuvi)
         {
-            await this.bLEManager.SubscribeForServiceCharacteristicAsync(_currentSelectedDevice.Id, BLEContants.NORDIC_UART_SVC, BLEContants.TX_CHARACTERISTIC);
-            this._currentSelectedDevice.IsStarted = true;
+            await this.bLEManager.SubscribeForServiceCharacteristicAsync(device.Id, BLEContants.NORDIC_UART_SVC, BLEContants.TX_CHARACTERISTIC);
+            device.IsStarted = true;
         }
-        else if (this._currentSelectedDevice.Type is Enums.EDeviceType.Votronic)
+        else if (device.Type is Enums.EDeviceType.Votronic)
         {
-            await this.bLEManager.SubscribeForServiceCharacteristicAsync(_currentSelectedDevice.Id, BLEContants.VOTRONIC_SVC, BLEContants.BATTERY_CHARACTERISTIC);
-            await this.bLEManager.SubscribeForServiceCharacteristicAsync(_currentSelectedDevice.Id, BLEContants.VOTRONIC_SVC, BLEContants.SOLAR_CHARACTERISTIC);
-            this._currentSelectedDevice.IsStarted = true;
+            await this.bLEManager.SubscribeForServiceCharacteristicAsync(device.Id, BLEContants.VOTRONIC_SVC, BLEContants.BATTERY_CHARACTERISTIC);
+            await this.bLEManager.SubscribeForServiceCharacteristicAsync(device.Id, BLEContants.VOTRONIC_SVC, BLEContants.SOLAR_CHARACTERISTIC);
+            device.IsStarted = true;
         }
         await this.InvokeAsync(this.StateHasChanged);
     }
+
+    private async Task SaveDevice()
+    {
+        if (this._currentSelectedDevice.Type is Enums.EDeviceType.Default) { return; }
+
+        var saved = new SavedDevice()
+            {
+                Id = this._currentSelectedDevice.Id,
+                Name = string.IsNullOrWhiteSpace(_currentSelectedDevice.DisplayName) ? _currentSelectedDevice.Name : _currentSelectedDevice.DisplayName,
+                Type = this._currentSelectedDevice.Type,
+                UID = this._currentSelectedDevice.UID
+            };
+        await this.deviceStorageService.AddDevice(saved);
+        this._savedDevices = await this.deviceStorageService.GetDevices();
+    }
+    private async Task DeleteDevice()
+    {
+        var saved = this._savedDevices.FirstOrDefault(x => x.Id == this._currentSelectedDevice.Id);
+
+        await this.deviceStorageService.RemoveDevice(saved);
+        this._savedDevices = await this.deviceStorageService.GetDevices();
+    }
+
+
+
 
     private async Task OpenScanModal()
     {
@@ -137,7 +180,19 @@
 
     private async void BleDevice_Connected(object? sender, BLEDevice device)
     {
+        var startAuto = this._savedDevices.Any(a => a.Id == device.Id);
+        if (startAuto)
+        {
+            var sDev = _savedDevices.FirstOrDefault(a => a.Id == device.Id);
+            device.DisplayName = sDev.Name;
+            device.Type = sDev.Type;
+        }
         connectedDevices.Add(device);
+        if (startAuto)
+        {
+            await this.StartDevice(device);
+        }
+
         await this.InvokeAsync(this.StateHasChanged);
     }
 

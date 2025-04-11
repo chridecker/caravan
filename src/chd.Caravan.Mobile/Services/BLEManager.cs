@@ -58,10 +58,13 @@ namespace chd.Caravan.Mobile.Services
         public async Task<bool> ConnectDeviceAsync(Guid id, CancellationToken cancellationToken = default)
         {
             if (this._adapter.ConnectedDevices.Any(a => a.Id == id)) { return true; }
-
             {
                 try
                 {
+                    if (this._bluetoothLE.State is not BluetoothState.On or BluetoothState.TurningOn)
+                    {
+                        await this._bluetoothLE.TrySetStateAsync(true);
+                    }
                     _ = await this._adapter.ConnectToKnownDeviceAsync(id, cancellationToken: cancellationToken);
                     return true;
                 }

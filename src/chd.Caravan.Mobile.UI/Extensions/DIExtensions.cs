@@ -26,7 +26,8 @@ namespace chd.Caravan.Mobile.UI.Extensions
 
             services.AddUtilities<chdProfileService, int, int, UserIdLogInService, TSettingManager, ISettingManager, UIComponentHandler, IBaseUIComponentHandler, UpdateService>(ServiceLifetime.Singleton);
             services.AddMauiModalHandler();
-            services.AddSingleton<INavigationHistoryStateContainer, NavigationHistoryStateContainer>();
+            services.AddScoped<INavigationHistoryStateContainer, NavigationHistoryStateContainer>();
+            services.AddScoped<IDeviceStorageService, DeviceStorageService>();
             services.AddScoped<INavigationHandler, NavigationHandler>();
 
             services.AddSingleton<IAppInfoService, AppInfoService>();
