@@ -22,5 +22,7 @@ namespace chd.Caravan.Mobile.UI.Interfaces
         Task<IEnumerable<BLEService>> GetDeviceServices(Guid id, CancellationToken cancellationToken = default);
         Task<IEnumerable<BLECharacteristic>> GetServiceCharactersitics(Guid deviceId, Guid serviceId, CancellationToken cancellationToken = default);
         Task<byte[]> ReadValue(Guid deviceId, Guid serviceId, BLECharacteristic characteristic, CancellationToken cancellationToken = default);
+        Task<bool> DisconnectDeviceAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<bool> SubscribeForServiceCharacteristicAsync(Guid deviceId, Guid serviceId, Guid characteristicId, CancellationToken cancellationToken = default);
     }
 }
