@@ -14,7 +14,7 @@
                     <div class="characteristics">
                         @foreach (var charac in charLst)
                         {
-                            <div class="charateristic" @onclick="async ()=>charac.Value = await bLEManager.ReadValue(Device.Id, service.Id, charac)">
+                            <div class="charateristic" >
                                 @charac.Id - @charac.Name (@charac.CanRead, @charac.CanWrite, @charac.CanUpdate) - @string.Join("-", charac.Value)
                             </div>
                         }
