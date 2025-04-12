@@ -16,6 +16,7 @@ namespace chd.Caravan.Mobile.UI.Interfaces
         bool IsRunning { get; }
         bool IsAvailable { get; }
 
+        IEnumerable<BLEDevice> ConnectedDevices { get; }
         Task<bool> StartScanAsync(CancellationToken cancellationToken = default);
         Task<bool> ConnectDeviceAsync(Guid id, CancellationToken cancellationToken = default);
         Task<bool> StopScanAsync(CancellationToken cancellationToken = default);

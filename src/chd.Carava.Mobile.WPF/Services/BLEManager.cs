@@ -15,6 +15,8 @@ namespace chd.Caravan.Mobile.WPF.Services
 
         public bool IsAvailable => throw new NotImplementedException();
 
+        public IEnumerable<BLEDevice> ConnectedDevices => throw new NotImplementedException();
+
         public event EventHandler<BLEDeviceFoundArgs> DeviceDiscoverd;
         public event EventHandler<BLEDevice> DeviceConnected;
         public event EventHandler<BLECharactersiticsValueArgs> CharacteristicValueUpdated;

@@ -9,6 +9,7 @@ using Plugin.BLE.Abstractions.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,6 +23,26 @@ namespace chd.Caravan.Mobile.Services
         public bool IsRunning => this._bluetoothLE.IsOn;
         public bool IsAvailable => this._bluetoothLE.IsAvailable;
 
+        public IEnumerable<BLEDevice> ConnectedDevices
+        {
+            get
+            {
+                var lst = new List<BLEDevice>();
+                foreach (var conn in this._adapter.ConnectedDevices)
+                {
+                    if (conn.NativeDevice is BluetoothDevice bt)
+                    {
+                        lst.Add(new()
+                        {
+                            Id = conn.Id,
+                            Name = conn.Name,
+                            UID = bt.Address
+                        });
+                    }
+                }
+                return lst;
+            }
+        }
         public event EventHandler<BLEDeviceFoundArgs> DeviceDiscoverd;
         public event EventHandler<BLECharactersiticsValueArgs> CharacteristicValueUpdated;
         public event EventHandler<BLEDevice> DeviceConnected;
