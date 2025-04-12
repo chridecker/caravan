@@ -11,6 +11,7 @@ namespace chd.Caravan.Mobile.UI.Interfaces
     {
         event EventHandler<BLEDeviceFoundArgs> DeviceDiscoverd;
         event EventHandler<BLEDevice> DeviceConnected;
+        event EventHandler<BLECharactersiticsValueArgs> CharacteristicValueUpdated;
 
         bool IsRunning { get; }
         bool IsAvailable { get; }
