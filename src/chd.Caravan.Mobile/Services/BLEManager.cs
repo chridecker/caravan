@@ -126,8 +126,6 @@ namespace chd.Caravan.Mobile.Services
 
         private void _adapter_DeviceConnected(object? sender, DeviceEventArgs e)
         {
-            if (this._adapter.ConnectedDevices.Any(a => a.Id == e.Device.Id)) { return; }
-
             var device = e.Device;
             if (device.NativeDevice is BluetoothDevice navtiveDevive
                 && !string.IsNullOrWhiteSpace(navtiveDevive.Address))
