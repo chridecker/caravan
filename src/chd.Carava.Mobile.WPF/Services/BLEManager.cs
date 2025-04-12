@@ -35,6 +35,21 @@ namespace chd.Caravan.Mobile.WPF.Services
             return Task.FromResult(true);
         }
 
+        public Task<IEnumerable<BLEService>> GetDeviceServices(Guid id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<BLECharacteristic>> GetServiceCharactersitics(Guid deviceId, Guid serviceId, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<byte[]> ReadValue(Guid deviceId, Guid serviceId, BLECharacteristic characteristic, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> StartScanAsync(CancellationToken cancellationToken = default)
         {
             this.DeviceDiscoverd?.Invoke(this, new BLEDeviceFoundArgs(new()

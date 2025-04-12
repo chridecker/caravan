@@ -1,4 +1,5 @@
 ﻿using Android.Bluetooth;
+using Android.DeviceLock;
 using chd.Caravan.Mobile.UI.Dtos;
 using chd.Caravan.Mobile.UI.Interfaces;
 using Plugin.BLE;
@@ -117,6 +118,49 @@ namespace chd.Caravan.Mobile.Services
                     Name = device.Name,
                 });
             }
+        }
+
+        public async Task<IEnumerable<BLEService>> GetDeviceServices(Guid id, CancellationToken cancellationToken = default)
+        {
+            var device = this._adapter.ConnectedDevices.FirstOrDefault(x => x.Id == id);
+            if (device == null) { return []; }
+            var services = await device.GetServicesAsync(cancellationToken);
+            return services.Select(s => new BLEService
+            {
+                Id = s.Id,
+                Name = s.Name
+            });
+        }
+
+        public async Task<byte[]> ReadValue(Guid deviceId, Guid serviceId, BLECharacteristic characteristic, CancellationToken cancellationToken = default)
+        {
+            var device = this._adapter.ConnectedDevices.FirstOrDefault(x => x.Id == deviceId);
+            if (device == null) { return []; }
+
+            var service = await device.GetServiceAsync(serviceId, cancellationToken);
+            if (service is null) { return []; }
+            var c = await service.GetCharacteristicAsync(characteristic.Id, cancellationToken);
+            var data = await c.ReadAsync(cancellationToken);
+            return data.data ?? [];
+        }
+
+        public async Task<IEnumerable<BLECharacteristic>> GetServiceCharactersitics(Guid deviceId, Guid serviceId, CancellationToken cancellationToken = default)
+        {
+            var device = this._adapter.ConnectedDevices.FirstOrDefault(x => x.Id == deviceId);
+            if (device == null) { return []; }
+
+            var service = await device.GetServiceAsync(serviceId, cancellationToken);
+            if (service is null) { return []; }
+            var characteristivs = await service.GetCharacteristicsAsync(cancellationToken);
+
+            return characteristivs.Select(s => new BLECharacteristic
+            {
+                Id = s.Id,
+                Name = s.Name,
+                CanRead = s.CanRead,
+                CanUpdate = s.CanUpdate,
+                CanWrite = s.CanWrite
+            });
         }
 
         public async Task<bool> SubscribeForServiceCharacteristicAsync(Guid deviceId, Guid serviceId, Guid characteristicId, CancellationToken cancellationToken = default)

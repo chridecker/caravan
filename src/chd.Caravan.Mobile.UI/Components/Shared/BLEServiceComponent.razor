@@ -1,0 +1,49 @@
+@using chd.Caravan.Mobile.UI.Dtos
+@using chd.Caravan.Mobile.UI.Interfaces
+
+@if (services.Any())
+{
+    <div class="services">
+        @foreach (var service in services)
+        {
+            <div class="service  @(this._selectedService?.Id == service.Id ? "current": "") " @onclick="async ()=>await this.SetCurrent(service)">
+                @service.Name - @service.Id
+                @if (this.charDict.TryGetValue(service.Id, out var charLst))
+                {
+                    <div class="characteristics">
+                        @foreach (var charac in charLst)
+                        {
+                            <div class="charateristic" @onclick="async ()=>charac.Value = await bLEManager.ReadValue(Device.Id, service.Id, charac)">
+                                @charac.Id - @charac.Name (@charac.CanRead, @charac.CanWrite, @charac.CanUpdate) - @string.Join("-", charac.Value)
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}
+
+@code {
+    [Parameter] public BLEDevice Device { get; set; }
+
+    [Inject] IBLEManager bLEManager { get; set; }
+
+    private IEnumerable<BLEService> services = [];
+    private BLEService _selectedService;
+    private Dictionary<Guid, IEnumerable<BLECharacteristic>> charDict = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.services = await bLEManager.GetDeviceServices(this.Device.Id);
+        await base.OnInitializedAsync();
+    }
+
+    private async Task SetCurrent(BLEService service)
+    {
+        this._selectedService = service;
+        var cLst = await bLEManager.GetServiceCharactersitics(Device.Id, service.Id);
+        this.charDict[service.Id] = cLst;
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+}

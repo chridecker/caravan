@@ -1,0 +1,27 @@
+﻿.services {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+    .services .service {
+        font-size: 0.9rem;
+        border: 1px solid var(--chd-font-color);
+        border-radius: 0.5rem;
+    }
+
+        .services .service.current {
+            border-color: var(--chd-main-color-theme);
+        }
+
+        .services .service .characteristics {
+            display: flex;
+            flex-direction: column;
+            margin-left: 1rem;
+        }
+
+            .services .service .characteristics .charateristic {
+                font-size: 0.8rem;
+                border: 1px solid var(--chd-font-color);
+                border-radius: 0.5rem;
+            }

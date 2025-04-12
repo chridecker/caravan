@@ -12,10 +12,10 @@
     @foreach (var device in this._ruuviData)
     {
         <SensorCard Time="DateTime.Now"
-                    Name="@connectedDevices.FirstOrDefault(x => x.Id == device.Key).Name"
-                    Value="device.Value.Temperature.Value"
-                    Min="0"
-                    Max="0" />
+        Name="@connectedDevices.FirstOrDefault(x => x.Id == device.Key).Name"
+        Value="device.Value.Temperature.Value"
+        Min="0"
+        Max="0" />
     }
 
 
@@ -34,6 +34,7 @@
         @if (this._currentSelectedDevice is not null)
         {
             <FloatingActionButton FAClass="wrench" OnClick="this.OpenSettings" Title="Settings" />
+            <FloatingActionButton FAClass="clouds" OnClick="this.ScanServices" Title="Scan Services" />
             @if (this._currentSelectedDevice.IsStarted)
             {
                 <FloatingActionButton FAClass="trash" OnClick="this.DisconnectDevice" Title="Disconnect" />
@@ -88,6 +89,15 @@
         this.connectedDevices.Remove(this._currentSelectedDevice);
         this._currentSelectedDevice = null;
         await this.InvokeAsync(this.StateHasChanged);
+    }
+
+    private async Task ScanServices()
+    {
+        var modalParam=new ModalParameters()
+        {
+            { nameof(BLEServiceComponent.Device),this._currentSelectedDevice }
+        };
+        await this.modal.Show<BLEServiceComponent>("Services", modalParam).Result;
     }
 
     private async Task StartDevice(BLEDevice device)
