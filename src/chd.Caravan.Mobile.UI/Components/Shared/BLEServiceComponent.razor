@@ -14,8 +14,12 @@
                     <div class="characteristics">
                         @foreach (var charac in charLst)
                         {
-                            <div class="charateristic" >
-                                @charac.Id - @charac.Name (@charac.CanRead, @charac.CanWrite, @charac.CanUpdate) 
+                            <div class="charateristic" @onclick="async ()=> await bLEManager.SubscribeForServiceCharacteristicAsync(Device.Id, service.Id, charac.Id)">
+                                @charac.Id - @charac.Name (@charac.CanRead, @charac.CanWrite, @charac.CanUpdate)
+                                @if (this.charValueDict.TryGetValue(charac.Id, out var val))
+                                {
+                                    @string.Join("-", val)
+                                }
                             </div>
                         }
                     </div>
@@ -34,11 +38,19 @@
     private IEnumerable<BLEService> services = [];
     private BLEService _selectedService;
     private Dictionary<Guid, IEnumerable<BLECharacteristic>> charDict = [];
+    private Dictionary<Guid, byte[]> charValueDict = [];
 
     protected override async Task OnInitializedAsync()
     {
+        bLEManager.CharacteristicValueUpdated += this.Char_updat;
         this.services = await bLEManager.GetDeviceServices(this.Device.Id);
         await base.OnInitializedAsync();
+    }
+
+    private async void Char_updat(object sender, BLECharactersiticsValueArgs e)
+    {
+        this.charValueDict[e.CharacteristicId] = e.Data;
+        await this.InvokeAsync(this.StateHasChanged);
     }
 
     private async Task SetCurrent(BLEService service)
