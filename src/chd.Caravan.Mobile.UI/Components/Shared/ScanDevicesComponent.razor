@@ -9,7 +9,7 @@
     @if (this.foundDevices.Any())
     {
         <div class="devices">
-            @foreach (var device in foundDevices.Where(x => string.IsNullOrWhiteSpace(this._filterText) || x.Name.Contains(this._filterText) ||x.UID.Contains(this._filterText)))
+            @foreach (var device in foundDevices.Where(x => string.IsNullOrWhiteSpace(this._filterText) || x.UID.Contains(this._filterText) || (!string.IsNullOrWhiteSpace(x.Name) && x.Name.Contains(this._filterText))))
             {
                 <div class="device @(this._currentDevice?.Id == device.Id ? "current" : "") " @onclick="()=>this._currentDevice = device">
                     <div class="device-name">
