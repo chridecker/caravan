@@ -1,3 +1,4 @@
+@using Blazored.Modal.Services
 @using chd.Caravan.Mobile.UI.Dtos
 @using chd.Caravan.Mobile.UI.Interfaces
 
@@ -28,6 +29,7 @@
     [Parameter] public BLEDevice Device { get; set; }
 
     [Inject] IBLEManager bLEManager { get; set; }
+    [Inject] IModalService modal { get; set; }
 
     private IEnumerable<BLEService> services = [];
     private BLEService _selectedService;
@@ -41,9 +43,16 @@
 
     private async Task SetCurrent(BLEService service)
     {
-        this._selectedService = service;
-        var cLst = await bLEManager.GetServiceCharactersitics(Device.Id, service.Id);
-        this.charDict[service.Id] = cLst;
+        try
+        {
+            this._selectedService = service;
+            var cLst = await bLEManager.GetServiceCharactersitics(Device.Id, service.Id);
+            this.charDict[service.Id] = cLst;
+        }
+        catch (Exception ex)
+        {
+            await this.modal.ShowDialog(ex.Message, chd.UI.Base.Contracts.Enum.EDialogButtons.OK);
+        }
         await this.InvokeAsync(this.StateHasChanged);
     }
 }
