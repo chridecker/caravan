@@ -191,7 +191,7 @@ namespace chd.Caravan.Mobile.Services
             if (service == null) { return false; }
 
             var characteristic = await service.GetCharacteristicAsync(characteristicId, cancellationToken);
-            if (characteristic == null) { return false; }
+            if (characteristic == null || !characteristic.CanUpdate) { return false; }
 
             characteristic.ValueUpdated += this.Characteristic_ValueUpdated;
             await characteristic.StartUpdatesAsync(cancellationToken);

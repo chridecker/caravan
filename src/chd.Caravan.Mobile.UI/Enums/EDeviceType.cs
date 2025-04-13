@@ -10,6 +10,7 @@ namespace chd.Caravan.Mobile.UI.Enums
     {
         Default,
         Ruuvi,
-        Votronic
+        Votronic,
+        PolarH10
     }
 }

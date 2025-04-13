@@ -1,0 +1,9 @@
+@using chd.Caravan.Mobile.UI.Dtos
+
+<div class="heartrate">
+    <div class="value" @this.Data.BPM</div>
+</div>
+
+@code {
+    [Parameter] public HeartRateData Data { get; set; }
+}

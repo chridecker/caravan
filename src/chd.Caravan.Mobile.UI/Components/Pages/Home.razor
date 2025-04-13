@@ -6,8 +6,14 @@
 @using chd.Caravan.Mobile.UI.Interfaces
 
 <div class="home-content">
+    @if (this._heartRateData is not null)
+    {
+        <HeartRateComponent Data="this._heartRateData" />
+    }
+
     <LoadingCard BatteryData="@_batteryData" SolarData="@_solarData" />
 
+    
 
     @foreach (var device in this._ruuviData)
     {
@@ -66,6 +72,7 @@
     Dictionary<Guid, RuuviTagData> _ruuviData = [];
     VotronicSolarData _solarData = null;
     VotronicBatteryData _batteryData = null;
+    HeartRateData _heartRateData = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -114,13 +121,18 @@
     {
         if (device.Type is Enums.EDeviceType.Ruuvi)
         {
-            await this.bLEManager.SubscribeForServiceCharacteristicAsync(device.Id, BLEContants.NORDIC_UART_SVC, BLEContants.TX_CHARACTERISTIC);
+            await this.bLEManager.SubscribeForServiceCharacteristicAsync(device.Id, BLEConstants.NORDIC_UART_SVC, BLEConstants.TX_CHARACTERISTIC);
             device.IsStarted = true;
         }
         else if (device.Type is Enums.EDeviceType.Votronic)
         {
-            await this.bLEManager.SubscribeForServiceCharacteristicAsync(device.Id, BLEContants.VOTRONIC_SVC, BLEContants.BATTERY_CHARACTERISTIC);
-            await this.bLEManager.SubscribeForServiceCharacteristicAsync(device.Id, BLEContants.VOTRONIC_SVC, BLEContants.SOLAR_CHARACTERISTIC);
+            await this.bLEManager.SubscribeForServiceCharacteristicAsync(device.Id, BLEConstants.VOTRONIC_SVC, BLEConstants.BATTERY_CHARACTERISTIC);
+            await this.bLEManager.SubscribeForServiceCharacteristicAsync(device.Id, BLEConstants.VOTRONIC_SVC, BLEConstants.SOLAR_CHARACTERISTIC);
+            device.IsStarted = true;
+        }
+        else if (device.Type is Enums.EDeviceType.PolarH10)
+        {
+            await this.bLEManager.SubscribeForServiceCharacteristicAsync(device.Id, BLEConstants.HEART_REATE, BLEConstants.HR_MEASURMENT);
             device.IsStarted = true;
         }
         await this.InvokeAsync(this.StateHasChanged);
@@ -177,22 +189,28 @@
         if (!connectedDevices.Any(a => a.Id == args.DeviceId)) { return; }
         var device = this.connectedDevices.FirstOrDefault(x => x.Id == args.DeviceId);
         if (device.Type == Enums.EDeviceType.Ruuvi
-        && args.ServiceId == BLEContants.NORDIC_UART_SVC
-        && args.CharacteristicId == BLEContants.TX_CHARACTERISTIC)
+        && args.ServiceId == BLEConstants.NORDIC_UART_SVC
+        && args.CharacteristicId == BLEConstants.TX_CHARACTERISTIC)
         {
             this._ruuviData[device.Id] = new RuuviTagData(args.Data);
         }
         else if (device.Type == Enums.EDeviceType.Votronic
-        && args.ServiceId == BLEContants.VOTRONIC_SVC)
+        && args.ServiceId == BLEConstants.VOTRONIC_SVC)
         {
-            if (args.CharacteristicId == BLEContants.SOLAR_CHARACTERISTIC)
+            if (args.CharacteristicId == BLEConstants.SOLAR_CHARACTERISTIC)
             {
                 this._solarData = new(args.Data);
             }
-            else if (args.CharacteristicId == BLEContants.BATTERY_CHARACTERISTIC)
+            else if (args.CharacteristicId == BLEConstants.BATTERY_CHARACTERISTIC)
             {
                 this._batteryData = new(args.Data, 200);
             }
+        }
+        else if(device.Type == Enums.EDeviceType.PolarH10
+        && args.ServiceId == BLEConstants.HEART_REATE
+        && args.CharacteristicId == BLEConstants.HR_MEASURMENT)
+        {
+            this._heartRateData = new HeartRateData(args.Data);
         }
         await this.InvokeAsync(this.StateHasChanged);
     }
@@ -200,11 +218,11 @@
 
     private async void BleDevice_Connected(object? sender, BLEDevice device)
     {
-        if(connectedDevices.Any(a => a.Id == device.Id)){ return; }
+        if (connectedDevices.Any(a => a.Id == device.Id)) { return; }
         connectedDevices.Add(device);
         if (this.IsSaved(device))
         {
-           await this.StartDevice(device);
+            await this.StartDevice(device);
         }
 
 
