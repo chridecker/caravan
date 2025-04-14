@@ -51,6 +51,28 @@ namespace chd.CaraVan.UI.Components.Pages
                 Max = 11.5m,
                 Value = 27.8m
             };
+            
+            this._valueDict[2] = new RuuviSensorDataDto()
+            {
+                Record = DateTime.Now,
+                Min = -9.5m,
+                Max = 11.5m,
+                Value = 27.8m
+            };
+            
+            this._valueDict[3] = new RuuviSensorDataDto()
+            {
+                Record = DateTime.Now,
+                Min = -9.5m,
+                Max = 11.5m,
+                Value = 27.8m
+            }; this._valueDict[5] = new RuuviSensorDataDto()
+            {
+                Record = DateTime.Now,
+                Min = -9.5m,
+                Max = 11.5m,
+                Value = 27.8m
+            };
 
             await base.OnInitializedAsync();
         }

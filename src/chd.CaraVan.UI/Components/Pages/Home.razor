@@ -10,15 +10,14 @@
         <LoadingCard BatteryData="@VotronicBatteryData" SolarData="@VotronicSolarData" />
     }
 
-    @foreach (var device in this._devices)
-    {
-        @if (this._valueDict.ContainsKey(device.Id))
+    <div class="sensor-data">
+        @foreach (var device in this._devices)
         {
-            <SensorCard Time="this.RuuviTime(device).Value"
-                        Name="@device.Name"
-                        Value="this.RuuviValue(device).Value"
-                        Min="this.MinMax(device).Item1"
-                        Max="this.MinMax(device).Item2" />
+            @if (this._valueDict.ContainsKey(device.Id))
+            {
+                <SensorCard Name="@device.Name"
+                            Value="this.RuuviValue(device).Value" />
+            }
         }
-    }
+    </div>
 </div>

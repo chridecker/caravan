@@ -16,15 +16,13 @@
     <LoadingCard BatteryData="@_batteryData" SolarData="@_solarData" />
 
 
-
-    @foreach (var device in this._ruuviData)
-    {
-        <SensorCard Time="DateTime.Now"
-                    Name="@connectedDevices.FirstOrDefault(x => x.Id == device.Key).Name"
-                    Value="device.Value.Temperature.Value"
-                    Min="0"
-                    Max="0" />
-    }
+    <div class="sensor-data">
+        @foreach (var device in this._ruuviData)
+        {
+            <SensorCard Name="@connectedDevices.FirstOrDefault(x => x.Id == device.Key).Name"
+                        Value="device.Value.Temperature.Value" />
+        }
+    </div>
 
 
     @if (this.connectedDevices.Any())

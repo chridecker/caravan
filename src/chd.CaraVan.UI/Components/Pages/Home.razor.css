@@ -1,5 +1,36 @@
-﻿.home-content{
+﻿.home-content {
     display: flex;
-    flex-direction:column;
-    align-items:center;
+    flex-direction: column;
+    align-items: center;
 }
+
+    .home-content .sensor-data {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.1rem;
+    }
+
+        .home-content .sensor-data ::deep .sensor-container {
+            flex: 1;
+            width: 9rem;
+        }
+
+            .home-content .sensor-data ::deep .sensor-container .sensor-header .sensor-header-content .sensor-logo {
+                line-height: 1rem;
+            }
+
+                .home-content .sensor-data ::deep .sensor-container .sensor-header .sensor-header-content .sensor-logo svg {
+                    font-size: 0.8rem;
+                    line-height: 0.8rem;
+                }
+
+            .home-content .sensor-data ::deep .sensor-container .sensor-header .sensor-header-content .sensor-name {
+                font-size: 0.8rem;
+                line-height: 0.8rem;
+            }
+
+            .home-content .sensor-data ::deep .sensor-container .sensor-data .sensor-data-content .sensor-value.current {
+                font-size: 2.3rem;
+            }

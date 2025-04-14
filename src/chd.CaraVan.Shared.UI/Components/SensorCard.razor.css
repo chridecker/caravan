@@ -1,5 +1,5 @@
 ﻿.sensor-container {
-    width: 80vw;
+    width: 100%;
     height: max-content;
     color: var(--chd-bg);
     display: flex;
@@ -12,6 +12,7 @@
         border-bottom: 0;
         border-radius: 0.5rem 0.5rem 0 0;
         padding: 0.2rem;
+        width: max-content;
     }
 
         .sensor-container .sensor-header .sensor-header-content {
@@ -19,14 +20,20 @@
             border-radius: 0.5rem 0.5rem 0 0;
             background-color: white;
             display: flex;
-            justify-content: space-between;
-            gap: 5rem;
+            justify-content: left;
             padding-right: 0.1rem;
+            gap: 0.2rem;
         }
 
-            .sensor-container .sensor-header .sensor-header-content .sensor-logo ::deep svg {
-                fill: var(--chd-bg);
+        .sensor-container .sensor-header .sensor-header-content {
+        }
+
+            .sensor-container .sensor-header .sensor-header-content .sensor-logo {
             }
+
+                .sensor-container .sensor-header .sensor-header-content .sensor-logo ::deep svg {
+                    fill: var(--chd-bg);
+                }
 
             .sensor-container .sensor-header .sensor-header-content .sensor-name {
                 font-size: 1.2rem;
@@ -56,14 +63,9 @@
                     font-weight: bold;
                 }
 
-                .sensor-container .sensor-data .sensor-data-content .sensor-value.time {
-                    order: 5;
-                    font-size: 0.8rem;
-                }
-
                 .sensor-container .sensor-data .sensor-data-content .sensor-value.bound {
-                    width: 5.5rem;
-                    font-size: 1.5rem;
+                    width: 40%;
+                    font-size: 1.2rem;
                     text-align: center;
                     border-radius: 0 0 0.3rem 0.3rem;
                 }
