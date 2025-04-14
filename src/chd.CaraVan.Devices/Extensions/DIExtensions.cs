@@ -11,7 +11,6 @@ namespace chd.CaraVan.Devices.Extensions
     {
         public static IServiceCollection AddDeviceServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<EmailSettings>(configuration.GetSection(nameof(EmailSettings)));
             services.Configure<DeviceSettings>(configuration.GetSection(nameof(DeviceSettings)));
 
             services.AddSingleton<GpioController>();

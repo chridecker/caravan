@@ -1,27 +1,39 @@
-﻿@page "/settings"
-@implements IDisposable
-@inherits PageComponentBase<int,int>
+﻿@implements IDisposable
 @inject ISettingManager settingManager
 @inject IUpdateService updateService
 @using chd.CaraVan.Contracts.Contants
 @using chd.CaraVan.UI.Components.Pages.Cards
+@using chd.CaraVan.UI.Dtos
 
-
-<div class="setting">
-    Version: @this._currentVersion
+<div class="settings">
+    <div class="setting">
+        Version: @this._currentVersion
+    </div>
+    <div class="setting">
+        <SwitchButton Text="Autorotate" Checked="this.IsAutorotate()" CheckedChanged="this.ChangeAutorotate" />
+    </div>
+    <div class="setting">
+        <Reboot Token="this._cts.Token" />
+    </div>
 </div>
 
-<Reboot Token="this._cts.Token" />
-
 @code {
+    [Parameter] public HomeSettingDto HomeSetting { get; set; }
+
     private CancellationTokenSource _cts = new();
     private Version _currentVersion;
 
     protected override async Task OnInitializedAsync()
     {
-        this.Title = "Settings";
         this._currentVersion = await this.updateService.CurrentVersion();
     }
+
+    private void ChangeAutorotate(bool val)
+    {
+        this.HomeSetting.AutorotateCarousel = val;
+    }
+
+    private async Task<bool> IsAutorotate(CancellationToken cancellationToken = default) => this.HomeSetting.AutorotateCarousel;
 
     public void Dispose()
     {

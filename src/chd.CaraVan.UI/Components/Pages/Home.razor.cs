@@ -6,11 +6,14 @@ using chd.UI.Base.Components.Base;
 using Microsoft.AspNetCore.Components;
 using chd.UI.Base.Contracts.Enum;
 using Blazorise;
+using Blazored.Modal;
+using chd.CaraVan.UI.Dtos;
 
 namespace chd.CaraVan.UI.Components.Pages
 {
     public partial class Home : PageComponentBase<int, int>, IDisposable
     {
+        [Inject] private Blazored.Modal.Services.IModalService _modal { get; set; }
         [Inject] private IVotronicDataService _votronicData { get; set; }
         [Inject] private IRuuviTagDataService _ruuviTagDataService { get; set; }
         [Inject] private IDataHubClient _dataHubClient { get; set; }
@@ -25,8 +28,10 @@ namespace chd.CaraVan.UI.Components.Pages
 
         private IEnumerable<RuuviDeviceDto> _devices = [];
 
-        private string _selectedSlide = "Battery";
+        private string _selectedSlide = "Time";
         private Carousel _carousel;
+
+        private HomeSettingDto _settings = new();
 
         protected override async Task OnInitializedAsync()
         {
@@ -47,8 +52,8 @@ namespace chd.CaraVan.UI.Components.Pages
             this.VotronicSolarData = await this._votronicData.GetSolarData();
             this.VotronicBatteryData = await this._votronicData.GetBatteryData();
 
-            this.VotronicBatteryData = new([25,34,25,58,58,15,15,35,58,28,253,214,123,25,35,45],200);
-            this.VotronicSolarData = new([25,34,25,58,58,15,15,35,58,28,253,214,123,25,35,45]);
+            this.VotronicBatteryData = new([25, 34, 25, 58, 58, 15, 15, 35, 58, 28, 253, 214, 123, 25, 35, 45], 200);
+            this.VotronicSolarData = new([25, 34, 25, 58, 58, 15, 15, 35, 58, 28, 253, 214, 123, 25, 35, 45]);
 
 
             this._valueDict[1] = new RuuviSensorDataDto()
@@ -84,15 +89,25 @@ namespace chd.CaraVan.UI.Components.Pages
             await base.OnInitializedAsync();
         }
 
+
         private Task OnSwipe(ESwipeDirection direction)
             => direction switch
             {
-                ESwipeDirection.TopToBottom => this._carousel.Select("Settings"),
+                ESwipeDirection.TopToBottom => this.ShowSettingModal(),
                 ESwipeDirection.LeftToRight => this._carousel.SelectPrevious(),
-                ESwipeDirection.RightToLeft =>  this._carousel.SelectNext(),
-                ESwipeDirection.BottomToTop =>  this._carousel.Select("Sensors"),
+                ESwipeDirection.RightToLeft => this._carousel.SelectNext(),
+                ESwipeDirection.BottomToTop => this._carousel.Select("Sensors"),
                 _ => Task.CompletedTask
             };
+
+        private async Task ShowSettingModal()
+        {
+            var parameter = new ModalParameters
+            {
+                {nameof(Settings.HomeSetting),this._settings }
+            };
+            _ = await this._modal.Show<Settings>("Settings", parameter).Result;
+        }
 
         private async Task Reload()
         {

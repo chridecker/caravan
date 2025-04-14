@@ -1,0 +1,19 @@
+﻿.current-time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    color: white;
+}
+
+    .current-time .time {
+        font-size: 4.5rem;
+        line-height: 3rem;
+        order: 2;
+    }
+
+    .current-time .date {
+        order: 1;
+        font-size: 2rem;
+        line-height: 2rem;
+    }

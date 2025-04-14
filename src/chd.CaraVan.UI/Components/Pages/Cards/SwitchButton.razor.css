@@ -1,0 +1,61 @@
+﻿.switch-button {
+    display: flex;
+    gap: 0.2rem;
+    align-items: center;
+}
+
+    .switch-button .switch {
+        display: flex;
+        width: 6.3rem;
+        height: 3rem;
+    }
+
+        .switch-button .switch .slider {
+            display: flex;
+            width: 100%;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            border: 0.1rem solid white;
+            background-color: var(--chd-grey);
+            padding: 0.1rem;
+        }
+
+            .switch-button .switch .slider:before {
+                display: flex;
+                color: var(--chd-bg);
+                height: 100%;
+                width: 2.8rem;
+                border-radius: 0.5rem;
+                background-color: white;
+                border: 0.1rem solid var(--chd-bg);
+                text-align: center;
+                padding: 0.1rem;
+                align-content: center;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                box-shadow: inset 0 3px 6px rgba(0,0,0,0.16), 0 4px 6px rgba(0,0,0,0.45);
+            }
+
+            .switch-button .switch .slider.on {
+                background-color: var(--chd-green);
+            }
+
+                .switch-button .switch .slider.on:before {
+                    transform: translateX(3.0rem);
+                    transition: all 0.3s ease;
+                    content: var(--text-on);
+                }
+
+            .switch-button .switch .slider.off {
+            }
+
+                .switch-button .switch .slider.off:before {
+                    transition: all 0.3s ease;
+                    content: var(--text-off);
+                }
+
+    .switch-button .switch-text {
+        display: flex;
+        font-size: 2rem;
+    }

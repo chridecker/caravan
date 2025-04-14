@@ -1,13 +1,16 @@
 main {
     position: absolute;
     width: 100%;
-    margin-top: 0.5rem !important;
+    height: 100%;
 }
 
 
-article {
+main #main-article {
     position: relative;
     padding: 0 !important;
+
+    width:100vw;
+    height:100vh;
 }
 
     article ::deep * {

@@ -1,0 +1,27 @@
+<div class="current-time">
+    <div class="time">@this._time</div>
+    <div class="date">@this._date</div>
+</div>
+
+
+@code {
+    private DateTime _currentDateTime => DateTime.Now;
+
+    private string _time => this._currentDateTime.ToString("HH:mm:ss");
+    private string _date => this._currentDateTime.ToString("ddd dd.MM.yy");
+
+    private readonly PeriodicTimer _periodicTimer = new(TimeSpan.FromSeconds(1));
+
+    protected override Task OnInitializedAsync()
+    {
+        this.Refresher();
+        return base.OnInitializedAsync();
+    }
+    private async void Refresher()
+    {
+        while (await this._periodicTimer.WaitForNextTickAsync())
+        {
+            await this.InvokeAsync(this.StateHasChanged);
+        }
+    }
+}
