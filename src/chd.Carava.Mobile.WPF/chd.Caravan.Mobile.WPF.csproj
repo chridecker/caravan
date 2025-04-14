@@ -10,7 +10,7 @@
 		<InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.Extensions.Configuration.Binder.SourceGeneration</InterceptorsPreviewNamespaces>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="System.Management" Version="9.0.0" />
+		<PackageReference Include="System.Management" Version="9.0.4" />
 		<PackageReference Include="chd.UI.Base.WPF" Version="1.0.25104.112" />
 	</ItemGroup>
 	<ItemGroup>

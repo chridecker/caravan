@@ -8,8 +8,8 @@
 	<ItemGroup>
 		<PackageReference Include="Blazorise.Bootstrap5" Version="1.7.5" />
 		<PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="9.0.3" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.4" />
 		<PackageReference Include="chd.UI.Base.Components" Version="1.0.25104.112" />
 		<PackageReference Include="chd.Hub.Base.Client" Version="1.0.25104.112" />
 	</ItemGroup>

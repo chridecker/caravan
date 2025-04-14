@@ -8,8 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="chd.Api.Base" Version="1.0.25104.112" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="9.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="9.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.4" />
     <PackageReference Include="NLog.Extensions.Logging" Version="5.4.0" />
   </ItemGroup>
 
