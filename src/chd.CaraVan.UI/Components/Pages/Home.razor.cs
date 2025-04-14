@@ -4,6 +4,8 @@ using chd.CaraVan.UI.Interfaces;
 using chd.CaraVan.Shared.UI.Dtos;
 using chd.UI.Base.Components.Base;
 using Microsoft.AspNetCore.Components;
+using chd.UI.Base.Contracts.Enum;
+using Blazorise;
 
 namespace chd.CaraVan.UI.Components.Pages
 {
@@ -19,11 +21,12 @@ namespace chd.CaraVan.UI.Components.Pages
 
         private IDictionary<int, RuuviSensorDataDto> _valueDict = new Dictionary<int, RuuviSensorDataDto>();
 
-        private DateTime? RuuviTime(RuuviDeviceDto dto) => this._valueDict.TryGetValue(dto.Id, out var val) ? val?.Record : null;
         private decimal? RuuviValue(RuuviDeviceDto dto) => this._valueDict.TryGetValue(dto.Id, out var val) ? val?.Value : null;
-        private (decimal?, decimal?) MinMax(RuuviDeviceDto dto) => this._valueDict.TryGetValue(dto.Id, out var val) ? (val.Min, val.Max) : (null, null);
 
         private IEnumerable<RuuviDeviceDto> _devices = [];
+
+        private string _selectedSlide = "Battery";
+        private Carousel _carousel;
 
         protected override async Task OnInitializedAsync()
         {
@@ -44,6 +47,10 @@ namespace chd.CaraVan.UI.Components.Pages
             this.VotronicSolarData = await this._votronicData.GetSolarData();
             this.VotronicBatteryData = await this._votronicData.GetBatteryData();
 
+            this.VotronicBatteryData = new([25,34,25,58,58,15,15,35,58,28,253,214,123,25,35,45],200);
+            this.VotronicSolarData = new([25,34,25,58,58,15,15,35,58,28,253,214,123,25,35,45]);
+
+
             this._valueDict[1] = new RuuviSensorDataDto()
             {
                 Record = DateTime.Now,
@@ -51,7 +58,7 @@ namespace chd.CaraVan.UI.Components.Pages
                 Max = 11.5m,
                 Value = 27.8m
             };
-            
+
             this._valueDict[2] = new RuuviSensorDataDto()
             {
                 Record = DateTime.Now,
@@ -59,7 +66,7 @@ namespace chd.CaraVan.UI.Components.Pages
                 Max = 11.5m,
                 Value = 27.8m
             };
-            
+
             this._valueDict[3] = new RuuviSensorDataDto()
             {
                 Record = DateTime.Now,
@@ -76,6 +83,16 @@ namespace chd.CaraVan.UI.Components.Pages
 
             await base.OnInitializedAsync();
         }
+
+        private Task OnSwipe(ESwipeDirection direction)
+            => direction switch
+            {
+                ESwipeDirection.TopToBottom => this._carousel.Select("Settings"),
+                ESwipeDirection.LeftToRight => this._carousel.SelectPrevious(),
+                ESwipeDirection.RightToLeft =>  this._carousel.SelectNext(),
+                ESwipeDirection.BottomToTop =>  this._carousel.Select("Sensors"),
+                _ => Task.CompletedTask
+            };
 
         private async Task Reload()
         {
