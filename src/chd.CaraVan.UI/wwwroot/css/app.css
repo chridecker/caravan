@@ -1,5 +1,3 @@
-@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
-
 * {
     /*Device*/
     --chd-device-width: 1280px;
@@ -44,107 +42,20 @@
         }
 
 
-@media (min-width: 768px) {
-    * {
-        --top-header-padding-tb: 0 !important;
-        --top-header-height: 2.2rem !important;
-        --nav-toggle-height: 0 !important;
-        --main-article-padding-lr: 0 !important;
-    }
-
-    .top-row {
-        flex-direction: row;
-        justify-content: flex-start !important;
-    }
-
-    .sidebar.collapsed header .image {
-        display: flex !important;
-    }
-}
-
-
 @media (max-width: 360px) {
     * {
         --nav-toggle-height: 0 !important;
         --top-header-padding-tb: 0.2 !important;
-        --top-header-height: 2.2rem !important;
+        --top-header-height:0 !important;
         --main-article-height: calc(100vh - calc(var(--top-header-height))) !important;
         --widget-width: 15rem !important;
         --main-article-padding-lr: 0 !important;
         --widget-height: 33rem !important;
+        --sidebar-width-small: 0 !important;
     }
 
     main {
-        margin-top: 0 !important;
     }
-
-    .sidebar {
-        border-right: 1px solid var(--chd-grey) !important;
-    }
-
-        .sidebar.collapsed header .toggle[b-79bnsfo7mq] {
-            right: calc(0.6* var(--nav-toggle-height) - 1.5rem);
-        }
-
-
-
-    .top-row:not(.auth) {
-        display: flex !important;
-    }
-
-    .top-row .header-panel {
-        padding-left: 0.2rem;
-        padding-right: 0.4rem;
-    }
-
-        .top-row .header-panel .ui-header {
-        }
-
-            .top-row .header-panel .ui-header .pageTitle {
-                display: none;
-            }
-
-            .top-row .header-panel .ui-header .right-content {
-                position: relative !important;
-                display: flex !important;
-                column-gap: 0.1rem !important;
-                gap: 0.1rem;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                align-content: center;
-            }
-
-                .top-row .header-panel .ui-header .right-content .userBox {
-                    font-size: 10pt !important;
-                    flex: 0 2 auto;
-                    height: max-content !important;
-                    width: 15rem !important;
-                }
-
-                .top-row .header-panel .ui-header .right-content .versionBox {
-                    flex: 0 2 auto;
-                    font-size: 10pt !important;
-                    width: 10rem !important;
-                    height: max-content !important;
-                    margin-left: 0.5rem;
-                }
-
-                .top-row .header-panel .ui-header .right-content .networkBox {
-                    flex: 0 1 auto;
-                    width: 1.5rem !important;
-                }
-
-                .top-row .header-panel .ui-header .right-content .theme-mode {
-                    display: none;
-                }
-
-                .top-row .header-panel .ui-header .right-content > .battery-container {
-                    flex: 1 0 auto;
-                    margin-left: 0.5rem;
-                    flex-direction: row-reverse;
-                }
-
 
     .outer input {
         width: 13rem;

@@ -1,5 +1,4 @@
 ﻿using chd.CaraVan.Contracts.Settings;
-using chd.CaraVan.Devices.Contracts.Dtos.Pi;
 using chd.CaraVan.Contracts.Interfaces;
 using chd.CaraVan.Devices.Implementations;
 using Microsoft.Extensions.Configuration;
@@ -14,18 +13,14 @@ namespace chd.CaraVan.Devices.Extensions
         {
             services.Configure<EmailSettings>(configuration.GetSection(nameof(EmailSettings)));
             services.Configure<DeviceSettings>(configuration.GetSection(nameof(DeviceSettings)));
-            services.Configure<AesSettings>(configuration.GetSection(nameof(AesSettings)));
-            services.Configure<PiSettings>(configuration.GetSection(nameof(PiSettings)));
 
             services.AddSingleton<GpioController>();
             services.AddSingleton<BLEManager>();
 
-            services.AddSingleton<IPiManager, PiManager>();
             services.AddSingleton<ISystemManager, SystemManager>();
 
             services.AddSingleton<IRuuviTagDataService, RuuviTagDataService>();
             services.AddSingleton<IVotronicDataService, VotronicDataService>();
-            services.AddSingleton<IAESManager, AESManager>();
 
 
             return services;

@@ -1,4 +1,6 @@
-﻿namespace chd.CaraVan.Devices.Contracts.Dtos.Votronic
+﻿using chd.CaraVan.Contracts.Dtos;
+
+namespace chd.CaraVan.Devices.Contracts.Dtos.Votronic
 {
     public class VotronicEventArgs
     {

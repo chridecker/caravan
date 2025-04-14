@@ -1,14 +1,15 @@
-﻿using chd.CaraVan.Devices.Contracts.Interfaces;
-using chd.CaraVan.Devices.Extensions;
+﻿using chd.CaraVan.Devices.Extensions;
+using chd.CaraVan.UI.Extensions;
 using chd.CaraVan.Web.Services;
 
 namespace chd.CaraVan.Web.Extensions
 {
     public static class DIExtensions
     {
-        public static IServiceCollection AddServer(this IServiceCollection services,IConfiguration configuration)
+        public static IServiceCollection AddWeb(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<IEmailService, EmailService>();
+            services.AddUi(configuration);
+
             services.AddDeviceServices(configuration);
 
             if (OperatingSystem.IsLinux())

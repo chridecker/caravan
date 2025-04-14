@@ -5,12 +5,8 @@
 @inject IScrollInfoService scrollInfoService
 
 <div class="page">
-    <NavMenu />
 
     <main class="" >
-        <div class="top-row">
-            <Header PageTitle="@this.Title"></Header>
-        </div>
         <article id="main-article" class="content px-4" @onscroll="scrollInfoService.Scrolled">
             @Body
         </article>

@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\chd.CaraVan.Devices\chd.CaraVan.Devices.csproj" />
+    <ProjectReference Include="..\chd.CaraVan.UI\chd.CaraVan.UI.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,10 @@
-﻿namespace chd.CaraVan.Devices.Contracts.Dtos.RuvviTag
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace chd.CaraVan.Shared.UI.Dtos
 {
     public class RuuviTagData
     {

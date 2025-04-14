@@ -1,5 +1,5 @@
 ﻿.home-content{
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    display: flex;
+    flex-direction:column;
+    align-items:center;
 }

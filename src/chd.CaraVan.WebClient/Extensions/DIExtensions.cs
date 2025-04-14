@@ -11,18 +11,6 @@ namespace chd.CaraVan.WebClient.Extensions
     {
         public static IServiceCollection AddChdCaravanClient(this IServiceCollection services, Func<IServiceProvider, Uri> func)
         {
-            services.AddHttpClient<RuuviClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointContants.Ruuvi.ROOT));
-            services.AddTransient<IRuuviTagDataService, RuuviClient>();
-
-            services.AddHttpClient<VotronicClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointContants.Votronic.ROOT));
-            services.AddTransient<IVotronicDataService, VotronicClient>();
-            
-            services.AddHttpClient<AesClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointContants.Aes.ROOT));
-            services.AddTransient<IAESManager, AesClient>();
-            
-            services.AddHttpClient<PiClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointContants.Pi.ROOT));
-            services.AddTransient<IPiManager, PiClient>();
-            
             services.AddHttpClient<SystemClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointContants.System.ROOT));
             services.AddTransient<ISystemManager, SystemClient>();
             return services;

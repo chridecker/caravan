@@ -13,6 +13,7 @@
 		<PackageReference Include="chd.Hub.Base.Client" Version="1.0.25086.109" />
 	</ItemGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\chd.CaraVan.Shared.UI\chd.CaraVan.Shared.UI.csproj" />
 	  <ProjectReference Include="..\chd.CaraVan.WebClient\chd.CaraVan.WebClient.csproj" />
 	</ItemGroup>
 

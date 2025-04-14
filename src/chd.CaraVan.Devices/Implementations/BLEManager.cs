@@ -1,6 +1,8 @@
-﻿using chd.CaraVan.Contracts.Settings;
+﻿using chd.CaraVan.Contracts.Dtos;
+using chd.CaraVan.Contracts.Settings;
 using chd.CaraVan.Devices.Contracts.Dtos.RuvviTag;
 using chd.CaraVan.Devices.Contracts.Dtos.Votronic;
+using chd.CaraVan.Shared.UI.Dtos;
 using Linux.Bluetooth;
 using Linux.Bluetooth.Extensions;
 using Microsoft.Extensions.Logging;

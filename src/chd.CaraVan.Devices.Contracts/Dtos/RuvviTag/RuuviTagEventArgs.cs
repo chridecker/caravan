@@ -1,4 +1,6 @@
-﻿namespace chd.CaraVan.Devices.Contracts.Dtos.RuvviTag
+﻿using chd.CaraVan.Shared.UI.Dtos;
+
+namespace chd.CaraVan.Devices.Contracts.Dtos.RuvviTag
 {
     public class RuuviTagEventArgs
     {

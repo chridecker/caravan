@@ -7,11 +7,6 @@ namespace chd.CaraVan.Web.Endpoints
         public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder app)
         {
             var group = app.MapGroup(EndpointContants.ROOT);
-
-            group.AddRuuvi();
-            group.AddVotronic();
-            group.AddPi();
-            group.AddAes();
             group.AddSystem();
 
             return app;

@@ -11,33 +11,16 @@
     Version: @this._currentVersion
 </div>
 
-<ServiceState Token="this._cts.Token" Service="pitunnel" />
-
 <Reboot Token="this._cts.Token" />
-
-<div class="setting">
-    Basis Adresse:
-    <input type="text" value="@this._baseAddress" @onchange="async (e)=>await this.UpdateMainUrl(e)" />
-</div>
 
 @code {
     private CancellationTokenSource _cts = new();
-    private string _baseAddress = string.Empty;
     private Version _currentVersion;
 
     protected override async Task OnInitializedAsync()
     {
         this.Title = "Settings";
-
-        this._baseAddress = await this.settingManager.MainUrl;
         this._currentVersion = await this.updateService.CurrentVersion();
-    }
-
-    private async Task UpdateMainUrl(ChangeEventArgs e)
-    {
-        await this.settingManager.UpdateMainUrl((string)e.Value);
-        this.settingManager.SetNativSetting(SettingConstants.BaseAddress, (string)e.Value);
-        await this.InvokeAsync(this.StateHasChanged);
     }
 
     public void Dispose()

@@ -1,6 +1,7 @@
 using chd.CaraVan.Contracts.Dtos;
 using chd.CaraVan.Contracts.Interfaces;
 using chd.CaraVan.UI.Interfaces;
+using chd.CaraVan.Shared.UI.Dtos;
 using chd.UI.Base.Components.Base;
 using Microsoft.AspNetCore.Components;
 
@@ -42,26 +43,6 @@ namespace chd.CaraVan.UI.Components.Pages
 
             this.VotronicSolarData = await this._votronicData.GetSolarData();
             this.VotronicBatteryData = await this._votronicData.GetBatteryData();
-
-            this.VotronicBatteryData = new()
-            {
-                Ampere = -4.5m,
-                AmpereH = 180m,
-                DateTime = DateTime.Now,
-                Percent = (180m / 200m) * 100,
-                Voltage = 14.5m
-            };
-
-            this.VotronicSolarData = new()
-            {
-                Ampere = -4.5m,
-                AmpereH = 180m,
-                DateTime = DateTime.Now,
-                Voltage = 14.5m,
-                VoltageSolar = 12.3m,
-                State = 49,
-                LoadingPhase = "U1"
-            };
 
             this._valueDict[1] = new RuuviSensorDataDto()
             {

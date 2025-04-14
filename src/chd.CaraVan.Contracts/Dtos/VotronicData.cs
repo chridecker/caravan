@@ -2,11 +2,23 @@
 {
     public abstract class VotronicData
     {
-        public byte[] Data {get;set; }
+        protected readonly byte[] _data;
+        public decimal Voltage => this.GetData(0,2,100m);
 
-        public DateTime DateTime { get; set; }
-        public decimal Voltage { get; set; }
-        public decimal AmpereH { get; set; }
-        public decimal Ampere { get; set; }
+        public byte[] Data => this._data;
+
+        protected VotronicData(byte[] data)
+        {
+            this._data = data;
+        }
+       
+        
+        protected decimal GetData(int start, int bytes, decimal divisor)
+        {
+            var hex = Convert.ToHexString(this._data.Skip(start).Take(bytes).Reverse().ToArray());
+            var val = Convert.ToInt16(hex, 16);
+            return Math.Round(val / divisor, 2);
+        }
+
     }
 }

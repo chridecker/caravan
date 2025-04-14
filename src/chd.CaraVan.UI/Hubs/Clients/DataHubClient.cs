@@ -19,17 +19,11 @@ namespace chd.CaraVan.UI.Hubs.Clients
             this._settingManager = settingManager;
         }
 
-        protected override Uri LoadUri()
-        {
-            var baseAddress = this._settingManager.MainUrl.Result;
-            return new UriBuilder($"{baseAddress}/data-hub").Uri;
-        }
-        protected override async Task<bool> ShouldInitialize(CancellationToken cancellationToken)
-           => !string.IsNullOrWhiteSpace((await this._settingManager.MainUrl));
+        protected override Uri LoadUri() => new UriBuilder($"http://localhost/data-hub").Uri;
+        protected override Task<bool> ShouldInitialize(CancellationToken cancellationToken) => Task.FromResult(true);
 
 
         protected override Task DoInvokations(HubConnection connection, CancellationToken cancellationToken) => Task.CompletedTask;
-
 
         protected override void HookIncomingCalls(HubConnection connection)
         {

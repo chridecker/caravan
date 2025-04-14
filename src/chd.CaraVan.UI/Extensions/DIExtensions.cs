@@ -14,18 +14,10 @@ namespace chd.CaraVan.UI.Extensions
 {
     public static class DIExtensions
     {
-        public static IServiceCollection AddUi<TSettingManager>(this IServiceCollection services, IConfiguration configuration, ServiceLifetime profileServiceLifeTime = ServiceLifetime.Singleton)
-             where TSettingManager : BaseSettingManager, ISettingManager
+        public static IServiceCollection AddUi(this IServiceCollection services, IConfiguration configuration, ServiceLifetime profileServiceLifeTime = ServiceLifetime.Singleton)
         {
             services.AddAuthorizationCore();
-            services.AddUtilities<chdProfileService, int, int, HandleUserIdLogin, TSettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, UpdateService>(profileServiceLifeTime);
-             services.AddMauiModalHandler();
-            services.AddSingleton<INavigationHistoryStateContainer, NavigationHistoryStateContainer>();
-            services.AddScoped<INavigationHandler, NavigationHandler>();
-
-            services.AddChdCaravanClient(sp => configuration.GetApiKey("chdCaravanApi"));
-            services.AddSingleton<IAppInfoService, AppInfoService>();
-
+            services.AddUtilities<chdProfileService, int, int, HandleUserIdLogin, SettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, UpdateService>(profileServiceLifeTime);
             services.AddScoped<IDataHubClient, DataHubClient>();
 
             return services;

@@ -1,17 +1,14 @@
 ﻿using chd.CaraVan.Contracts.Dtos;
 using chd.CaraVan.Contracts.Interfaces;
-using chd.CaraVan.Devices.Contracts.Interfaces;
 using System.Diagnostics;
 
 namespace chd.CaraVan.Devices.Implementations
 {
     public class SystemManager : ISystemManager
     {
-        private readonly IEmailService _emailService;
 
-        public SystemManager(IEmailService emailService)
+        public SystemManager()
         {
-            this._emailService = emailService;
         }
 
         public Task ChangeStateInTime(ServiceControlDto dto, CancellationToken cancellationToken) => _ = StopAfterTime(dto, cancellationToken);
@@ -23,13 +20,11 @@ namespace chd.CaraVan.Devices.Implementations
             {
                 if ((await this.IsServiceRunning(dto.Service)).HasValue)
                 {
-                    await this._emailService.SendEmail($"Service '{dto.Service}' stopped @{DateTime.Now.ToString("dd.MM.yy HH:MM:ss")}", "Gestarted", cancellationToken);
                     await this.StopService(dto);
                 }
                 else
                 {
 
-                    await this._emailService.SendEmail($"Service '{dto.Service}' started @{DateTime.Now.ToString("dd.MM.yy HH:MM:ss")}", "Gestarted", cancellationToken);
                     await this.StartService(dto);
                 }
             }
