@@ -11,6 +11,6 @@ namespace chd.Caravan.Mobile.UI.Enums
         Default,
         Ruuvi,
         Votronic,
-        PolarH10
+        HeartRate
     }
 }

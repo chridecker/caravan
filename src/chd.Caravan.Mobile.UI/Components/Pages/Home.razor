@@ -13,15 +13,15 @@
 
     <LoadingCard BatteryData="@_batteryData" SolarData="@_solarData" />
 
-    
+
 
     @foreach (var device in this._ruuviData)
     {
         <SensorCard Time="DateTime.Now"
-        Name="@connectedDevices.FirstOrDefault(x => x.Id == device.Key).Name"
-        Value="device.Value.Temperature.Value"
-        Min="0"
-        Max="0" />
+                    Name="@connectedDevices.FirstOrDefault(x => x.Id == device.Key).Name"
+                    Value="device.Value.Temperature.Value"
+                    Min="0"
+                    Max="0" />
     }
 
 
@@ -30,7 +30,7 @@
         <div class="devices">
             @foreach (var device in connectedDevices)
             {
-                <ConnectedDeviceComponent Device="device" IsCurrentDevice="(BLEDevice d) => this._currentSelectedDevice?.Id == d.Id" OnClick="async(BLEDevice d)=>this._currentSelectedDevice = d" />
+                <ConnectedDeviceComponent Device="device" IsCurrentDevice="(BLEDevice d) => this._currentSelectedDevice?.Id == d.Id" OnClick="this.SelectDevice" />
             }
         </div>
     }
@@ -99,6 +99,13 @@
         await base.OnInitializedAsync();
     }
 
+    private async Task SelectDevice(BLEDevice device)
+    {
+        this._currentSelectedDevice = device;
+
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
     private async Task DisconnectDevice()
     {
         await bLEManager.DisconnectDeviceAsync(this._currentSelectedDevice.Id);
@@ -130,7 +137,7 @@
             await this.bLEManager.SubscribeForServiceCharacteristicAsync(device.Id, BLEConstants.VOTRONIC_SVC, BLEConstants.SOLAR_CHARACTERISTIC);
             device.IsStarted = true;
         }
-        else if (device.Type is Enums.EDeviceType.PolarH10)
+        else if (device.Type is Enums.EDeviceType.HeartRate)
         {
             await this.bLEManager.SubscribeForServiceCharacteristicAsync(device.Id, BLEConstants.HEART_REATE, BLEConstants.HR_MEASURMENT);
             device.IsStarted = true;
@@ -206,11 +213,12 @@
                 this._batteryData = new(args.Data, 200);
             }
         }
-        else if(device.Type == Enums.EDeviceType.PolarH10
+        else if (device.Type == Enums.EDeviceType.HeartRate
         && args.ServiceId == BLEConstants.HEART_REATE
         && args.CharacteristicId == BLEConstants.HR_MEASURMENT)
         {
             this._heartRateData = new HeartRateData(args.Data);
+            this._heartRateData.Name = !string.IsNullOrWhiteSpace(device.DisplayName) ? device.DisplayName : device.Name;
         }
         await this.InvokeAsync(this.StateHasChanged);
     }

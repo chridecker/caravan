@@ -1,3 +1,4 @@
+@using Blazored.Modal
 @using chd.Caravan.Mobile.UI.Constants
 @using chd.Caravan.Mobile.UI.Dtos
 @using chd.Caravan.Mobile.UI.Enums
@@ -31,8 +32,9 @@
 
     private string DeviceTypeName(EDeviceType type) => type switch
     {
-        EDeviceType.Default => "Default",
         EDeviceType.Ruuvi => "Ruuvi Tag",
-        EDeviceType.Votronic => "Votronic"
+        EDeviceType.Votronic => "Votronic",
+        EDeviceType.HeartRate => "Heartrate Monitor",
+        _ => "Default"
     };
 }

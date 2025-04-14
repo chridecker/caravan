@@ -11,11 +11,11 @@ namespace chd.Caravan.Mobile.WPF.Services
 {
     public class BLEManager : IBLEManager
     {
-        public bool IsRunning => throw new NotImplementedException();
+        public bool IsRunning => true;
 
-        public bool IsAvailable => throw new NotImplementedException();
+        public bool IsAvailable => true;
 
-        public IEnumerable<BLEDevice> ConnectedDevices => throw new NotImplementedException();
+        public IEnumerable<BLEDevice> ConnectedDevices => [];
 
         public event EventHandler<BLEDeviceFoundArgs> DeviceDiscoverd;
         public event EventHandler<BLEDevice> DeviceConnected;
@@ -37,19 +37,26 @@ namespace chd.Caravan.Mobile.WPF.Services
             return Task.FromResult(true);
         }
 
-        public Task<IEnumerable<BLEService>> GetDeviceServices(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<BLEService>> GetDeviceServices(Guid id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return [new BLEService {
+                Id = BLEConstants.HEART_REATE,
+                Name = "HearRate"
+                } ];
         }
 
-        public Task<IEnumerable<BLECharacteristic>> GetServiceCharactersitics(Guid deviceId, Guid serviceId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<BLECharacteristic>> GetServiceCharactersitics(Guid deviceId, Guid serviceId, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return [new BLECharacteristic{
+                Id = BLEConstants.HR_MEASURMENT,
+                Name = "HR",
+                CanUpdate = true,
+                }];
         }
 
-        public Task<byte[]> ReadValue(Guid deviceId, Guid serviceId, BLECharacteristic characteristic, CancellationToken cancellationToken = default)
+        public async Task<byte[]> ReadValue(Guid deviceId, Guid serviceId, BLECharacteristic characteristic, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return [];
         }
 
         public async Task<bool> StartScanAsync(CancellationToken cancellationToken = default)
@@ -77,7 +84,7 @@ namespace chd.Caravan.Mobile.WPF.Services
                 DeviceId = deviceId,
                 Time = DateTime.Now,
                 UID = "3456789",
-                Data = [12,24,25,12,36,51,25,36,56,125,230,12,58,94,58,25]
+                Data = [12, 63, 25, 12, 36, 51, 25, 36, 56, 125, 230, 12, 58, 94, 58, 25]
             });
             return true;
         }

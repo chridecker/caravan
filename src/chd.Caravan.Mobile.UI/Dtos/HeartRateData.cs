@@ -12,6 +12,8 @@ namespace chd.Caravan.Mobile.UI.Dtos
 
         public byte BPM => this._data[1];
 
+        public string Name { get; set; }
+
         public HeartRateData(byte[] data)
         {
             this._data = data;

@@ -1,7 +1,10 @@
 @using chd.Caravan.Mobile.UI.Dtos
+@using chd.UI.Base.Components.General
 
 <div class="heartrate">
-    <div class="value" @this.Data.BPM</div>
+    <div class="name">@Data.Name</div>
+    <div class="icon"><CustomIcon FAClass="heart-pulse" /></div>
+    <div class="value"> @this.Data.BPM</div>
 </div>
 
 @code {
