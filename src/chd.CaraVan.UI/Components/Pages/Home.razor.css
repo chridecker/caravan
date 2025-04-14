@@ -6,19 +6,24 @@
     width: 100vw;
 }
 
+.home-content ::deep .loading-battery-container {
+    width:70vw;
+}
+
     .home-content ::deep .carousel .carousel-inner {
         height: 100vh;
         width: 100vw;
     }
-    .home-content ::deep .carousel .carousel-inner .carousel-item.active {
-        height: 100vh;
-        width: 100vw;
-        display:flex;
-        align-items:center;
-        align-content:center;
-        justify-content:center;
-        justify-items:center;
-    }
+
+        .home-content ::deep .carousel .carousel-inner .carousel-item.active {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            justify-items: center;
+        }
 
     .home-content .sensor-data {
         display: flex;

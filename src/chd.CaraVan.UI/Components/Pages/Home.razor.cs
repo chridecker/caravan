@@ -53,7 +53,7 @@ namespace chd.CaraVan.UI.Components.Pages
             this.VotronicBatteryData = await this._votronicData.GetBatteryData();
 
             this.VotronicBatteryData = new([25, 34, 25, 58, 58, 15, 15, 35, 58, 28, 253, 214, 123, 25, 35, 45], 200);
-            this.VotronicSolarData = new([25, 34, 25, 58, 58, 15, 15, 35, 58, 28, 253, 214, 123, 25, 35, 45]);
+            this.VotronicSolarData = new([25, 34, 25, 58, 251, 15, 15, 35, 58, 28, 253, 2, 123, 25, 35, 45]);
 
 
             this._valueDict[1] = new RuuviSensorDataDto()

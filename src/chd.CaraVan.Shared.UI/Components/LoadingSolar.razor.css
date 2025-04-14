@@ -35,7 +35,7 @@
                 }
 
         .loading-solar-container .solar-loading-state .solar-charging {
-            width: 50vw;
+            width: 60vw;
             border: 0.2rem solid white;
             border-radius: 0.8rem;
             padding: 0.1rem;
@@ -63,22 +63,24 @@
                 .loading-solar-container .solar-loading-state .solar-charging .solar-loading-state-bar .solar-loading-state {
                     display: flex;
                     flex-wrap: wrap;
+                    gap: 0.2rem;
                     justify-content: space-around;
                 }
 
                     .loading-solar-container .solar-loading-state .solar-charging .solar-loading-state-bar .solar-loading-state .solar-loading-state-icon ::deep svg {
                         fill: var(--chd-bg);
                         order: 1;
+                        height: 2rem;
                     }
 
                     .loading-solar-container .solar-loading-state .solar-charging .solar-loading-state-bar .solar-loading-state .amp {
-                        font-size: 16pt;
+                        font-size: 2.2rem;
                         font-weight: bold;
                         order: 2;
                     }
 
                     .loading-solar-container .solar-loading-state .solar-charging .solar-loading-state-bar .solar-loading-state .loading-phase {
-                        font-size: 10pt;
+                        font-size: 1rem;
                         order: 4;
                     }
 
@@ -105,7 +107,7 @@
                             }
 
                         .loading-solar-container .solar-loading-state .solar-charging .solar-loading-state-bar .solar-loading-state .state .state-indicator-text {
-                            font-size: 0.8rem;
+                            font-size: 1.2rem;
                         }
 
 @keyframes loadingSolar {

@@ -14,7 +14,7 @@
                 @if (this.VotronicBatteryData != null)
                 {
                     <LoadingBattery BatteryAmpere="@VotronicBatteryData.Ampere"
-                                    BatteryAmpereH="@VotronicBatteryData.AmpereH"
+                                    BatteryAmpereH="@VotronicBatteryData.LeftAH"
                                     Time="@DateTime.Now"
                                     BatteryPercent="@VotronicBatteryData.Percent" />
                 }
