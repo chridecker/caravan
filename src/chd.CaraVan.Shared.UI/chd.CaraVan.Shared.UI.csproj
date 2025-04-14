@@ -8,7 +8,7 @@
 	
 	
 	<ItemGroup>
-		<PackageReference Include="chd.UI.Base.Components" Version="1.0.25086.109" />
+		<PackageReference Include="chd.UI.Base.Components" Version="1.0.25104.112" />
 	</ItemGroup>
 	
 	

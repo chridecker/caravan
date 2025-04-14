@@ -11,7 +11,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="System.Management" Version="9.0.0" />
-		<PackageReference Include="chd.UI.Base.WPF" Version="1.0.25086.109" />
+		<PackageReference Include="chd.UI.Base.WPF" Version="1.0.25104.112" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\chd.Caravan.Mobile.UI\chd.Caravan.Mobile.UI.csproj" />
