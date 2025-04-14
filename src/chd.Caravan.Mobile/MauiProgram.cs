@@ -23,7 +23,6 @@ namespace chd.Caravan.Mobile
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 });
             
-            builder.Configuration.AddConfiguration(GetAppSettingsConfig());
             builder.Configuration.AddConfiguration(GetLocalSetting());
 
             builder.AddServices();
@@ -37,29 +36,14 @@ namespace chd.Caravan.Mobile
             builder.Services.AddAppServices(builder.Configuration);
         }
 
-        private static IConfiguration GetAppSettingsConfig()
-        {
-            var fileName = "appsettings.json";
-            var appSettingsFileName = "chdScoring.App.appsettings.json";
-            var assembly = Assembly.GetExecutingAssembly();
-            using var resStream = assembly.GetManifestResourceStream(appSettingsFileName);
-            if (resStream == null)
-            {
-                throw new ApplicationException($"Unable to read file [{appSettingsFileName}]");
-            }
-            return new ConfigurationBuilder()
-                    .AddJsonStream(resStream)
-                    .Build();
-        }
-
          private static IConfiguration GetLocalSetting()
         {
             if (Preferences.ContainsKey(SettingConstants.BaseAddress))
             {
-                var pref = Preferences.Default.Get<string>(SettingConstants.BaseAddress, string.Empty);
+                var pref = Preferences.Default.Get<string>(SettingConstants.BaseAddress, "http://localhost:8081");
                 var dict = new Dictionary<string, string>()
                 {
-                    {$"ApiKeys:chdCaraVan.Api",pref }
+                    {$"ApiKeys:chdCaravanApi",pref }
                 };
                 return new ConfigurationBuilder().AddInMemoryCollection(dict).Build();
             }
