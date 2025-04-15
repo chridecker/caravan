@@ -6,9 +6,11 @@
 
 <SwipeArea OnSwipe="this.OnSwipe" PixelToSwipe="50">
     <div class="home-content">
-        <Carousel @ref="@this._carousel" @bind-SelectedSlide="_selectedSlide" ShowIndicators="false" ShowControls="false" Autoplay="@this._settings.AutorotateCarousel" Interval="10000"  >
+        <Carousel @ref="@this._carousel" @bind-SelectedSlide="_selectedSlide" ShowIndicators="false" ShowControls="false"
+                  Autoplay="@this._settings.AutorotateCarousel"
+                  Interval="@this._settings.RotationTime.TotalMicroseconds">
             <CarouselSlide Name="Time">
-               <CurrentTime />
+                <CurrentTime IPAddress="@this._currentIpAddress" />
             </CarouselSlide>
             <CarouselSlide Name="Battery">
                 @if (this.VotronicBatteryData != null)

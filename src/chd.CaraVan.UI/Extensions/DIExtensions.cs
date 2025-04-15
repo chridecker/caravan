@@ -19,6 +19,8 @@ namespace chd.CaraVan.UI.Extensions
             services.AddAuthorizationCore();
             services.AddUtilities<chdProfileService, int, int, HandleUserIdLogin, SettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, UpdateService>(profileServiceLifeTime);
             services.AddScoped<IDataHubClient, DataHubClient>();
+            services.AddSingleton<ISystemControlService, SystemControlService>();
+            services.AddSingleton<IKeyHandler, KeyHandler>();
 
             return services;
         }

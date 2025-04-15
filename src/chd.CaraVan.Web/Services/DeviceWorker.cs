@@ -14,17 +14,20 @@ namespace chd.CaraVan.Web.Services
     public class DeviceWorker : BackgroundService
     {
         private readonly IHubContext<DataHub, IDataHub> _hub;
+        private readonly IPiManager _piManager;
         private readonly IOptionsMonitor<DeviceSettings> _optionsMonitor;
         private readonly IRuuviTagDataService _dataService;
         private readonly IVotronicDataService _votronicDataService;
         private readonly BLEManager _bleManager;
 
         public DeviceWorker(BLEManager bLEManager,
-             IHubContext<DataHub, IDataHub> hub, 
+             IHubContext<DataHub, IDataHub> hub,
+             IPiManager piManager,
              IOptionsMonitor<DeviceSettings> optionsMonitor,
              IRuuviTagDataService dataService, IVotronicDataService votronicDataService)
         {
             this._hub = hub;
+            this._piManager = piManager;
             this._bleManager = bLEManager;
             this._optionsMonitor = optionsMonitor;
             this._dataService = dataService;
@@ -34,12 +37,15 @@ namespace chd.CaraVan.Web.Services
         public override async Task StartAsync(CancellationToken cancellationToken)
         {
             await this.StartDevices(cancellationToken);
+            await this._piManager.Start(cancellationToken);
+
             await base.StartAsync(cancellationToken);
         }
 
         public override async Task StopAsync(CancellationToken cancellationToken)
         {
             await this._bleManager?.DisconnectAsync();
+            await this._piManager.Stop(cancellationToken);
             await base.StopAsync(cancellationToken);
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

@@ -17,6 +17,7 @@ namespace chd.CaraVan.Devices.Extensions
             services.AddSingleton<BLEManager>();
 
             services.AddSingleton<ISystemManager, SystemManager>();
+            services.AddSingleton<IPiManager, PiManager>();
 
             services.AddSingleton<IRuuviTagDataService, RuuviTagDataService>();
             services.AddSingleton<IVotronicDataService, VotronicDataService>();

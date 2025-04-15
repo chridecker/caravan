@@ -4,8 +4,15 @@
     align-items: center;
     gap: 1rem;
     color: white;
+    height:100%;
+    justify-content:space-around;
 }
-
+.current-time .ipaddress {
+    font-size: 0.8rem;
+    line-height: 0.5rem;
+    order: 1;
+}
+    
     .current-time .time {
         font-size: 4.5rem;
         line-height: 3rem;
@@ -13,7 +20,7 @@
     }
 
     .current-time .date {
-        order: 1;
+        order: 3;
         font-size: 2rem;
         line-height: 2rem;
     }

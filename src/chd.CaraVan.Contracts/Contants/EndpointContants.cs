@@ -16,5 +16,14 @@ namespace chd.CaraVan.Contracts.Contants
             public const string STOP_SERVICE = "stopservice";
             public const string RUNNING_SINCE = "runningsince";
         }
+
+        public static class Control
+        {
+            public const string ROOT = "control";
+
+            public const string GET_SETTINGS = "GetSettings";
+            public const string POST_SETTINGS = "SetSettings";
+
+        }
     }
 }

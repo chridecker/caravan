@@ -9,7 +9,7 @@ namespace chd.Caravan.Mobile.UI.Interfaces
 {
      public interface ISettingManager : IBaseClientSettingManager
         {
-            T? GetNativSetting<T>(string key) where T : class;
-            void SetNativSetting<T>(string key, T value) where T : class;
+            Task<T?> GetNativSetting<T>(string key) where T : class;
+            Task SetNativSetting<T>(string key, T value) where T : class;
         }
 }

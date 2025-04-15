@@ -39,7 +39,7 @@
 
         @if (this._currentSelectedDevice is not null)
         {
-            <FloatingActionButton FAClass="wrench" OnClick="this.OpenSettings" Title="Settings" />
+            <FloatingActionButton FAClass="wrench" OnClick="this.OpenDeviceSettings" Title="Device Settings" />
             <FloatingActionButton FAClass="clouds" OnClick="this.ScanServices" Title="Scan Services" />
             @if (this._currentSelectedDevice.IsStarted)
             {
@@ -58,6 +58,7 @@
                 <FloatingActionButton FAClass="floppy-disk-circle-xmark" OnClick="this.DeleteDevice" Title="Delete" />
             }
         }
+        <FloatingActionButton FAClass="gears" OnClick="this.OpenSettings" Title="Settings" />
     </FloatingActionNavigation>
 
 </div>
@@ -183,11 +184,18 @@
 
     private async Task OpenSettings()
     {
+        var modalResult = await this.modal.Show<SettingModalComponent>
+            ("Settings").Result;
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
+    private async Task OpenDeviceSettings()
+    {
         var param = new ModalParameters{
     {nameof(DeviceSettingComponent.Device),this._currentSelectedDevice}
     };
         var modalResult = await this.modal.Show<DeviceSettingComponent>
-            ("Settings", param).Result;
+            ("Device Settings", param).Result;
         await this.InvokeAsync(this.StateHasChanged);
     }
 

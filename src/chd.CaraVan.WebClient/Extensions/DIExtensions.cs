@@ -13,6 +13,9 @@ namespace chd.CaraVan.WebClient.Extensions
         {
             services.AddHttpClient<SystemClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointContants.System.ROOT));
             services.AddTransient<ISystemManager, SystemClient>();
+            
+            services.AddHttpClient<ContolClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointContants.Control.ROOT));
+            services.AddTransient<ISystemControlService, ContolClient>();
             return services;
         }
     }

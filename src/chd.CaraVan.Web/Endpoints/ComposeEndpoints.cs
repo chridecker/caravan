@@ -8,6 +8,7 @@ namespace chd.CaraVan.Web.Endpoints
         {
             var group = app.MapGroup(EndpointContants.ROOT);
             group.AddSystem();
+            group.AddControl();
 
             return app;
         }

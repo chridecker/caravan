@@ -16,22 +16,24 @@ namespace chd.Caravan.Mobile.Services
     public class SettingManager : BaseClientSettingManager<int, int>, ISettingManager
     {
         public SettingManager(ILogger<SettingManager> logger, IProtecedLocalStorageHandler protecedLocalStorageHandler,
-            NavigationManager navigationManager) : base(logger,  protecedLocalStorageHandler, navigationManager)
+            NavigationManager navigationManager) : base(logger, protecedLocalStorageHandler, navigationManager)
         {
         }
 
-        public T? GetNativSetting<T>(string key) where T : class
+        public Task<T?> GetNativSetting<T>(string key) where T : class
         {
             if (Preferences.ContainsKey(key))
             {
-                return Preferences.Default.Get<T>(key, default(T));
+                var settingValue = Preferences.Default.Get<T>(key, default(T));
+                return Task.FromResult(settingValue);
             }
-            return default(T);
+            return Task.FromResult(default(T));
         }
 
-        public void SetNativSetting<T>(string key, T value) where T : class
+        public Task SetNativSetting<T>(string key, T value) where T : class
         {
             Preferences.Default.Set<T>(key, value);
+            return Task.CompletedTask;
         }
     }
 }

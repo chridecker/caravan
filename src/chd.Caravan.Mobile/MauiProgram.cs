@@ -40,7 +40,7 @@ namespace chd.Caravan.Mobile
         {
             if (Preferences.ContainsKey(SettingConstants.BaseAddress))
             {
-                var pref = Preferences.Default.Get<string>(SettingConstants.BaseAddress, "http://localhost:8081");
+                var pref = Preferences.Default.Get<string>(SettingConstants.BaseAddress, "http://localhost:80");
                 var dict = new Dictionary<string, string>()
                 {
                     {$"ApiKeys:chdCaravanApi",pref }

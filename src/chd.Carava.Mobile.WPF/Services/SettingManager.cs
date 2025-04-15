@@ -12,20 +12,19 @@ using System.Threading.Tasks;
 
 namespace chd.Caravan.Mobile.WPF.Services
 {
-   public class SettingManager : BaseClientSettingManager<int,int>,ISettingManager
+    public class SettingManager : BaseClientSettingManager<int, int>, ISettingManager
     {
         public SettingManager(ILogger<SettingManager> logger, IProtecedLocalStorageHandler protecedLocalStorageHandler, NavigationManager navigationManager)
             : base(logger, protecedLocalStorageHandler, navigationManager)
         {
         }
 
-        public  T? GetNativSetting<T>(string key) where T : class
-        {
-            return default(T);
-        }
+        public async Task<T?>GetNativSetting<T>(string key) where T : class
+        => await base.GetSettingLocal<T>(key);
 
-        public void SetNativSetting<T>(string key, T value) where T : class
+        public async Task SetNativSetting<T>(string key, T value) where T : class
         {
+            await base.StoreSettingLocal<T>(key, value);
         }
     }
 }

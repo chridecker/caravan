@@ -1,10 +1,17 @@
 <div class="current-time">
     <div class="time">@this._time</div>
     <div class="date">@this._date</div>
+
+    @if (!string.IsNullOrWhiteSpace(this.IPAddress))
+    {
+        <div class="ipaddress">IP: @this.IPAddress</div>
+    }
 </div>
 
-
 @code {
+
+
+    [Parameter] public string IPAddress { get; set; }
     private DateTime _currentDateTime => DateTime.Now;
 
     private string _time => this._currentDateTime.ToString("HH:mm:ss");
