@@ -1,5 +1,6 @@
 ﻿using chd.CaraVan.Contracts.Dtos;
 using chd.CaraVan.Contracts.Interfaces;
+using chd.CaraVan.Contracts.Settings;
 using chd.CaraVan.Devices.Contracts.Dtos;
 using chd.CaraVan.Devices.Contracts.Dtos.Pi;
 using Microsoft.Extensions.Options;
@@ -15,18 +16,19 @@ namespace chd.CaraVan.Devices.Implementations
     public class PiManager : IPiManager
     {
         private GpioController _controller;
-        private int[] _pinKeys = [17, 22, 23, 27];
+        private readonly IOptionsMonitor<PiSettings> _optionsMonitor;
 
         public event EventHandler<PinChangedEventArgs> PinChanged;
 
-        public PiManager(GpioController gpioController)
+        public PiManager(GpioController gpioController, IOptionsMonitor<PiSettings> optionsMonitor)
         {
             this._controller = gpioController;
+            this._optionsMonitor = optionsMonitor;
         }
 
         public Task Start(CancellationToken cancellationToken) => Task.Run(() =>
         {
-            foreach (var g in this._pinKeys)
+            foreach (var g in this._optionsMonitor.CurrentValue.KeyPins)
             {
                 if (this._controller.IsPinOpen(g))
                 {
@@ -43,7 +45,7 @@ namespace chd.CaraVan.Devices.Implementations
 
         public Task Stop(CancellationToken cancellationToken = default) => Task.Run(() =>
         {
-            foreach (var g in this._pinKeys)
+            foreach (var g in this._optionsMonitor.CurrentValue.KeyPins)
             {
                 if (this._controller.IsPinOpen(g))
                 {
