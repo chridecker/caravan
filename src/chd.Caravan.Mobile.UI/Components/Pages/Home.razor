@@ -65,6 +65,7 @@
     [Inject] IDeviceStorageService deviceStorageService { get; set; }
     [Inject] IModalService modal { get; set; }
     [Inject] IBLEManager bLEManager { get; set; }
+    [Inject] INotificationManagerService _notificationManagerService { get; set; }
 
     List<SavedDevice> _savedDevices = [];
     List<BLEDevice> connectedDevices = [];
@@ -77,8 +78,6 @@
     protected override async Task OnInitializedAsync()
     {
         this._savedDevices = (await deviceStorageService.GetDevices()) ?? [];
-
-
         connectedDevices.AddRange(bLEManager.ConnectedDevices);
         foreach (var device in connectedDevices)
         {
@@ -194,6 +193,7 @@
     private async void CharacUpdate(object? sender, BLECharactersiticsValueArgs args)
     {
         if (!connectedDevices.Any(a => a.Id == args.DeviceId)) { return; }
+
         var device = this.connectedDevices.FirstOrDefault(x => x.Id == args.DeviceId);
         if (device.Type == Enums.EDeviceType.Ruuvi
         && args.ServiceId == BLEConstants.NORDIC_UART_SVC
@@ -206,7 +206,12 @@
         {
             if (args.CharacteristicId == BLEConstants.SOLAR_CHARACTERISTIC)
             {
+                var oldAes = this._solarData?.AES ?? false;
                 this._solarData = new(args.Data);
+                if (oldAes != this._solarData.AES)
+                {
+                    this._notificationManagerService.SendNotification($"Votronic Solar", $"AES [{(this._solarData.AES ? "ON" : "OFF")}]");
+                }
             }
             else if (args.CharacteristicId == BLEConstants.BATTERY_CHARACTERISTIC)
             {
@@ -232,8 +237,6 @@
         {
             await this.StartDevice(device);
         }
-
-
         await this.InvokeAsync(this.StateHasChanged);
     }
 
