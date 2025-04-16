@@ -58,7 +58,6 @@
                 <FloatingActionButton FAClass="floppy-disk-circle-xmark" OnClick="this.DeleteDevice" Title="Delete" />
             }
         }
-        <FloatingActionButton FAClass="gears" OnClick="this.OpenSettings" Title="Settings" />
     </FloatingActionNavigation>
 
 </div>
@@ -180,13 +179,6 @@
         {
             await this.AddDevice(device);
         }
-    }
-
-    private async Task OpenSettings()
-    {
-        var modalResult = await this.modal.Show<SettingModalComponent>
-            ("Settings").Result;
-        await this.InvokeAsync(this.StateHasChanged);
     }
 
     private async Task OpenDeviceSettings()

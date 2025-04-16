@@ -17,7 +17,6 @@ namespace chd.CaraVan.UI.Components.Pages
         [Inject] private IRuuviTagDataService _ruuviTagDataService { get; set; }
         [Inject] private IDataHubClient _dataHubClient { get; set; }
         [Inject] private ISettingManager _settingManager { get; set; }
-        [Inject] private ISystemControlService _systemControlService { get; set; }
         [Inject] private IKeyHandler _keyHandler { get; set; }
 
         private CancellationTokenSource _cts = new CancellationTokenSource();
@@ -41,12 +40,10 @@ namespace chd.CaraVan.UI.Components.Pages
             this.Title = "Home";
             this._currentIpAddress = await this._settingManager.GetIPAddress();
 
-            this._systemControlService.SettingsChanged += this._systemControlService_SettingsChanged;
             this._keyHandler.Key1 += this._keyHandler_Key1;
             this._keyHandler.Key2 += this._keyHandler_Key2;
             this._keyHandler.Key3 += this._keyHandler_Key3;
             this._keyHandler.Key4 += this._keyHandler_Key4;
-            await this.ReloadSettings();
 
             try
             {
@@ -116,17 +113,6 @@ namespace chd.CaraVan.UI.Components.Pages
         private async void _keyHandler_Key4(object? sender, bool e)
         {
             if (e) { await this._carousel.Select("Sensors");}
-        }
-
-        private async void _systemControlService_SettingsChanged(object? sender, EventArgs e)
-        {
-            await this.ReloadSettings();
-            await this.InvokeAsync(this.StateHasChanged);
-        }
-
-        private async Task ReloadSettings(CancellationToken cancellationToken = default)
-        {
-            this._settings = await this._systemControlService.GetCurrentSettingAsync(cancellationToken);
         }
         private Task OnSwipe(ESwipeDirection direction)
             => direction switch
