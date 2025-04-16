@@ -5,9 +5,11 @@
         <IconButton FAClass="power-off" OnClick="async()=>await manager.Reboot(this.Token)" />
     </div>
     <div class="reboot-text">
-        Reboot
+        @RebootText
     </div>
 </div>
 @code {
     [Parameter] public CancellationToken Token { get; set; }
+    [Parameter]
+    public string RebootText { get; set; } = "Reboot";
 }

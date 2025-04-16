@@ -14,11 +14,19 @@ namespace chd.CaraVan.Devices.Extensions
             services.Configure<PiSettings>(configuration.GetSection(nameof(PiSettings)));
             services.Configure<DeviceSettings>(configuration.GetSection(nameof(DeviceSettings)));
 
+
             services.AddSingleton<GpioController>();
             services.AddSingleton<BLEManager>();
 
             services.AddSingleton<ISystemManager, SystemManager>();
-            services.AddSingleton<IPiManager, PiManager>();
+            if (OperatingSystem.IsLinux())
+            {
+                services.AddSingleton<IPiManager, PiManager>();
+            }
+            else
+            {
+                services.AddSingleton<IPiManager, PiDummy>();
+            }
 
             services.AddSingleton<IRuuviTagDataService, RuuviTagDataService>();
             services.AddSingleton<IVotronicDataService, VotronicDataService>();

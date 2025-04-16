@@ -27,7 +27,7 @@ builder.Services.AddWeb(builder.Configuration);
 builder.Services.AddSignalR();
 
 
-builder.Services.AddRazorComponents(options => { options.DetailedErrors = builder.Environment.IsDevelopment(); })
+builder.Services.AddRazorComponents(options => { options.DetailedErrors = true; })
 .AddInteractiveServerComponents();
 
 builder.Services.AddExceptionHandler<APIExceptionHandler>();

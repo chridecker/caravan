@@ -9,6 +9,6 @@ namespace chd.CaraVan.UI.Dtos
     public class HomeSettingDto
     {
         public bool AutorotateCarousel { get; set; } = true;
-        public TimeSpan RotationTime { get; set; } = TimeSpan.FromSeconds(5);
+        public int RotationTime { get; set; } = 5000;
     }
 }

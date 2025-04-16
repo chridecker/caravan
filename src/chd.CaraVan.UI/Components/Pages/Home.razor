@@ -8,7 +8,7 @@
     <div class="home-content">
         <Carousel @ref="@this._carousel" @bind-SelectedSlide="_selectedSlide" ShowIndicators="false" ShowControls="false"
                   Autoplay="@this._settings.AutorotateCarousel"
-                  Interval="@this._settings.RotationTime.TotalMicroseconds">
+                  Interval="@this._settings.RotationTime">
             <CarouselSlide Name="Time">
                 <CurrentTime IPAddress="@this._currentIpAddress" />
             </CarouselSlide>

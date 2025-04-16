@@ -1,14 +1,12 @@
 ﻿.reboot-container {
-    position:absolute;
+    display:flex;
 }
 
     .reboot-container .reboot-text {
-        position:absolute;
         font-size:1.2rem;
-        top:1rem;
-        left:3rem;
+        order:2;
     }
 
     .reboot-container .reboot-button {
-        position:absolute;
+        order:1;
     }

@@ -13,9 +13,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using chd.CaraVan.WebClient.Extensions;
-using chd.Api.Base.Client.Extensions;
-
 namespace chd.Caravan.Mobile.UI.Extensions
 {
     public static class DIExtensions
@@ -24,7 +21,6 @@ namespace chd.Caravan.Mobile.UI.Extensions
             where TSettingManager : BaseClientSettingManager<int, int>, ISettingManager
             where TBLEManager : class, IBLEManager
         {
-            services.AddChdCaravanClient(sp => configuration.GetApiKey("chdCaravanApi"));
 
             services.AddAuthorizationCore();
             services.Add(new ServiceDescriptor(typeof(IBLEManager), typeof(TBLEManager), ServiceLifetime.Singleton));

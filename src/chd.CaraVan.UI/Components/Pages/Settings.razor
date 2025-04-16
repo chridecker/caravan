@@ -7,10 +7,10 @@
 
 <div class="settings">
     <div class="setting">
-        Version: @this._currentVersion
+        <SwitchButton Text="Autorotate" Checked="this.IsAutorotate()" CheckedChanged="this.ChangeAutorotate" />
     </div>
     <div class="setting">
-        <SwitchButton Text="Autorotate" Checked="this.IsAutorotate()" CheckedChanged="this.ChangeAutorotate" />
+        <input type="number" @bind-value="this.HomeSetting.RotationTime" />
     </div>
     <div class="setting">
         <Reboot Token="this._cts.Token" />
@@ -21,11 +21,11 @@
     [Parameter] public HomeSettingDto HomeSetting { get; set; }
 
     private CancellationTokenSource _cts = new();
-    private Version _currentVersion;
 
     protected override async Task OnInitializedAsync()
     {
-        this._currentVersion = await this.updateService.CurrentVersion();
+
+        await base.OnInitializedAsync();
     }
 
     private void ChangeAutorotate(bool val)

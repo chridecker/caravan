@@ -15,14 +15,14 @@ namespace chd.CaraVan.Devices.Implementations
 {
     public class PiManager : IPiManager
     {
-        private GpioController _controller;
+        private readonly GpioController _controller;
         private readonly IOptionsMonitor<PiSettings> _optionsMonitor;
 
         public event EventHandler<PinChangedEventArgs> PinChanged;
 
         public PiManager(GpioController gpioController, IOptionsMonitor<PiSettings> optionsMonitor)
         {
-            this._controller = gpioController;
+            this._controller = new();
             this._optionsMonitor = optionsMonitor;
         }
 
