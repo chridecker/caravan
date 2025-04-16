@@ -7,13 +7,24 @@
 
 <div class="settings">
     <div class="setting">
-        <SwitchButton Text="Autorotate" Checked="this.IsAutorotate()" CheckedChanged="this.ChangeAutorotate" />
+        <SwitchButton Checked="this.IsAutorotate()" CheckedChanged="this.ChangeAutorotate">
+            <ChildContent Context="on">
+                @if (on)
+                {
+                    <CustomIcon FAClass="rotate" />
+                }
+                else
+                {
+                    <CustomIcon FAClass="rotate" />
+                }   
+            </ChildContent>
+        </SwitchButton>
+    </div>
+    <div class="setting rotationtime">
+        <IconButton FAClass="minus" OnClick="()=>this.RotationTime(-1)" /> <input type="number" @bind-value="this.HomeSetting.RotationTime" /><IconButton FAClass="plus" OnClick="()=>this.RotationTime(1)" />
     </div>
     <div class="setting">
-        <input type="number" @bind-value="this.HomeSetting.RotationTime" />
-    </div>
-    <div class="setting">
-        <Reboot Token="this._cts.Token" />
+        <Reboot RebootText="" Token="this._cts.Token" />
     </div>
 </div>
 
@@ -31,6 +42,14 @@
     private void ChangeAutorotate(bool val)
     {
         this.HomeSetting.AutorotateCarousel = val;
+    }
+
+    private void RotationTime(int add)
+    {
+        if (this.HomeSetting.RotationTime + add >= 0)
+        {
+            this.HomeSetting.RotationTime += add;
+        }
     }
 
     private async Task<bool> IsAutorotate(CancellationToken cancellationToken = default) => this.HomeSetting.AutorotateCarousel;

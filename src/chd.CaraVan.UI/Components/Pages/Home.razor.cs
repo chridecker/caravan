@@ -35,6 +35,8 @@ namespace chd.CaraVan.UI.Components.Pages
 
         private HomeSettingDto _settings = new();
 
+        private int _rotationTime => (int)TimeSpan.FromSeconds(this._settings.RotationTime).TotalMilliseconds;
+
         protected override async Task OnInitializedAsync()
         {
             this.Title = "Home";
@@ -100,19 +102,19 @@ namespace chd.CaraVan.UI.Components.Pages
 
         private async void _keyHandler_Key1(object? sender, bool e)
         {
-            if (e) { await this._carousel.SelectPrevious();}
+            if (e) { await this._carousel.SelectPrevious(); }
         }
         private async void _keyHandler_Key2(object? sender, bool e)
         {
-            if (e) { await this._carousel.SelectNext();}
+            if (e) { await this._carousel.SelectNext(); }
         }
         private async void _keyHandler_Key3(object? sender, bool e)
         {
-            if (e) { await this.ShowSettingModal();}
+            if (e) { await this.ShowSettingModal(); }
         }
         private async void _keyHandler_Key4(object? sender, bool e)
         {
-            if (e) { await this._carousel.Select("Sensors");}
+            if (e) { await this._carousel.Select("Sensors"); }
         }
         private Task OnSwipe(ESwipeDirection direction)
             => direction switch

@@ -3,3 +3,16 @@
     gap: 0.2rem;
 }
 
+    .settings .setting {
+        display: flex;
+        gap: 0.2rem;
+    }
+
+        .settings .setting.rotationtime input[type=number] {
+            width: 3rem;
+            font-size:1rem;
+            border: 1px solid var(--chd-font-color);
+            border-radius:0.5rem;
+            text-align:center;
+
+        }
