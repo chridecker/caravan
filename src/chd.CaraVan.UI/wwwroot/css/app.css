@@ -17,6 +17,7 @@
     --widget-height: 38rem !important;
     --nav-toggle-height: 0 !important;
     --sidebar-width-small: 0 !important;
+    --chd-font-color: white !important;
 }
 
     *::-webkit-scrollbar {

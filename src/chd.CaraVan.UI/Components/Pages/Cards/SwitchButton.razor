@@ -2,25 +2,12 @@
     <div class="switch" @onclick="this.CheckChanged">
         <div class="slider @(_checked ? "on" : "off")" style="--text-off:'@(ButtonTextOff)';--text-on:'@(ButtonTextOn)';"></div>
     </div>
-    <div class="switch-text">
-        @if (this.ChildContent is not null)
-        {
-            @this.ChildContent(this._checked)
-        }
-        else
-        {
-            @Text
-        }
-    </div>
-
 </div>
 @code {
     private bool _checked;
 
     [Parameter] public Task<bool> Checked { get; set; }
     [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
-    [Parameter] public string Text { get; set; }
-    [Parameter] public RenderFragment<bool>? ChildContent { get; set; }
     [Parameter] public string ButtonTextOff { get; set; } = "OFF";
     [Parameter] public string ButtonTextOn { get; set; } = "ON";
 

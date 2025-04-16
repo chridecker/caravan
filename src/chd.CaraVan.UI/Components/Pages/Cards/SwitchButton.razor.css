@@ -6,8 +6,8 @@
 
     .switch-button .switch {
         display: flex;
-        width: 6.3rem;
-        height: 3rem;
+        width: 100%;
+        height: 100%;
     }
 
         .switch-button .switch .slider {
@@ -18,13 +18,14 @@
             border: 0.1rem solid white;
             background-color: var(--chd-grey);
             padding: 0.1rem;
+            font-size:70%;
         }
 
             .switch-button .switch .slider:before {
                 display: flex;
                 color: var(--chd-bg);
                 height: 100%;
-                width: 2.8rem;
+                width: 60%;
                 border-radius: 0.5rem;
                 background-color: white;
                 border: 0.1rem solid var(--chd-bg);
@@ -42,7 +43,7 @@
             }
 
                 .switch-button .switch .slider.on:before {
-                    transform: translateX(3.0rem);
+                    transform: translateX(70%);
                     transition: all 0.3s ease;
                     content: var(--text-on);
                 }
@@ -54,8 +55,3 @@
                     transition: all 0.3s ease;
                     content: var(--text-off);
                 }
-
-    .switch-button .switch-text {
-        display: flex;
-        font-size: 2rem;
-    }

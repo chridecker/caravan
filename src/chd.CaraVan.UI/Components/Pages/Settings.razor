@@ -7,23 +7,16 @@
 
 <div class="settings">
     <div class="setting">
-        <SwitchButton Checked="this.IsAutorotate()" CheckedChanged="this.ChangeAutorotate">
-            <ChildContent Context="on">
-                @if (on)
-                {
-                    <CustomIcon FAClass="rotate" />
-                }
-                else
-                {
-                    <CustomIcon FAClass="rotate" />
-                }   
-            </ChildContent>
-        </SwitchButton>
+        <div class="setting-label">Rotate</div>
+        <SwitchButton Checked="this.IsAutorotate()" CheckedChanged="this.ChangeAutorotate" />
+
     </div>
     <div class="setting rotationtime">
+        <div class="setting-label">Time</div>
         <IconButton FAClass="minus" OnClick="()=>this.RotationTime(-1)" /> <input type="number" @bind-value="this.HomeSetting.RotationTime" /><IconButton FAClass="plus" OnClick="()=>this.RotationTime(1)" />
     </div>
     <div class="setting">
+        <div class="setting-label">Restart</div>
         <Reboot RebootText="" Token="this._cts.Token" />
     </div>
 </div>

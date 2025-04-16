@@ -110,17 +110,29 @@
                     display: flex;
                     width: 33%;
                     flex-direction: column;
-                    padding: 0.2rem;
-                    justify-content: space-evenly;
+                    justify-content: space-between;
                     align-items: end;
                     color: var(--chd-bg);
                     font-size: 1.2rem;
+                    line-height:1.2rem;
+                    align-items:center;
+                    padding:0.2rem;
                 }
 
                     .loading-battery-container .battery-loading-state .battery-charging .battery-loading-state-bar .battery-loading-state .battery-loading-state-icon {
                     }
 
+                        .loading-battery-container .battery-loading-state .battery-charging .battery-loading-state-bar .battery-loading-state .battery-loading-state-icon ::deep .battery-container {
+                            flex-wrap:wrap;
+                            justify-content:center;
+                        }
+
+                        .loading-battery-container .battery-loading-state .battery-charging .battery-loading-state-bar .battery-loading-state .battery-loading-state-icon ::deep .battery-loading-state {
+                            font-size: 1rem;
+                        }
+
                         .loading-battery-container .battery-loading-state .battery-charging .battery-loading-state-bar .battery-loading-state .battery-loading-state-icon ::deep svg {
+                            height: 1.8rem;
                             fill: var(--chd-bg);
                         }
 
