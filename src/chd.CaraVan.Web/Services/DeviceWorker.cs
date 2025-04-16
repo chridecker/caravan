@@ -37,7 +37,6 @@ namespace chd.CaraVan.Web.Services
         public override async Task StartAsync(CancellationToken cancellationToken)
         {
             await this.StartDevices(cancellationToken);
-            await this._piManager.Start(cancellationToken);
 
             await base.StartAsync(cancellationToken);
         }
@@ -63,6 +62,7 @@ namespace chd.CaraVan.Web.Services
 
             if (OperatingSystem.IsLinux())
             {
+                await this._piManager.Start(cancellationToken);
                 await this._bleManager.ConnectAsync(cancellationToken);
             }
         }
