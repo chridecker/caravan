@@ -17,5 +17,7 @@ namespace chd.Caravan.Mobile.UI.Dtos
         public EDeviceType Type { get; set; }
 
         public bool IsStarted { get; set; }
+
+        public byte[] BatteryLevel { get; set; }
     }
 }

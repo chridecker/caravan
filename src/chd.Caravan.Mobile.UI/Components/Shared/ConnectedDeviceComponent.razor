@@ -1,3 +1,4 @@
+@using chd.Caravan.Mobile.UI.Constants
 @using chd.Caravan.Mobile.UI.Dtos
 @using chd.Caravan.Mobile.UI.Interfaces
 
@@ -8,15 +9,54 @@
     <div class="device-id">
         @Device.UID
     </div>
+    @if (this._batteryLevelValue is not null && this._batteryLevelValue.Any())
+    {
+        <div class="device-battery">@(string.Join("-", this._batteryLevelValue))</div>
+    }
 </div>
 
 @code {
+    [Inject] IBLEManager bLEManager { get; set; }
+
     [Parameter] public BLEDevice Device { get; set; }
     [Parameter] public Func<BLEDevice, bool> IsCurrentDevice { get; set; }
     [Parameter] public Func<BLEDevice, Task> OnClick { get; set; }
 
+    private PeriodicTimer _timer;
 
-    [Inject] IBLEManager bLEManager { get; set; }
+    private byte[] _batteryLevelValue;
 
+    protected override async Task OnInitializedAsync()
+    {
+        await this.ReadBatteryLevel();
+        this._timer = new(TimeSpan.FromSeconds(5));
+        this.Refresher();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async void Refresher()
+    {
+        while (await this._timer.WaitForNextTickAsync())
+        {
+            await this.ReadBatteryLevel();
+            await this.InvokeAsync(this.StateHasChanged);
+        }
+    }
+    private async Task ReadBatteryLevel()
+    {
+        var svcs = await this.bLEManager.GetDeviceServices(Device.Id);
+        if (svcs.Any(a => a.Id == BLEConstants.BATTERY_SVC))
+        {
+            var batterySvc = svcs.FirstOrDefault(x => x.Id == BLEConstants.BATTERY_SVC);
+            var levelCharac = (await this.bLEManager.GetServiceCharactersitics(Device.Id, batterySvc.Id)).First(x => x.Id == BLEConstants.BATTERY_LEVEL);
+            if (levelCharac != null && levelCharac.CanRead)
+            {
+                this._batteryLevelValue = await this.bLEManager.ReadValue(Device.Id, batterySvc.Id, levelCharac);
+
+            }
+        }
+
+    }
 
 }

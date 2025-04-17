@@ -172,14 +172,16 @@ namespace chd.Caravan.Mobile.Services
             if (service is null) { return []; }
             var characteristivs = await service.GetCharacteristicsAsync(cancellationToken);
 
-            return characteristivs.Select(s => new BLECharacteristic
+            var ret =  characteristivs.Select(s => new BLECharacteristic
             {
                 Id = s.Id,
                 Name = s.Name,
                 CanRead = s.CanRead,
                 CanUpdate = s.CanUpdate,
-                CanWrite = s.CanWrite
+                CanWrite = s.CanWrite,
             });
+
+            return ret;
         }
 
         public async Task<bool> SubscribeForServiceCharacteristicAsync(Guid deviceId, Guid serviceId, Guid characteristicId, CancellationToken cancellationToken = default)
