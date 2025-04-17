@@ -24,16 +24,6 @@
         }
     </div>
 
-    @if (this.connectedDevices.Any(a => a.BatteryLevel is not null && a.BatteryLevel.Any()))
-    {
-        <div class="batteries">
-            @foreach (var d in this.connectedDevices.Where(x => x.BatteryLevel is not null && x.BatteryLevel.Any()))
-            {
-                <div class="battery">@d.Name (@(string.Join("-", d.BatteryLevel)))</div>
-            }
-        </div>
-    }
-
     @if (this.connectedDevices.Any())
     {
         <div class="devices">

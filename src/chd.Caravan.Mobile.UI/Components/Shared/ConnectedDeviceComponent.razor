@@ -5,6 +5,10 @@
 <div class="device @(this.IsCurrentDevice.Invoke(Device) ? "current" : "") " @onclick="async()=>await this.OnClick(this.Device)">
     <div class="device-name">
         @(string.IsNullOrWhiteSpace(Device.DisplayName) ? Device.Name : Device.DisplayName) (@Device.Type)
+        @if (this.Device.BatteryLevel.HasValue)
+        {
+            <Battery BatteryLevel="(double)this.Device.BatteryLevel" />
+        }
     </div>
     <div class="device-id">
         @Device.UID
@@ -18,47 +22,32 @@
     [Parameter] public Func<BLEDevice, bool> IsCurrentDevice { get; set; }
     [Parameter] public Func<BLEDevice, Task> OnClick { get; set; }
 
-    private PeriodicTimer _timer;
-
-    private BLEService _batteryService;
-    private BLECharacteristic _batteryLevel;
-
-    private byte[] _batteryLevelValue = [];
 
     protected override async Task OnInitializedAsync()
     {
-        // var svcs = await this.bLEManager.GetDeviceServices(Device.Id);
-        // if (svcs.Any(a => a.Id == BLEConstants.BATTERY_SVC))
-        // {
-        //     this._batteryService = svcs.FirstOrDefault(x => x.Id == BLEConstants.BATTERY_SVC);
-        //     var chars = await this.bLEManager.GetServiceCharactersitics(Device.Id, this._batteryService.Id);
-        //     if (chars.Any(a => a.Id == BLEConstants.BATTERY_LEVEL))
-        //     {
-        //         this._batteryLevel = chars.FirstOrDefault(x => x.Id == BLEConstants.BATTERY_LEVEL);
-        //     }
 
-        // }
-        // await this.ReadBatteryLevel();
-        // this._timer = new(TimeSpan.FromSeconds(5));
-        // this.Refresher();
+        await this.ReadBatteryLevel();
 
         await base.OnInitializedAsync();
     }
 
-    private async void Refresher()
-    {
-        while (await this._timer.WaitForNextTickAsync())
-        {
-            await this.ReadBatteryLevel();
-            await this.InvokeAsync(this.StateHasChanged);
-        }
-    }
+
     private async Task ReadBatteryLevel()
     {
-        if (this._batteryLevel is not null)
+        var svcs = await this.bLEManager.GetDeviceServices(Device.Id);
+        if (svcs.Any(a => a.Id == BLEConstants.BATTERY_SVC))
         {
-            this._batteryLevelValue = await this.bLEManager.ReadValue(Device.Id, this._batteryService.Id, this._batteryLevel);
+            var batteryService = svcs.FirstOrDefault(x => x.Id == BLEConstants.BATTERY_SVC);
+            var chars = await this.bLEManager.GetServiceCharactersitics(Device.Id, batteryService.Id);
+            if (chars.Any(a => a.Id == BLEConstants.BATTERY_LEVEL && a.CanRead))
+            {
+                var batteryLevel = chars.FirstOrDefault(x => x.Id == BLEConstants.BATTERY_LEVEL);
+                var data = await this.bLEManager.ReadValue(Device.Id, batteryService.Id, batteryLevel);
+                if (data.Any())
+                {
+                    this.Device.BatteryLevel = data[0];
+                }
+            }
         }
     }
-
 }

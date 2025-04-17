@@ -49,14 +49,15 @@
 
     private async Task ClickCharacter(BLECharacteristic e, BLEService s)
     {
-        if (e.CanUpdate)
-        {
-            await bLEManager.SubscribeForServiceCharacteristicAsync(Device.Id, s.Id, e.Id);
-        }
         if (e.CanRead)
         {
             this.charValueDict[e.Id] = await bLEManager.ReadValue(this.Device.Id, s.Id, e);
         }
+        else if (e.CanUpdate)
+        {
+            await bLEManager.SubscribeForServiceCharacteristicAsync(Device.Id, s.Id, e.Id);
+        }
+
     }
 
     private async void Char_updat(object sender, BLECharactersiticsValueArgs e)

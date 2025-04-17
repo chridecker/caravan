@@ -18,6 +18,6 @@ namespace chd.Caravan.Mobile.UI.Dtos
 
         public bool IsStarted { get; set; }
 
-        public byte[] BatteryLevel { get; set; }
+        public byte? BatteryLevel { get; set; }
     }
 }

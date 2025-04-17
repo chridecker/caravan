@@ -42,7 +42,7 @@ namespace chd.Caravan.Mobile.UI.Components.Pages
             bLEManager.DeviceConnected += this.BleDevice_Connected;
             bLEManager.CharacteristicValueUpdated += this.CharacUpdate;
 
-            var x = new byte[]{1,2,3,4};
+            var x = new byte[] { 1, 2, 3, 4 };
             BitConverter.ToInt16(x);
 
             foreach (var savedDevice in _savedDevices)
@@ -160,9 +160,10 @@ namespace chd.Caravan.Mobile.UI.Components.Pages
             var device = this.connectedDevices.FirstOrDefault(x => x.Id == args.DeviceId);
 
             if (args.ServiceId == BLEConstants.BATTERY_SVC
-                && args.CharacteristicId == BLEConstants.BATTERY_LEVEL)
+                && args.CharacteristicId == BLEConstants.BATTERY_LEVEL
+                && args.Data.Any())
             {
-                device.BatteryLevel = args.Data;
+                device.BatteryLevel = args.Data[0];
             }
 
             if (device.Type == Enums.EDeviceType.Ruuvi
