@@ -7,7 +7,7 @@
         @(string.IsNullOrWhiteSpace(Device.DisplayName) ? Device.Name : Device.DisplayName) (@Device.Type)
         @if (this.Device.BatteryLevel.HasValue)
         {
-            <Battery BatteryLevel="(double)this.Device.BatteryLevel" />
+            <Battery BatteryLevel="(double)this.Device.BatteryLevel" Charging="false" FullLevel="100" LowLevel="15" />
         }
     </div>
     <div class="device-id">
@@ -25,7 +25,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-
         await this.ReadBatteryLevel();
 
         await base.OnInitializedAsync();
@@ -35,13 +34,13 @@
     private async Task ReadBatteryLevel()
     {
         var svcs = await this.bLEManager.GetDeviceServices(Device.Id);
-        if (svcs.Any(a => a.Id == BLEConstants.BATTERY_SVC))
+        if (svcs.Any(a => a.Id == BLEConstants.Battery_Service_UUID))
         {
-            var batteryService = svcs.FirstOrDefault(x => x.Id == BLEConstants.BATTERY_SVC);
+            var batteryService = svcs.FirstOrDefault(x => x.Id == BLEConstants.Battery_Service_UUID);
             var chars = await this.bLEManager.GetServiceCharactersitics(Device.Id, batteryService.Id);
-            if (chars.Any(a => a.Id == BLEConstants.BATTERY_LEVEL && a.CanRead))
+            if (chars.Any(a => a.Id == BLEConstants.Battery_Level_UUID && a.CanRead))
             {
-                var batteryLevel = chars.FirstOrDefault(x => x.Id == BLEConstants.BATTERY_LEVEL);
+                var batteryLevel = chars.FirstOrDefault(x => x.Id == BLEConstants.Battery_Level_UUID);
                 var data = await this.bLEManager.ReadValue(Device.Id, batteryService.Id, batteryLevel);
                 if (data.Any())
                 {

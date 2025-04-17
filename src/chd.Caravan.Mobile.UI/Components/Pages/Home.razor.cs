@@ -81,10 +81,10 @@ namespace chd.Caravan.Mobile.UI.Components.Pages
         {
 
             var svcs = await this.bLEManager.GetDeviceServices(device.Id);
-            if (svcs.Any(a => a.Id == BLEConstants.BATTERY_SVC))
+            if (svcs.Any(a => a.Id == BLEConstants.Battery_Service_UUID))
             {
-                var batterySvc = svcs.FirstOrDefault(x => x.Id == BLEConstants.BATTERY_SVC);
-                var levelCharac = (await this.bLEManager.GetServiceCharactersitics(device.Id, batterySvc.Id)).First(x => x.Id == BLEConstants.BATTERY_LEVEL);
+                var batterySvc = svcs.FirstOrDefault(x => x.Id == BLEConstants.Battery_Service_UUID);
+                var levelCharac = (await this.bLEManager.GetServiceCharactersitics(device.Id, batterySvc.Id)).First(x => x.Id == BLEConstants.Battery_Level_UUID);
                 if (levelCharac != null && levelCharac.CanUpdate)
                 {
                     await this.bLEManager.SubscribeForServiceCharacteristicAsync(device.Id, batterySvc.Id, levelCharac.Id);
@@ -159,8 +159,8 @@ namespace chd.Caravan.Mobile.UI.Components.Pages
 
             var device = this.connectedDevices.FirstOrDefault(x => x.Id == args.DeviceId);
 
-            if (args.ServiceId == BLEConstants.BATTERY_SVC
-                && args.CharacteristicId == BLEConstants.BATTERY_LEVEL
+            if (args.ServiceId == BLEConstants.Battery_Service_UUID
+                && args.CharacteristicId == BLEConstants.Battery_Level_UUID
                 && args.Data.Any())
             {
                 device.BatteryLevel = args.Data[0];

@@ -40,7 +40,7 @@ namespace chd.Caravan.Mobile.WPF.Services
         public async Task<IEnumerable<BLEService>> GetDeviceServices(Guid id, CancellationToken cancellationToken = default)
         {
             return [new BLEService {
-                Id = BLEConstants.BATTERY_SVC,
+                Id = BLEConstants.Battery_Service_UUID,
                 Name = "HearRate"
                 } ];
         }
@@ -48,7 +48,7 @@ namespace chd.Caravan.Mobile.WPF.Services
         public async Task<IEnumerable<BLECharacteristic>> GetServiceCharactersitics(Guid deviceId, Guid serviceId, CancellationToken cancellationToken = default)
         {
             return [new BLECharacteristic{
-                Id = BLEConstants.BATTERY_CHARACTERISTIC,
+                Id = BLEConstants.Battery_Level_UUID,
                 Name = "HR",
                 CanUpdate = true,
                 CanRead = true,
