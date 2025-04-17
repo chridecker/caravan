@@ -8,6 +8,7 @@ using chd.CaraVan.Contracts.Dtos;
 using chd.CaraVan.Shared.UI.Dtos;
 using chd.UI.Base.Contracts.Extensions;
 using Microsoft.AspNetCore.Components;
+using System.Text;
 
 namespace chd.Caravan.Mobile.UI.Components.Pages
 {
@@ -40,6 +41,9 @@ namespace chd.Caravan.Mobile.UI.Components.Pages
 
             bLEManager.DeviceConnected += this.BleDevice_Connected;
             bLEManager.CharacteristicValueUpdated += this.CharacUpdate;
+
+            var x = new byte[]{1,2,3,4};
+            BitConverter.ToInt16(x);
 
             foreach (var savedDevice in _savedDevices)
             {

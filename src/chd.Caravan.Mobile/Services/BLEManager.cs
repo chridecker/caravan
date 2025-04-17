@@ -159,6 +159,7 @@ namespace chd.Caravan.Mobile.Services
             var service = await device.GetServiceAsync(serviceId, cancellationToken);
             if (service is null) { return []; }
             var c = await service.GetCharacteristicAsync(characteristic.Id, cancellationToken);
+            if (!c.CanRead) { return []; }
             var data = await c.ReadAsync(cancellationToken);
             return data.data ?? [];
         }
@@ -172,7 +173,7 @@ namespace chd.Caravan.Mobile.Services
             if (service is null) { return []; }
             var characteristivs = await service.GetCharacteristicsAsync(cancellationToken);
 
-            var ret =  characteristivs.Select(s => new BLECharacteristic
+            var ret = characteristivs.Select(s => new BLECharacteristic
             {
                 Id = s.Id,
                 Name = s.Name,

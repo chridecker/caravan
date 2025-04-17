@@ -14,7 +14,7 @@
                     <div class="characteristics">
                         @foreach (var charac in charLst)
                         {
-                            <div class="charateristic" @onclick="async ()=> await bLEManager.SubscribeForServiceCharacteristicAsync(Device.Id, service.Id, charac.Id)">
+                            <div class="charateristic" @onclick="async ()=> await this.ClickCharacter(charac,service)">
                                 @charac.Id - @charac.Name (@charac.CanRead, @charac.CanWrite, @charac.CanUpdate)
                                 @if (this.charValueDict.TryGetValue(charac.Id, out var val))
                                 {
@@ -45,6 +45,18 @@
         bLEManager.CharacteristicValueUpdated += this.Char_updat;
         this.services = await bLEManager.GetDeviceServices(this.Device.Id);
         await base.OnInitializedAsync();
+    }
+
+    private async Task ClickCharacter(BLECharacteristic e, BLEService s)
+    {
+        if (e.CanUpdate)
+        {
+            await bLEManager.SubscribeForServiceCharacteristicAsync(Device.Id, s.Id, e.Id);
+        }
+        if (e.CanRead)
+        {
+            this.charValueDict[e.Id] = await bLEManager.ReadValue(this.Device.Id, s.Id, e);
+        }
     }
 
     private async void Char_updat(object sender, BLECharactersiticsValueArgs e)
